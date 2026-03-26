@@ -6,14 +6,14 @@ import 'package:smart_sport_club/feature/auth/pages/welcome_screen.dart';
 import 'package:smart_sport_club/feature/splash/widgets/build_footer.dart';
 import 'package:smart_sport_club/feature/splash/widgets/build_header_sectiom.dart';
 
-class SmartSportsScreen extends StatefulWidget {
-  const SmartSportsScreen({super.key});
+class SplahScreen extends StatefulWidget {
+  const SplahScreen({super.key});
 
   @override
-  State<SmartSportsScreen> createState() => _SmartSportsScreenState();
+  State<SplahScreen> createState() => _SplahScreenState();
 }
 
-class _SmartSportsScreenState extends State<SmartSportsScreen>
+class _SplahScreenState extends State<SplahScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _progressAnimation;

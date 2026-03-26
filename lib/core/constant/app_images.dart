@@ -12,4 +12,8 @@ class AppImages {
   static const String tennisAcademy = "assets/images/tennis_academy.png";
   static const String swimmingAcademy = "assets/images/swimming_academy.png";
   static const String footballAcademy = "assets/images/football_academy.png";
+  static const String coachOne = "assets/images/Image (8).png";
+  static const String coachTwo = "assets/images/Image (7).png";
+  static const String coachThree = "assets/images/Image (6).png";
+  static const String coachFour = "assets/images/Image (5).png";
 }

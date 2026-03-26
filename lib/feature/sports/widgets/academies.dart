@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/feature/sports/data/sports_data.dart';
+import 'package:smart_sport_club/feature/sports/pages/booking_page.dart';
 
 Widget academyCard({
   //required String image,
@@ -10,40 +12,48 @@ Widget academyCard({
     physics: NeverScrollableScrollPhysics(),
     itemCount: sportData.length,
     itemBuilder: (context, index) {
-      return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        height: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-            image: AssetImage(sportData[index].imagePath),
-            fit: BoxFit.cover,
-          ),
-        ),
+      return InkWell(
+        onTap: () {
+          Navigations.pushTo(
+            context,
+            BookingScreen(sportsData: sportData[index]),
+          );
+        },
         child: Container(
-          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          height: 200,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            gradient: LinearGradient(
-              colors: [Colors.black.withOpacity(.6), Colors.transparent],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
+            image: DecorationImage(
+              image: AssetImage(sportData[index].imagePath),
+              fit: BoxFit.cover,
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                sportData[index].name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                colors: [Colors.black.withOpacity(.6), Colors.transparent],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
               ),
-              const SizedBox(height: 6),
-            ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  sportData[index].name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 6),
+              ],
+            ),
           ),
         ),
       );

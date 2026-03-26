@@ -49,6 +49,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+  date_picker_timeline:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: dev
+      resolved-ref: "383e3ac7cf1670a60858b900f94aeed7e4bf5707"
+      url: "https://github.com/MarwanMuhammadd/DatePickerTimelineFlutter.git"
+    source: git
+    version: "1.2.7"
   fake_async:
     dependency: transitive
     description:
@@ -99,6 +108,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.2"
   leak_tracker:
     dependency: transitive
     description:

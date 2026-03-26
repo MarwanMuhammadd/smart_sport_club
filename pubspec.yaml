@@ -7,9 +7,14 @@ environment:
   sdk: ^3.10.8
 
 dependencies:
+  date_picker_timeline:
+    git:
+      url: https://github.com/MarwanMuhammadd/DatePickerTimelineFlutter.git
+      ref: dev  # الفرع اللي انت عدلت فيه
   flutter:
     sdk: flutter
   flutter_svg: ^2.2.3
+  intl: ^0.20.2
   pinput: ^6.0.2
 
 dev_dependencies:

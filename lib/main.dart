@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/styles/theme.dart';
 import 'package:smart_sport_club/feature/splash/pages/splash_screen.dart';
-import 'package:smart_sport_club/main_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -22,7 +21,7 @@ class MainApp extends StatelessWidget {
       //     child: child ?? Container(),
       //   );
       // },
-      home: SmartSportsScreen(),
+      home: SplahScreen(),
     );
   }
 }
