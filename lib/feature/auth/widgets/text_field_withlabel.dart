@@ -36,7 +36,10 @@ class TextFieldWithlabel extends StatelessWidget {
           obscureText: obscureText,
           suffixIcon: suffixIcon, // لو مفيش suffixIcon، يبقى null
           validator: validator,
-          prefixIcon: SvgPicture.asset(path, width: 20, height: 20),
+          prefixIcon: Padding(
+            padding: EdgeInsets.all(12.w),
+            child: SvgPicture.asset(path, width: 20.w, height: 20.w),
+          ),
           hintText: hint,
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/feature/auth/widgets/header_part.dart';
 import 'package:smart_sport_club/feature/auth/widgets/upper_part.dart';
 
@@ -12,15 +13,13 @@ class RequestPasswordScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: InkWell(
-          onTap: () {
-            Navigations.pop(context);
-          },
-          child: Icon(Icons.chevron_left),
+          onTap: () => context.pop(),
+          child: Icon(Icons.chevron_left, size: 24.w),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: const SingleChildScrollView(
           child: Column(children: [HeaderPart(), UpperPart()]),
         ),
       ),

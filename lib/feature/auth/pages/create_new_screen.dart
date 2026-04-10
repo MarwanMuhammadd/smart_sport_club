@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/funcations/validators.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/custom_text_form_fields.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
-import 'package:smart_sport_club/feature/auth/pages/login_screen.dart';
 import 'package:smart_sport_club/feature/auth/widgets/build_field_label.dart';
 
 class CreateNewPassword extends StatefulWidget {
@@ -20,8 +20,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   bool isEightChar = false;
   bool passwordsMatch = false;
   bool hasSpecialChar = false;
-  TextEditingController newPasswordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
   final formKey = GlobalKey<FormState>();
@@ -45,12 +45,18 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   }
 
   @override
+  void dispose() {
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.backgroundColor),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-
+        padding: EdgeInsets.all(20.w),
         child: SingleChildScrollView(
           child: Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -62,15 +68,15 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   children: [
                     Center(
                       child: Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(20.w),
                         decoration: BoxDecoration(
                           color: AppColors.primaryGreen.withOpacity(.09),
-                          borderRadius: BorderRadius.circular(70),
-                          border: Border.all(color: Colors.white12),
+                          borderRadius: BorderRadius.circular(70.w),
+                          border: Border.all(color: Colors.white12, width: 1.w),
                         ),
                         child: Icon(
                           Icons.lock_reset,
-                          size: 80,
+                          size: 80.w,
                           color: AppColors.primaryGreen,
                         ),
                       ),
@@ -78,7 +84,6 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   ],
                 ),
                 20.H,
-
                 Center(
                   child: Text(
                     textAlign: TextAlign.center,
@@ -89,7 +94,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   textAlign: TextAlign.center,
                   "Enter a new password for your Smart Sports Club account. Make Sute it's strong and unique",
@@ -98,7 +103,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   ),
                 ),
                 20.H,
-                BuildFieldLabel(
+                const BuildFieldLabel(
                   label: "New Password",
                   color: AppColors.blackColor,
                 ),
@@ -108,21 +113,22 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   controller: newPasswordController,
                   obscureText: _obscureNewPassword,
                   onChanged: checkPassword,
-                  prefixIcon: const Icon(Icons.key, color: Color(0xff5C6D65)),
+                  prefixIcon: Icon(Icons.key, color: const Color(0xff5C6D65), size: 20.w),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureNewPassword
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
-                      color: Color(0xff5C6D65),
+                      color: const Color(0xff5C6D65),
+                      size: 20.w,
                     ),
                     onPressed: () => setState(
                       () => _obscureNewPassword = !_obscureNewPassword,
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
-                BuildFieldLabel(
+                SizedBox(height: 32.h),
+                const BuildFieldLabel(
                   label: "Confirm Password",
                   color: AppColors.blackColor,
                 ),
@@ -135,28 +141,28 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   controller: confirmPasswordController,
                   obscureText: _obscureConfirmPassword,
                   onChanged: (value) => checkMatch(),
-                  prefixIcon: const Icon(Icons.check, color: Color(0xff5C6D65)),
+                  prefixIcon: Icon(Icons.check, color: const Color(0xff5C6D65), size: 20.w),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
-                      color: Color(0xff5C6D65),
+                      color: const Color(0xff5C6D65),
+                      size: 20.w,
                     ),
                     onPressed: () => setState(
                       () => _obscureConfirmPassword = !_obscureConfirmPassword,
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
-                builValidator(),
-
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
+                buildValidator(),
+                SizedBox(height: 16.h),
                 MainButton(
                   text: "Reset Password",
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      Navigations.pushTo(context, LoginScreen());
+                      context.go(AppRoutes.login);
                     }
                   },
                 ),
@@ -169,7 +175,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     );
   }
 
-  Widget builValidator() {
+  Widget buildValidator() {
     return Column(
       children: [
         Row(
@@ -182,14 +188,14 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
           ],
         ),
         16.H,
-        requirmentVaildator("At least 8 characters", isEightChar),
+        requirementValidator("At least 8 characters", isEightChar),
         4.H,
-        requirmentVaildator(
+        requirementValidator(
           "Include a number or special character",
           hasSpecialChar,
         ),
         4.H,
-        requirmentVaildator("Passwords match", passwordsMatch),
+        requirementValidator("Passwords match", passwordsMatch),
       ],
     );
   }
@@ -197,21 +203,22 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   Widget buildIndicator({required bool isActive}) {
     return Expanded(
       child: Container(
-        height: 5,
+        height: 5.h,
         decoration: BoxDecoration(
           color: isActive ? AppColors.primaryGreen : AppColors.accentGrey,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.w),
         ),
       ),
     );
   }
 
-  Widget requirmentVaildator(String text, bool isMatch) {
+  Widget requirementValidator(String text, bool isMatch) {
     return Row(
       children: [
         Icon(
           isMatch ? Icons.check_circle : Icons.circle,
           color: isMatch ? AppColors.primaryGreen : AppColors.accentGrey,
+          size: 20.w,
         ),
         12.W,
         Text(

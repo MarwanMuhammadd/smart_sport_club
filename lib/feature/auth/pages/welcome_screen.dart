@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
-import 'package:smart_sport_club/feature/auth/pages/admin_screen.dart';
-import 'package:smart_sport_club/feature/auth/pages/login_screen.dart';
-import 'package:smart_sport_club/feature/auth/pages/register_screen.dart';
 import 'package:smart_sport_club/feature/auth/widgets/custom_clickable_containers.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -25,12 +23,10 @@ class WelcomeScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              /// HERO IMAGE
               Stack(
                 children: [
                   SizedBox(
@@ -42,11 +38,10 @@ class WelcomeScreen extends StatelessWidget {
                       filterQuality: FilterQuality.high,
                     ),
                   ),
-
                   Positioned(
-                    bottom: 20,
-                    left: 20,
-                    right: 20,
+                    bottom: 20.h,
+                    left: 20.w,
+                    right: 20.w,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -68,51 +63,41 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
               32.H,
-
-              /// BUTTONS
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   children: [
                     CustomClickableContainer(
-                      prefixIcon: const Icon(Icons.person),
+                      prefixIcon: Icon(Icons.person, size: 24.w),
                       text: "Login as Member",
                       onTap: () {
-                        Navigations.pushTo(context, LoginScreen());
+                        context.push(AppRoutes.login);
                       },
                     ),
-
                     16.H,
-
                     CustomClickableContainer(
-                      prefixIcon: const Icon(Icons.person_add),
+                      prefixIcon: Icon(Icons.person_add, size: 24.w),
                       text: "Register Account",
                       onTap: () {
-                        Navigations.pushTo(context, RegisterScreen());
+                        context.push(AppRoutes.register);
                       },
                     ),
-
                     16.H,
-
                     CustomClickableContainer(
-                      prefixIcon: const Icon(Icons.security),
+                      prefixIcon: Icon(Icons.security, size: 24.w),
                       text: "Admin Portal",
                       onTap: () {
-                        Navigations.pushTo(context, AdminLoginScreen());
+                        context.push(AppRoutes.adminLogin);
                       },
                     ),
-
                     40.H,
-
                     Text(
                       "POWERED BY SMARTCLUB TECH",
                       style: TextStyles.body.copyWith(
                         color: AppColors.secondaryText,
                       ),
                     ),
-
                     20.H,
                   ],
                 ),

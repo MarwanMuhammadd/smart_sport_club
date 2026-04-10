@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/funcations/validators.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
 import 'package:smart_sport_club/core/widgets/text_with_different_color.dart';
-import 'package:smart_sport_club/feature/auth/pages/register_screen.dart';
-import 'package:smart_sport_club/feature/auth/pages/request_password_screen.dart';
 import 'package:smart_sport_club/feature/auth/widgets/text_field_withlabel.dart';
-import 'package:smart_sport_club/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,18 +28,21 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "Club Access",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+          ),
         ),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigations.pop(context),
-          icon: const Icon(Icons.chevron_left, size: 32, color: Colors.black),
+          onPressed: () => context.pop(),
+          icon: Icon(Icons.chevron_left, size: 32.w, color: Colors.black),
         ),
       ),
       body: SafeArea(
-        // عشان نضمن إن الـ UI ميتدخلش مع نوتش الموبايل
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           key: formKey,
@@ -48,23 +50,20 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 1. الجزء بتاع الكارت (يفضل تعمله ويدجت منفصلة بـ Gradient)
                       _buildMembershipCard(),
-
                       30.H,
-                      const Text(
+                      Text(
                         "Sign In",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       20.H,
-
                       TextFieldWithlabel(
                         path: AppImages.idIconSvg,
                         label: "Membership ID",
@@ -93,23 +92,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           },
                         ),
-
                         validator: AppValidators.password,
                         path: AppImages.lockSvg,
                         label: "Password",
                         hint: "********",
-                        //isPassword: true, // ضيفنا بروبرتي للباسورد
                       ),
-
                       10.H,
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigations.pushTo(
-                              context,
-                              RequestPasswordScreen(),
-                            );
+                            context.push(AppRoutes.requestPassword);
                           },
                           child: Text(
                             "Forgot Password?",
@@ -120,29 +113,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-
                       20.H,
                       MainButton(
                         text: "Sign In to Club",
                         onPressed: () {
                           if (formKey.currentState?.validate() ?? false) {
-                            Navigations.pushReplacement(context, MainAppScreen());
+                            context.go(AppRoutes.mainApp);
                           }
                         },
                       ),
-
                       25.H,
                       TextWithDifferentColor(
                         text1: "Don't have an account? ",
                         text2: 'Register Now',
-                        widget: RegisterScreen(),
+                        onTap: () {
+                          context.push(AppRoutes.register);
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
-
-              // 2. زرار الـ Customer Service (مهم جداً يكون تحت خالص)
             ],
           ),
         ),
@@ -150,26 +141,24 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // ويدجت الكارت عشان تطلع احترافية زي الصورة
   Widget _buildMembershipCard() {
     return Container(
       width: double.infinity,
-      height: 200,
-      padding: const EdgeInsets.all(20),
+      height: 200.h,
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.w),
         gradient: const LinearGradient(
           colors: [AppColors.primaryGreen, AppColors.primaryColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
       ),
-      child: const Stack(
+      child: Stack(
         children: [
-          // حط هنا تفاصيل الكارت (Elite Sports Club, QR Code, etc.)
           Align(
             alignment: Alignment.topRight,
-            child: Icon(Icons.qr_code_scanner, color: Colors.white, size: 40),
+            child: Icon(Icons.qr_code_scanner, color: Colors.white, size: 40.w),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,29 +168,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 "PREMIUM MEMBER",
                 style: TextStyle(
                   color: Colors.white70,
-                  fontSize: 10,
-                  letterSpacing: 2,
+                  fontSize: 10.sp,
+                  letterSpacing: 2.w,
                 ),
               ),
               Text(
                 "Elite Sports Club",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Text(
                 "DIGITAL ACCESS KEY",
-                style: TextStyle(color: Colors.white70, fontSize: 10),
+                style: TextStyle(color: Colors.white70, fontSize: 10.sp),
               ),
               Text(
                 "•••• •••• •••• 9842",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
-                  letterSpacing: 2,
+                  fontSize: 18.sp,
+                  letterSpacing: 2.w,
                 ),
               ),
             ],

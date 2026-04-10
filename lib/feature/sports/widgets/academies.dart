@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/funcations/navigations.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/feature/sports/data/sports_data.dart';
 import 'package:smart_sport_club/feature/sports/pages/booking_page.dart';
+
 
 Widget academyCard({
   //required String image,
@@ -14,25 +18,25 @@ Widget academyCard({
     itemBuilder: (context, index) {
       return InkWell(
         onTap: () {
-          Navigations.pushTo(
-            context,
-            BookingScreen(sportsData: sportData[index]),
+          context.push(
+            AppRoutes.booking,
+            extra: sportData[index],
           );
         },
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          height: 200,
+          margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+          height: 200.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.w),
             image: DecorationImage(
               image: AssetImage(sportData[index].imagePath),
               fit: BoxFit.cover,
             ),
           ),
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.w),
               gradient: LinearGradient(
                 colors: [Colors.black.withOpacity(.6), Colors.transparent],
                 begin: Alignment.bottomCenter,
@@ -45,13 +49,13 @@ Widget academyCard({
               children: [
                 Text(
                   sportData[index].name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
               ],
             ),
           ),

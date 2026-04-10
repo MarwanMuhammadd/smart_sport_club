@@ -15,6 +15,18 @@ class Navigations {
   static void pop(BuildContext context) {
     Navigator.pop(context);
   }
+
+  static void popUntilFirst(BuildContext context) {
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  static void pushAndRemoveUntil(BuildContext context, Widget newScreen) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => newScreen),
+      (route) => false,
+    );
+  }
 }
 
 

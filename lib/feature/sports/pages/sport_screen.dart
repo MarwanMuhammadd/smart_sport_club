@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/feature/sports/data/sports_data.dart';
 import 'package:smart_sport_club/feature/sports/widgets/academies.dart';
+
 
 class SportsScreen extends StatefulWidget {
   const SportsScreen({super.key});
@@ -43,18 +45,26 @@ class _SportsScreenState extends State<SportsScreen> {
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Row(
-          children: const [
-            Icon(Icons.sports_soccer, color: Colors.green),
-            SizedBox(width: 8),
-            Text("Elite Sports", style: TextStyle(color: Colors.white)),
+          children: [
+            Icon(Icons.sports_soccer, color: Colors.green, size: 24.w),
+            SizedBox(width: 8.w),
+            Text(
+              "Elite Sports",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 12),
+            padding: EdgeInsets.only(right: 12.w),
             child: CircleAvatar(
               backgroundColor: Colors.white24,
-              child: Icon(Icons.person, color: Colors.white),
+              radius: 18.w,
+              child: Icon(Icons.person, color: Colors.white, size: 20.w),
             ),
           ),
         ],
@@ -62,46 +72,46 @@ class _SportsScreenState extends State<SportsScreen> {
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               /// Search
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: TextFormField(
                   controller: _searchController,
                   onChanged: _filterSports,
                   decoration: InputDecoration(
                     hintText: "Search sports academies",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    prefixIcon: Icon(Icons.search, color: Colors.grey),
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                    prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20.w),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14.w),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 16,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 16.h,
                     ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Row(
-                  children: const [
+                  children: [
                     Text(
                       "Featured Academies",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -109,11 +119,11 @@ class _SportsScreenState extends State<SportsScreen> {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               academyCard(sportData: _filteredSportData),
 
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
             ],
           ),
         ),

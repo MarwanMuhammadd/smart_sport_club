@@ -1,16 +1,14 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/funcations/validators.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
-import 'package:smart_sport_club/core/styles/text_styles.dart'; // تأكد من المسار الصحيح
+import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/custom_text_form_fields.dart';
 import 'package:smart_sport_club/core/widgets/text_with_different_color.dart';
-import 'package:smart_sport_club/feature/auth/pages/login_screen.dart';
 import 'package:smart_sport_club/feature/auth/widgets/build_field_label.dart';
 import 'package:smart_sport_club/feature/auth/widgets/custom_clickable_containers.dart';
-import 'package:smart_sport_club/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,21 +19,26 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController? newPasswordController = TextEditingController();
-  TextEditingController? passwordController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   bool _obscureText = true;
   bool _obscureConfirmPassword = true;
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // لجعل الخلفية متناسقة
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.chevron_left, color: Colors.white, size: 32),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.chevron_left, color: Colors.white, size: 32.w),
+          onPressed: () => context.pop(),
         ),
         title: Text(
           "Member Registration",
@@ -44,31 +47,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
-              // أيقونة النادي المميزة
+              SizedBox(height: 20.h),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.all(35),
+                  padding: EdgeInsets.all(35.w),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(40),
-                    border: Border.all(color: Colors.white12),
+                    borderRadius: BorderRadius.circular(40.w),
+                    border: Border.all(color: Colors.white12, width: 1.w),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.sports_soccer,
-                    size: 80,
+                    size: 80.w,
                     color: AppColors.primaryGreen,
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.h),
               Text(
                 "Join the Club",
                 style: TextStyles.hugeHeadLine.copyWith(color: Colors.white),
@@ -78,56 +80,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 "Create your account to start booking football fields and join local tournaments.",
                 style: TextStyles.body.copyWith(color: AppColors.secondaryText),
               ),
-              const SizedBox(height: 30),
-
-              BuildFieldLabel(label: "Full Name"),
-              const CustomTextFormField(
+              SizedBox(height: 30.h),
+              const BuildFieldLabel(label: "Full Name"),
+              CustomTextFormField(
                 hintText: "John Doe",
                 validator: AppValidators.name,
-                prefixIcon: Icon(Icons.person, color: Color(0xff5C6D65)),
+                prefixIcon: Icon(Icons.person, color: const Color(0xff5C6D65), size: 20.w),
               ),
-              const SizedBox(height: 20),
-
-              BuildFieldLabel(label: "Email Address"),
-              const CustomTextFormField(
+              SizedBox(height: 20.h),
+              const BuildFieldLabel(label: "Email Address"),
+              CustomTextFormField(
                 hintText: "example@club.com",
                 validator: AppValidators.email,
                 prefixIcon: Icon(
                   Icons.email_outlined,
-                  color: Color(0xff5C6D65),
+                  color: const Color(0xff5C6D65),
+                  size: 20.w,
                 ),
               ),
-              const SizedBox(height: 20),
-
-              BuildFieldLabel(label: "Phone Number"),
-              const CustomTextFormField(
+              SizedBox(height: 20.h),
+              const BuildFieldLabel(label: "Phone Number"),
+              CustomTextFormField(
                 validator: AppValidators.phone,
                 hintText: "+1 234 567 890",
                 prefixIcon: Icon(
                   Icons.phone_outlined,
-                  color: Color(0xff5C6D65),
+                  color: const Color(0xff5C6D65),
+                  size: 20.w,
                 ),
               ),
-              const SizedBox(height: 30),
-              BuildFieldLabel(label: "National ID"),
-              const CustomTextFormField(
+              SizedBox(height: 30.h),
+              const BuildFieldLabel(label: "National ID"),
+              CustomTextFormField(
                 validator: AppValidators.requiredField,
                 hintText: "ID number",
-                prefixIcon: Icon(Icons.perm_identity, color: Color(0xff5C6D65)),
+                prefixIcon: Icon(Icons.perm_identity, color: const Color(0xff5C6D65), size: 20.w),
               ),
-              const SizedBox(height: 30),
-              BuildFieldLabel(label: "Create Password"),
+              SizedBox(height: 30.h),
+              const BuildFieldLabel(label: "Create Password"),
               CustomTextFormField(
                 controller: passwordController,
                 validator: AppValidators.password,
                 hintText: "**********",
-                prefixIcon: Icon(Icons.lock, color: Color(0xff5C6D65)),
+                prefixIcon: Icon(Icons.lock, color: const Color(0xff5C6D65), size: 20.w),
                 obscureText: _obscureText,
                 suffixIcon: InkWell(
                   child: Icon(
                     _obscureText
                         ? Icons.visibility
                         : Icons.visibility_off_outlined,
+                    size: 20.w,
                   ),
                   onTap: () {
                     setState(() {
@@ -136,22 +138,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
-              BuildFieldLabel(label: "Confirm Password"),
+              SizedBox(height: 30.h),
+              const BuildFieldLabel(label: "Confirm Password"),
               CustomTextFormField(
-                controller: newPasswordController,
                 validator: (value) => AppValidators.confirmPassword(
                   value,
-                  passwordController!.text,
+                  passwordController.text,
                 ),
                 hintText: "**********",
-                prefixIcon: Icon(Icons.lock_reset, color: Color(0xff5C6D65)),
+                prefixIcon: Icon(Icons.lock_reset, color: const Color(0xff5C6D65), size: 20.w),
                 obscureText: _obscureConfirmPassword,
                 suffixIcon: InkWell(
                   child: Icon(
                     _obscureConfirmPassword
                         ? Icons.visibility
                         : Icons.visibility_off_outlined,
+                    size: 20.w,
                   ),
                   onTap: () {
                     setState(() {
@@ -160,27 +162,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
-
-              // زرار التسجيل
+              SizedBox(height: 30.h),
               CustomClickableContainer(
                 text: "Register Account",
                 prefixIcon: Icon(
                   Icons.person_add_alt_1_outlined,
                   color: AppColors.primaryGreen,
+                  size: 24.w,
                 ),
                 onTap: () {
-                  // validate fields before proceeding
                   if (_formKey.currentState?.validate() ?? false) {
-                    Navigations.pushTo(context, MainAppScreen());
+                    context.go(AppRoutes.mainApp);
                   }
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               TextWithDifferentColor(
                 text1: "Already have an account? ",
                 text2: 'Log in',
-                widget: LoginScreen(),
+                onTap: () {
+                  context.push(AppRoutes.login);
+                },
               ),
               32.H,
             ],

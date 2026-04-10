@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/funcations/validators.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
 import 'package:smart_sport_club/core/widgets/text_with_different_color.dart';
-import 'package:smart_sport_club/feature/auth/pages/create_new_screen.dart';
-import 'package:smart_sport_club/feature/auth/pages/login_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -22,38 +21,41 @@ class _OtpScreenState extends State<OtpScreen> {
   final TextEditingController controller = TextEditingController();
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.backgroundColor),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-
+        padding: EdgeInsets.all(20.w),
         child: SingleChildScrollView(
           child: Form(
             key: keyForm,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 1),
                 Stack(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
                         color: AppColors.primaryGreen.withOpacity(.09),
-                        borderRadius: BorderRadius.circular(70),
-                        border: Border.all(color: Colors.white12),
+                        borderRadius: BorderRadius.circular(70.w),
+                        border: Border.all(color: Colors.white12, width: 1.w),
                       ),
                       child: Icon(
                         Icons.security,
-                        size: 80,
+                        size: 80.w,
                         color: AppColors.primaryGreen,
                       ),
                     ),
                   ],
                 ),
                 20.H,
-
                 Text(
                   "OTP Verification",
                   style: TextStyles.title.copyWith(
@@ -61,12 +63,12 @@ class _OtpScreenState extends State<OtpScreen> {
                     color: AppColors.blackColor,
                   ),
                 ),
-                SizedBox(height: 8),
-                Text(
+                SizedBox(height: 8.h),
+                 Text(
                   "We have sent SMS to: 01xxxxxxxxx",
                   style: TextStyles.caption1,
                 ),
-                SizedBox(height: 32),
+                SizedBox(height: 32.h),
                 Center(
                   child: Pinput(
                     controller: controller,
@@ -74,16 +76,14 @@ class _OtpScreenState extends State<OtpScreen> {
                     keyboardType: TextInputType.number,
                     length: 5,
                     autofocus: true,
-                    
                   ),
                 ),
-                SizedBox(height: 32),
-
+                SizedBox(height: 32.h),
                 MainButton(
                   text: "Verify Identity",
                   onPressed: () {
                     if (keyForm.currentState?.validate() ?? false) {
-                      Navigations.pushTo(context, CreateNewPassword());
+                      context.push(AppRoutes.createNewPassword);
                     }
                   },
                 ),
@@ -91,7 +91,9 @@ class _OtpScreenState extends State<OtpScreen> {
                 TextWithDifferentColor(
                   text1: "Didn't receive the code? ",
                   text2: "Resend Code",
-                  widget: LoginScreen(),
+                  onTap: () {
+                    // Logic to resend code
+                  },
                 ),
               ],
             ),

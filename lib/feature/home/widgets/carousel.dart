@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/feature/home/data/dummy_data_carousel.dart';
+
 
 class BannerCarousel extends StatefulWidget {
   const BannerCarousel({super.key, required this.banners});
@@ -20,17 +22,17 @@ class _BannerCarouselState extends State<BannerCarousel> {
       children: [
         Expanded(
           child: PageView.builder(
-            itemCount: banners.length,
+            itemCount: widget.banners.length,
             onPageChanged: (i) => setState(() => _index = i),
             itemBuilder: (context, i) {
               return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 6),
-                padding: const EdgeInsets.all(16),
+                margin: EdgeInsets.symmetric(horizontal: 6.w),
+                padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.w),
                 
                   image: DecorationImage(
-                    image: AssetImage(banners[i].image),
+                    image: AssetImage(widget.banners[i].image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,17 +42,17 @@ class _BannerCarouselState extends State<BannerCarousel> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      banners[i].title,
-                      style: const TextStyle(
+                      widget.banners[i].title,
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 0),
+                    SizedBox(height: 12.h),
                     Text(
-                      banners[i].subtitle,
-                      style: const TextStyle(color: Colors.white70),
+                      widget.banners[i].subtitle,
+                      style: TextStyle(color: Colors.white70, fontSize: 14.sp),
                     ),
                   ],
                 ),
@@ -59,16 +61,16 @@ class _BannerCarouselState extends State<BannerCarousel> {
           ),
         ),
 
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             banners.length,
             (i) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: _index == i ? 10 : 8,
-              height: _index == i ? 10 : 8,
+              margin: EdgeInsets.symmetric(horizontal: 4.w),
+              width: _index == i ? 10.w : 8.w,
+              height: _index == i ? 10.w : 8.w,
               decoration: BoxDecoration(
                 color: _index == i ? Colors.green : Colors.grey,
                 shape: BoxShape.circle,

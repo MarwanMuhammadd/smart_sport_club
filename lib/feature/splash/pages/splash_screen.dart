@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
+import 'package:smart_sport_club/core/funcations/size_config.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
-import 'package:smart_sport_club/feature/auth/pages/welcome_screen.dart';
 import 'package:smart_sport_club/feature/splash/widgets/build_footer.dart';
 import 'package:smart_sport_club/feature/splash/widgets/build_header_sectiom.dart';
 
-class SplahScreen extends StatefulWidget {
-  const SplahScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<SplahScreen> createState() => _SplahScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplahScreenState extends State<SplahScreen>
+class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _progressAnimation;
@@ -30,80 +32,74 @@ class _SplahScreenState extends State<SplahScreen>
     _progressAnimation =
         Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
           ..addListener(() {
-            setState(() {}); // إعادة بناء الوجت لتحديث القيمة
+            setState(() {});
           });
 
-    // بدء الأنيميشن
     _controller.forward().then((value) {
-      // هنا تقدر تحط الكود اللي هينقلك للصفحة اللي بعد الـ Splash
-      Navigations.pushReplacement(context, WelcomeScreen());
+      if (mounted) {
+        context.go(AppRoutes.welcome);
+      }
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // تنظيف الذاكرة
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Stack(
         children: [
-          // الدوائر الخلفية (نفس الكود السابق)
           Positioned(
-            top: -100,
-            left: -50,
+            top: -100.h,
+            left: -50.w,
             child: Container(
-              width: 400,
-              height: 400,
+              width: 400.w,
+              height: 400.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white10, width: 1),
+                border: Border.all(color: Colors.white10, width: 1.w),
               ),
             ),
           ),
-
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(flex: 3),
-
-                // ... (نفس قسم الـ Icon والـ Title والـ Description بدون تغيير) ...
                 buildHeaderSection(),
-
                 const Spacer(flex: 2),
-
-                // Progress Section (المعدل ليناسب الأنيميشن)
                 Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Syncing stadium data...',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          style: TextStyle(color: Colors.white, fontSize: 12.sp),
                         ),
-                        // عرض النسبة المئوية المتحركة
                         Text(
                           '${(_progressAnimation.value * 100).toInt()}%',
                           style: TextStyles.caption1.copyWith(
                             color: AppColors.primaryGreen,
                             fontWeight: FontWeight.bold,
+                            fontSize: 12.sp,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.w),
                       child: LinearProgressIndicator(
-                        value: _progressAnimation.value, // القيمة المتحركة
-                        minHeight: 6,
+                        value: _progressAnimation.value,
+                        minHeight: 6.h,
                         backgroundColor: Colors.white10,
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.primaryGreen,
@@ -112,13 +108,9 @@ class _SplahScreenState extends State<SplahScreen>
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 40),
-
-                // Footer (نفس الكود السابق)
+                SizedBox(height: 40.h),
                 buildFooter(),
-
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
               ],
             ),
           ),
@@ -126,6 +118,7 @@ class _SplahScreenState extends State<SplahScreen>
       ),
     );
   }
+}
 
   // دوال مساعدة لتبسيط الكود (Refactoring)
-}
+

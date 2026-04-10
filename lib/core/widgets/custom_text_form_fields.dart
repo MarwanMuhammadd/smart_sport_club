@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
+
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -46,34 +48,31 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color(0xffF8FAFC), // اللون الفاتح من التصميم
-        // استخدام label بدلاً من hintText لضمان التصاق الأيقونة بالكلام في البداية
         label: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start, // المحاذاة لليسار
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ?prefixIcon,
-            if (prefixIcon != null)
-              const SizedBox(width: 10), // المسافة بين الأيقونة والكلمة
+            if (prefixIcon != null) prefixIcon!,
+            if (prefixIcon != null) SizedBox(width: 10.w),
             Text(
               hintText ?? "",
               style: TextStyles.caption1.copyWith(
-                color:AppColors.accentGrey,
+                color: AppColors.accentGrey,
               ),
             ),
           ],
         ),
 
-        floatingLabelBehavior: FloatingLabelBehavior.never, // يختفي عند الكتابة
+        floatingLabelBehavior: FloatingLabelBehavior.never,
 
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.w),
           borderSide: BorderSide.none,
         ),
 
-        // الـ Padding الأفقي يضمن مسافة احترافية من طرف الحقل
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 18,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 18.h,
         ),
         suffixIcon: suffixIcon,
       ),

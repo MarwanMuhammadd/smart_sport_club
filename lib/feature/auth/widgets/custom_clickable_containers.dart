@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
+
 
 class CustomClickableContainer extends StatelessWidget {
   const CustomClickableContainer({
@@ -8,7 +10,7 @@ class CustomClickableContainer extends StatelessWidget {
     this.prefixIcon,
     this.onTap,
     this.fillColor = AppColors.primaryColor,
-    this.height = 65, // ارتفاع تقريبي يناسب الـ vertical padding اللي كان موجود
+    this.height = 65,
   });
 
   final String? text;
@@ -20,33 +22,33 @@ class CustomClickableContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap, // هنا الاكشن اللي هيحصل لما تدوس
-      borderRadius: BorderRadius.circular(25), // عشان تأثير الضغطة (Ripple) ميتخطاش الحدود
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(25.w),
       child: Container(
-        height: height,
+        height: height.h,
         width: double.infinity,
         decoration: BoxDecoration(
           color: fillColor,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.w),
           border: Border.all(
             color: AppColors.primaryGreen,
-            width: 2,
+            width: 2.w,
           ),
         ),
         child: Center(
           child: Row(
-            mainAxisSize: MainAxisSize.min, // عشان يخلي الأيقونة والنص في نص الـ Container بالظبط
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (prefixIcon != null) ...[
                 prefixIcon!,
-                const SizedBox(width: 10), // مسافة بين الأيقونة والنص
+                SizedBox(width: 10.w),
               ],
               Text(
                 text ?? "",
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.primaryGreen,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

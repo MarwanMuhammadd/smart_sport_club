@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
+
 
 class MainButton extends StatelessWidget {
   const MainButton({
@@ -24,8 +26,10 @@ class MainButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: bgColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        minimumSize: Size(width, height),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.w),
+        ),
+        minimumSize: Size(width, height.h),
       ),
       onPressed: onPressed,
       child: Text(

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/constant/app_images.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
+
 
 class LiveEventCard extends StatefulWidget {
   const LiveEventCard({super.key});
@@ -53,44 +55,44 @@ class _LiveEventCardState extends State<LiveEventCard> {
     String minutes = (_duration.inMinutes % 60).toString().padLeft(2, '0');
 
     return Container(
-      width: MediaQuery.of(context).size.width * .9,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: const Color(0xFF1D1F24),
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(25.w),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // الجزء اللي فوق (الصورة)
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
             child: Image.asset(
               AppImages.carouselTwo,
-              height: 180,
+              height: 180.h,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
 
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Annual Gala Dinner 2024',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 5),
-                const Text(
+                SizedBox(height: 5.h),
+                Text(
                   'Grand Ballroom, Smart Club Main Wing',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(color: Colors.grey, fontSize: 14.sp),
                 ),
-                const SizedBox(height: 25),
+                SizedBox(height: 25.h),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,18 +114,19 @@ class _LiveEventCardState extends State<LiveEventCard> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1ED760),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.w),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 15,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 15.h,
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Join Now',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),
@@ -142,23 +145,23 @@ class _LiveEventCardState extends State<LiveEventCard> {
       children: [
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 22,
+            fontSize: 22.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(unit, style: const TextStyle(color: Colors.grey, fontSize: 10)),
+        Text(unit, style: TextStyle(color: Colors.grey, fontSize: 10.sp)),
       ],
     );
   }
 
   Widget _buildDivider() {
     return Container(
-      height: 25,
-      width: 1,
+      height: 25.h,
+      width: 1.w,
       color: Colors.white24,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(horizontal: 10.w),
     );
   }
 }

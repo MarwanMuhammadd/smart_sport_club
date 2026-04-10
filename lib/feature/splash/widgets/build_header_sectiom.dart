@@ -1,4 +1,5 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 
@@ -10,24 +11,24 @@ Widget buildHeaderSection() {
               alignment: Alignment.bottomRight,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(35),
+                  padding: EdgeInsets.all(35.w),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(40),
-                    border: Border.all(color: Colors.white12),
+                    borderRadius: BorderRadius.circular(40.w),
+                    border: Border.all(color: Colors.white12, width: 1.w),
                   ),
-                  child: const Icon(Icons.sports_soccer, size: 80, color: AppColors.primaryGreen),
+                  child: Icon(Icons.sports_soccer, size: 80.w, color: AppColors.primaryGreen),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(right: 5, bottom: 5),
-                  padding: const EdgeInsets.all(4),
+                  margin: EdgeInsets.only(right: 5.w, bottom: 5.h),
+                  padding: EdgeInsets.all(4.w),
                   decoration: const BoxDecoration(color: AppColors.primaryGreen, shape: BoxShape.circle),
-                  child: const Icon(Icons.check_circle_outline, size: 20, color: AppColors.primaryColor),
+                  child: Icon(Icons.check_circle_outline, size: 20.w, color: AppColors.primaryColor),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: 40.h),
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
@@ -38,12 +39,15 @@ Widget buildHeaderSection() {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+         
+          SizedBox(height: 20.h),
           Text(
             'Elevate your game with professional pitch booking and premium membership.',
             textAlign: TextAlign.center,
             style: TextStyles.body.copyWith(color: AppColors.secondaryText),
           ),
+          
        ],
      );
+     
   }

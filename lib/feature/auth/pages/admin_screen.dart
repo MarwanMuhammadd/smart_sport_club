@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/funcations/validators.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/custom_text_form_fields.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
-import 'package:smart_sport_club/feature/auth/pages/login_screen.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -15,10 +16,8 @@ class AdminLoginScreen extends StatefulWidget {
 }
 
 class _AdminLoginScreenState extends State<AdminLoginScreen> {
-  // Logic للتحقق من كلمة السر
   bool isEightCharacters = false;
   bool hasSpecialChar = false;
-  bool passwordsMatch = false; // دي بنحتاجها لو فيه field تاني للتأكيد
   bool _obscurePassword = true;
   final formKey = GlobalKey<FormState>();
 
@@ -34,13 +33,13 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.blueColor, // لون الخلفية الداكن من الصورة
+      backgroundColor: AppColors.blueColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.chevron_left, color: Colors.white, size: 30),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.chevron_left, color: Colors.white, size: 30.w),
+          onPressed: () => context.pop(),
         ),
         title: Text(
           "Admin Portal",
@@ -49,28 +48,28 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           key: formKey,
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
                     color: AppColors.darkBlue,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20.w),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.admin_panel_settings,
-                    size: 50,
+                    size: 50.w,
                     color: AppColors.lightBlue,
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Text(
                 "Admin Login",
                 style: TextStyles.hugeHeadLine.copyWith(color: Colors.white),
@@ -80,9 +79,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 "Secure access for smart sports club management",
                 style: TextStyles.caption1.copyWith(color: Colors.white60),
               ),
-              const SizedBox(height: 40),
-
-              // الحقول النصية (باستخدام الـ Widgets بتاعتك)
+              SizedBox(height: 40.h),
               _buildLabel("Admin Email"),
               CustomTextFormField(
                 validator: AppValidators.email,
@@ -90,17 +87,17 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 prefixIcon: const Icon(
                   Icons.email_outlined,
                   color: Colors.black,
+                  size: 20,
                 ),
               ),
-              const SizedBox(height: 20),
-
+              SizedBox(height: 20.h),
               _buildLabel("Admin Password"),
               CustomTextFormField(
                 validator: AppValidators.password,
                 hintText: "••••••••",
                 onChanged: onPasswordChanged,
                 obscureText: _obscurePassword,
-                prefixIcon: const Icon(Icons.lock_outline, color: Colors.black),
+                prefixIcon: const Icon(Icons.lock_outline, color: Colors.black, size: 20),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword
@@ -112,12 +109,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       setState(() => _obscurePassword = !_obscurePassword),
                 ),
               ),
-              const SizedBox(height: 15),
-
-              // --- Password Validation UI (الصورة التانية) ---
+              SizedBox(height: 15.h),
               _buildValidationSection(),
-
-              const SizedBox(height: 25),
+              SizedBox(height: 25.h),
               _buildLabel("Club Code or Admin Key"),
               CustomTextFormField(
                 validator: AppValidators.clubCode,
@@ -125,27 +119,26 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 prefixIcon: const Icon(
                   Icons.vpn_key_outlined,
                   color: Colors.white30,
+                  size: 20,
                 ),
                 suffixIcon: const Icon(
                   Icons.qr_code_scanner,
                   color: Colors.white30,
+                  size: 20,
                 ),
               ),
-              const SizedBox(height: 40),
-
-              // زرار الدخول (MainButton بتاعك)
+              SizedBox(height: 40.h),
               MainButton(
                 text: "Login as Administrator",
-                bgColor: const Color(0xff2563EB), // اللون الأزرق من الصورة
+                bgColor: const Color(0xff2563EB),
                 onPressed: () {
                   if (formKey.currentState?.validate() ?? false) {
-                    Navigations.pushTo(context, LoginScreen());
+                    context.push(AppRoutes.login);
                   }
                 },
                 textStyle: TextStyles.title.copyWith(color: Colors.white),
               ),
-
-              const SizedBox(height: 40),
+              SizedBox(height: 40.h),
             ],
           ),
         ),
@@ -153,11 +146,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     );
   }
 
-  // ميثود مساعدة للـ Label
   Widget _buildLabel(String label) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.only(bottom: 8, left: 4),
+      padding: EdgeInsets.only(bottom: 8.h, left: 4.w),
       child: Text(
         label,
         style: TextStyles.caption1.copyWith(color: Colors.white70),
@@ -165,24 +157,21 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     );
   }
 
-  // الـ Password Validation Widget
   Widget _buildValidationSection() {
     return Column(
       children: [
-        // الخطوط الملونة (Indicators)
         Row(
           children: [
             _buildIndicator(isActive: isEightCharacters),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             _buildIndicator(isActive: hasSpecialChar),
-            const SizedBox(width: 8),
-            _buildIndicator(isActive: false), // للـ Passwords Match مثلاً
+            SizedBox(width: 8.w),
+            _buildIndicator(isActive: false),
           ],
         ),
-        const SizedBox(height: 15),
-        // نصوص الشروط
+        SizedBox(height: 15.h),
         _buildRequirement("At least 8 characters", isEightCharacters),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _buildRequirement(
           "Include a number or special character",
           hasSpecialChar,
@@ -194,10 +183,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   Widget _buildIndicator({required bool isActive}) {
     return Expanded(
       child: Container(
-        height: 4,
+        height: 4.h,
         decoration: BoxDecoration(
           color: isActive ? AppColors.primaryGreen : AppColors.accentGrey,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.w),
         ),
       ),
     );
@@ -208,10 +197,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       children: [
         Icon(
           isMet ? Icons.check_circle : Icons.circle,
-          size: 16,
+          size: 16.w,
           color: isMet ? AppColors.primaryGreen : Colors.white24,
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.w),
         Text(
           text,
           style: TextStyles.caption2.copyWith(
