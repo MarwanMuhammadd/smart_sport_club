@@ -26,10 +26,7 @@ class SummaryActionButtons extends StatelessWidget {
           ),
           onPressed: () {
             // Update capacity in the global SportsCubit
-            context.read<SportsCubit>().confirmBooking(
-              bookingModel.session.id,
-              bookingModel.date,
-            );
+            context.read<SportsCubit>().confirmBooking(bookingModel);
 
             // Navigate to success screen
             GoRouterHelper(

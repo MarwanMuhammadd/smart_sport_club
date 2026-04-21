@@ -9,6 +9,7 @@ class NotificationCard extends StatelessWidget {
   final String description;
   final IconData icon;
   final Color baseColor;
+  final void Function()? onViewDetails;
 
   const NotificationCard({
     super.key,
@@ -16,7 +17,7 @@ class NotificationCard extends StatelessWidget {
     required this.timeAgo,
     required this.description,
     required this.icon,
-    required this.baseColor,
+    required this.baseColor, this.onViewDetails,
   });
 
   @override
@@ -137,28 +138,31 @@ class NotificationCard extends StatelessWidget {
   Widget _buildActionRow() {
     return Row(
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [baseColor, baseColor.withOpacity(0.7)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30.w),
-            boxShadow: [
-              BoxShadow(
-                color: baseColor.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
+        InkWell(
+          onTap: onViewDetails,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [baseColor, baseColor.withOpacity(0.7)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-            ],
-          ),
-          child: Text(
-            "View Details",
-            style: TextStyles.caption2.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+              borderRadius: BorderRadius.circular(30.w),
+              boxShadow: [
+                BoxShadow(
+                  color: baseColor.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Text(
+              "View Details",
+              style: TextStyles.caption2.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -166,10 +170,7 @@ class NotificationCard extends StatelessWidget {
         Container(
           width: 8.w,
           height: 8.w,
-          decoration: BoxDecoration(
-            color: baseColor,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: baseColor, shape: BoxShape.circle),
         ),
       ],
     );

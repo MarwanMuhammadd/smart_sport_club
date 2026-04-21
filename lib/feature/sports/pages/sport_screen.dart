@@ -3,7 +3,6 @@ import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/feature/sports/data/sports_data.dart';
 import 'package:smart_sport_club/feature/sports/widgets/academies.dart';
 
-
 class SportsScreen extends StatefulWidget {
   const SportsScreen({super.key});
 
@@ -42,32 +41,18 @@ class _SportsScreenState extends State<SportsScreen> {
 
       /// Top Bar
       appBar: AppBar(
+        leading: Icon(Icons.sports_soccer, color: Colors.green, size: 24.w),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         elevation: 0,
-        title: Row(
-          children: [
-            Icon(Icons.sports_soccer, color: Colors.green, size: 24.w),
-            SizedBox(width: 8.w),
-            Text(
-              "Elite Sports",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 12.w),
-            child: CircleAvatar(
-              backgroundColor: Colors.white24,
-              radius: 18.w,
-              child: Icon(Icons.person, color: Colors.white, size: 20.w),
-            ),
+        title: Text(
+          "Elite Sports",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
       ),
 
       body: SingleChildScrollView(
@@ -87,7 +72,11 @@ class _SportsScreenState extends State<SportsScreen> {
                   decoration: InputDecoration(
                     hintText: "Search sports academies",
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                    prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20.w),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                      size: 20.w,
+                    ),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(

@@ -40,7 +40,7 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: ClampingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
           child: Column(

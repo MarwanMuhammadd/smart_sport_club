@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 
-
 class LiveEventCard extends StatefulWidget {
   const LiveEventCard({super.key});
 
@@ -54,89 +53,99 @@ class _LiveEventCardState extends State<LiveEventCard> {
     String hours = (_duration.inHours % 24).toString().padLeft(2, '0');
     String minutes = (_duration.inMinutes % 60).toString().padLeft(2, '0');
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: const Color(0xFF1D1F24),
-        borderRadius: BorderRadius.circular(25.w),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // الجزء اللي فوق (الصورة)
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-            child: Image.asset(
-              AppImages.carouselTwo,
-              height: 180.h,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+    return Column(
+      children: [
+        Text(
+          'Monthly Highlight',
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+
+        SizedBox(height: 16.h),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xFF1D1F24),
+            borderRadius: BorderRadius.circular(25.w),
           ),
-
-          Padding(
-            padding: EdgeInsets.all(20.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Annual Gala Dinner 2024',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // الجزء اللي فوق (الصورة)
+              ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
+                child: Image.asset(
+                  AppImages.carouselTwo,
+                  height: 180.h,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 5.h),
-                Text(
-                  'Grand Ballroom, Smart Club Main Wing',
-                  style: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                ),
-                SizedBox(height: 25.h),
+              ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // العداد الشغال
-                    Row(
-                      children: [
-                        _buildTimeColumn(days, 'DAYS'),
-                        _buildDivider(),
-                        _buildTimeColumn(hours, 'HRS'),
-                        _buildDivider(),
-                        _buildTimeColumn(minutes, 'MIN'),
-                      ],
+                    Text(
+                      'Annual Gala Dinner 2024',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    SizedBox(height: 5.h),
+                    Text(
+                      'Grand Ballroom, Smart Club Main Wing',
+                      style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                    ),
+                    SizedBox(height: 25.h),
 
-                    // Button
-                    ElevatedButton(
-                      onPressed: () => print("Joined!"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1ED760),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.w),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // العداد الشغال
+                        Row(
+                          children: [
+                            _buildTimeColumn(days, 'DAYS'),
+                            _buildDivider(),
+                            _buildTimeColumn(hours, 'HRS'),
+                            _buildDivider(),
+                            _buildTimeColumn(minutes, 'MIN'),
+                          ],
                         ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 15.h,
+
+                        // Button
+                        ElevatedButton(
+                          onPressed: () => print("Joined!"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1ED760),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.w),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 15.h,
+                            ),
+                          ),
+                          child: Text(
+                            'Join Now',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Join Now',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
-                        ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -151,7 +160,10 @@ class _LiveEventCardState extends State<LiveEventCard> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(unit, style: TextStyle(color: Colors.grey, fontSize: 10.sp)),
+        Text(
+          unit,
+          style: TextStyle(color: Colors.grey, fontSize: 10.sp),
+        ),
       ],
     );
   }
