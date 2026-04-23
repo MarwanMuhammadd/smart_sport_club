@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
+import 'package:smart_sport_club/core/widgets/custom_dialog.dart';
 import 'package:smart_sport_club/feature/booking/data/booking_model.dart';
 import 'package:smart_sport_club/feature/notification/logic/notification_cubit.dart';
 import 'package:smart_sport_club/feature/notification/logic/notification_state.dart';
@@ -49,14 +53,57 @@ class NotificationPage extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16.w),
-            child: IconButton(
+            padding: EdgeInsets.only(right: 8.w),
+            child: PopupMenuButton<String>(
+              color: AppColors.backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.w),
+              ),
               icon: Icon(
                 Icons.more_vert,
                 color: AppColors.secondaryText,
                 size: 24.w,
               ),
-              onPressed: () {},
+              onSelected: (value) {
+                if (value == 'clear_all') {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomDialog(
+                      title: "Clear All Notifications?",
+                      content:
+                          "This action will permanently delete all your notifications. Are you sure you want to proceed?",
+                      confirmText: "Clear All",
+                      confirmColor: AppColors.primaryGreen,
+                      onConfirm: () {
+                        context
+                            .read<NotificationCubit>()
+                            .clearAllNotifications();
+                      },
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'clear_all',
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.delete_sweep_outlined,
+                        color: AppColors.primaryGreen,
+                        size: 20.w,
+                      ),
+                      12.W,
+                      Text(
+                        "Clear All",
+                        style: TextStyles.caption1.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -69,15 +116,24 @@ class NotificationPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.notifications_none,
-                        size: 64.w, color: AppColors.accentGrey),
+                    Lottie.asset(
+                      AppImages.notificationJson,
+                      width: 250.w,
+                      height: 250.w,
+                      fit: BoxFit.contain,
+                    ),
                     16.H,
-                    Text("No notifications yet",
-                        style: TextStyles.body.copyWith(color: AppColors.accentGrey)),
+                    Text(
+                      "No notifications yet",
+                      style: TextStyles.body.copyWith(
+                        color: AppColors.accentGrey,
+                      ),
+                    ),
                   ],
                 ),
               );
             }
+
             return SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Padding(
@@ -95,23 +151,45 @@ class NotificationPage extends StatelessWidget {
                     ),
                     24.H,
                     ...state.notifications.map((notification) {
-                      return NotificationCard(
-                        title: notification.title,
-                        timeAgo: _formatTimeAgo(notification.time),
-                        description: notification.description,
-                        icon: notification.icon,
-                        baseColor: notification.color,
-                        onViewDetails: () {
-                          if (notification.extraData is BookingModel) {
-                            context.push(
-                              AppRoutes.bookingSuccess,
-                              extra: notification.extraData,
-                            );
-                          }
-                        },
+                      var cubit = context.read<NotificationCubit>();
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Slidable(
+                          key: ValueKey(notification),
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            extentRatio: 0.25,
+                            children: [
+                              SlidableAction(
+                                borderRadius: BorderRadius.circular(20),
+                                onPressed: (context) {
+                                  cubit.deleteNotification(notification);
+                                },
+                                backgroundColor: AppColors.errorColor,
+                                foregroundColor: AppColors.backgroundColor,
+                                icon: Icons.delete_outline_rounded,
+                                label: 'Delete',
+                              ),
+                            ],
+                          ),
+                          child: NotificationCard(
+                            title: notification.title,
+                            timeAgo: _formatTimeAgo(notification.time),
+                            description: notification.description,
+                            icon: notification.icon,
+                            baseColor: notification.color,
+                            onViewDetails: () {
+                              if (notification.extraData is BookingModel) {
+                                context.push(
+                                  AppRoutes.bookingSuccess,
+                                  extra: notification.extraData,
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       );
                     }),
-                    30.H,
                   ],
                 ),
               ),

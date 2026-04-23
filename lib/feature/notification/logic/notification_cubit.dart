@@ -23,6 +23,16 @@ class NotificationCubit extends Cubit<NotificationState> {
     _emitLoaded();
   }
 
+  void deleteNotification(NotificationModel notification) {
+    _notifications.remove(notification);
+    _emitLoaded();
+  }
+
+  void clearAllNotifications() {
+    _notifications.clear();
+    _emitLoaded();
+  }
+
   void _emitLoaded() {
     // Re-sort just in case, though insert(0) handles most cases for this specific flow
     _notifications.sort((a, b) => b.time.compareTo(a.time));

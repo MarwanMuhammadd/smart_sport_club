@@ -17,13 +17,14 @@ class NotificationCard extends StatelessWidget {
     required this.timeAgo,
     required this.description,
     required this.icon,
-    required this.baseColor, this.onViewDetails,
+    required this.baseColor,
+    this.onViewDetails,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 24.h),
+      // margin: EdgeInsets.only(bottom: 12.h),
       decoration: _buildCardDecoration(),
       child: Stack(
         children: [
@@ -52,7 +53,9 @@ class NotificationCard extends StatelessWidget {
           ),
         ],
       ),
+      
     );
+    
   }
 
   BoxDecoration _buildCardDecoration() {
