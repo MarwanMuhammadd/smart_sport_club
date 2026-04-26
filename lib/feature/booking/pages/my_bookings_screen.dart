@@ -71,7 +71,6 @@ class MyBookingsScreen extends StatelessWidget {
                   imageUrl: AppImages.footballAcademy,
                   footer: '1 Hour • \$50.00',
                 ),
-
               ],
             ),
           ),

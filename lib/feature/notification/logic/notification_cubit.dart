@@ -7,12 +7,16 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   final List<NotificationModel> _notifications = [];
 
-  List<NotificationModel> get notifications => List.unmodifiable(_notifications);
+  List<NotificationModel> get notifications =>
+      List.unmodifiable(_notifications);
 
   int get unreadCount => _notifications.where((n) => !n.isRead).length;
 
   void addNotification(NotificationModel notification) {
-    _notifications.insert(0, notification); // Add to top for reverse chronological
+    _notifications.insert(
+      0,
+      notification,
+    ); // Add to top for reverse chronological
     _emitLoaded();
   }
 

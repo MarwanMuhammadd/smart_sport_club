@@ -55,13 +55,17 @@ class _TypingIndicatorState extends State<TypingIndicator>
                   animation: _controller,
                   builder: (context, child) {
                     final delay = index * 0.2;
-                    final value = math.sin((_controller.value + delay) * 2 * math.pi);
+                    final value = math.sin(
+                      (_controller.value + delay) * 2 * math.pi,
+                    );
                     return Container(
                       margin: EdgeInsets.symmetric(horizontal: 2.w),
                       width: 6.w,
                       height: 6.w,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryGreen.withOpacity(0.3 + (value.abs() * 0.7)),
+                        color: AppColors.primaryGreen.withOpacity(
+                          0.3 + (value.abs() * 0.7),
+                        ),
                         shape: BoxShape.circle,
                       ),
                     );
@@ -75,4 +79,3 @@ class _TypingIndicatorState extends State<TypingIndicator>
     );
   }
 }
-

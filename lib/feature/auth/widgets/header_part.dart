@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 
-
 class HeaderPart extends StatelessWidget {
-  const HeaderPart({
-    super.key,
-  });
+  const HeaderPart({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +21,7 @@ class HeaderPart extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
-    
+
       child: Center(
         child: Stack(
           children: [

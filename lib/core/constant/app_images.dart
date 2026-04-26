@@ -17,4 +17,5 @@ class AppImages {
   static const String coachThree = "assets/images/Image (6).png";
   static const String coachFour = "assets/images/Image (5).png";
   static const String notificationJson = "assets/images/notification.json";
+  static const String loadingJson = "assets/images/loading.json";
 }

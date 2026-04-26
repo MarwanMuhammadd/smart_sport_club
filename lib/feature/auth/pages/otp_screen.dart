@@ -64,7 +64,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                 Text(
+                Text(
                   "We have sent SMS to: 01xxxxxxxxx",
                   style: TextStyles.caption1,
                 ),

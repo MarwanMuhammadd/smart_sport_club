@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/funcations/size_config.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/feature/splash/widgets/build_footer.dart';
@@ -37,7 +38,12 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward().then((value) {
       if (mounted) {
-        context.go(AppRoutes.welcome);
+        String Token = SharedPref.getToken();
+        if (Token.isNotEmpty) {
+          context.go(AppRoutes.mainApp);
+        } else {
+          context.go(AppRoutes.welcome);
+        }
       }
     });
   }
@@ -82,7 +88,10 @@ class _SplashScreenState extends State<SplashScreen>
                       children: [
                         Text(
                           'Syncing stadium data...',
-                          style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp,
+                          ),
                         ),
                         Text(
                           '${(_progressAnimation.value * 100).toInt()}%',
@@ -120,5 +129,4 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-  // دوال مساعدة لتبسيط الكود (Refactoring)
-
+// دوال مساعدة لتبسيط الكود (Refactoring)

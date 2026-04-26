@@ -11,13 +11,23 @@ class BookingCubit extends Cubit<BookingState> {
     if (state is BookingSelectionUpdated) {
       emit((state as BookingSelectionUpdated).copyWith(selectedCoach: coach));
     } else {
-      emit(BookingSelectionUpdated(selectedCoach: coach, selectedDate: DateTime.now()));
+      emit(
+        BookingSelectionUpdated(
+          selectedCoach: coach,
+          selectedDate: DateTime.now(),
+        ),
+      );
     }
   }
 
   void selectDate(DateTime date) {
     if (state is BookingSelectionUpdated) {
-      emit((state as BookingSelectionUpdated).copyWith(selectedDate: date, selectedSession: null));
+      emit(
+        (state as BookingSelectionUpdated).copyWith(
+          selectedDate: date,
+          selectedSession: null,
+        ),
+      );
     } else {
       emit(BookingSelectionUpdated(selectedDate: date));
     }
@@ -25,7 +35,9 @@ class BookingCubit extends Cubit<BookingState> {
 
   void selectSession(SessionModel session) {
     if (state is BookingSelectionUpdated) {
-      emit((state as BookingSelectionUpdated).copyWith(selectedSession: session));
+      emit(
+        (state as BookingSelectionUpdated).copyWith(selectedSession: session),
+      );
     } else {
       emit(BookingSelectionUpdated(selectedSession: session));
     }
@@ -34,7 +46,7 @@ class BookingCubit extends Cubit<BookingState> {
   void bookNow(String academyName) {
     if (state is BookingSelectionUpdated) {
       final selection = state as BookingSelectionUpdated;
-      
+
       if (selection.selectedCoach == null) {
         emit(const BookingCapacityExceeded("Please select a coach first"));
         return;
@@ -49,8 +61,13 @@ class BookingCubit extends Cubit<BookingState> {
       }
 
       // Capacity Logic: 20 sessions max
-      if (selection.selectedSession!.currentBookings >= selection.selectedSession!.maxCapacity) {
-        emit(const BookingCapacityExceeded("You cannot book because the session capacity has been reached (Max 20)"));
+      if (selection.selectedSession!.currentBookings >=
+          selection.selectedSession!.maxCapacity) {
+        emit(
+          const BookingCapacityExceeded(
+            "You cannot book because the session capacity has been reached (Max 20)",
+          ),
+        );
       } else {
         final booking = BookingModel(
           academyName: academyName,

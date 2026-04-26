@@ -36,7 +36,6 @@ class AppThemes {
     dividerColor: Colors.transparent,
     dividerTheme: DividerThemeData(color: AppColors.secondaryColor),
     appBarTheme: AppBarTheme(
-      
       backgroundColor: AppColors.primaryColor,
       elevation: 0,
       centerTitle: true,

@@ -7,9 +7,6 @@ import 'package:smart_sport_club/feature/sports/data/slots_data.dart';
 import 'package:smart_sport_club/feature/booking/pages/booking_summary_screen.dart';
 import 'package:smart_sport_club/core/funcations/navigations.dart';
 
-
-
-
 class AvailableSlots extends StatelessWidget {
   const AvailableSlots({
     super.key,
@@ -87,7 +84,8 @@ class AvailableSlots extends StatelessWidget {
                         Text(
                           "Capacity: ${session.currentBookings}/${session.maxCapacity}",
                           style: TextStyle(
-                            color: session.currentBookings >= session.maxCapacity
+                            color:
+                                session.currentBookings >= session.maxCapacity
                                 ? Colors.red
                                 : Colors.grey[600],
                             fontSize: 11.sp,
@@ -111,8 +109,10 @@ class AvailableSlots extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.w),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 10.h,
+                      ),
                     ),
                     child: Text(
                       "BOOK NOW",

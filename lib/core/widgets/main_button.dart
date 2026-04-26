@@ -3,7 +3,6 @@ import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 
-
 class MainButton extends StatelessWidget {
   const MainButton({
     super.key,
@@ -13,6 +12,8 @@ class MainButton extends StatelessWidget {
     this.height = 55,
     this.width = double.infinity,
     this.textStyle,
+    this.isLoading = false,
+    this.isDisabled = false,
   });
   final String text;
   final Function() onPressed;
@@ -20,27 +21,38 @@ class MainButton extends StatelessWidget {
   final double height;
   final double width;
   final TextStyle? textStyle;
+  final bool isLoading;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: bgColor,
+        backgroundColor: isDisabled ? Colors.grey : bgColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.w),
         ),
         minimumSize: Size(width, height.h),
       ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style:
-            textStyle ??
-            TextStyles.body.copyWith(
-              color: AppColors.backgroundColor,
-              fontWeight: FontWeight.w600,
+      onPressed: (isDisabled || isLoading) ? () {} : onPressed,
+      child: isLoading
+          ? SizedBox(
+              height: 24.w,
+              width: 24.w,
+              child: const CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2.5,
+              ),
+            )
+          : Text(
+              text,
+              style:
+                  textStyle ??
+                  TextStyles.body.copyWith(
+                    color: AppColors.backgroundColor,
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
-      ),
     );
   }
 }

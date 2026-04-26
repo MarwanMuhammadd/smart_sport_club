@@ -97,7 +97,11 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 hintText: "••••••••",
                 onChanged: onPasswordChanged,
                 obscureText: _obscurePassword,
-                prefixIcon: const Icon(Icons.lock_outline, color: Colors.black, size: 20),
+                prefixIcon: const Icon(
+                  Icons.lock_outline,
+                  color: Colors.black,
+                  size: 20,
+                ),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword

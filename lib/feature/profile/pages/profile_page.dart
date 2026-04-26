@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
@@ -8,8 +10,18 @@ import 'package:smart_sport_club/feature/profile/widgets/logout_button.dart';
 import 'package:smart_sport_club/feature/profile/widgets/profile_header.dart';
 import 'package:smart_sport_club/feature/profile/widgets/profile_menu_item.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String name = "Julian Alvarez";
+  String imageUrl =
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBE1FuA12FaeNZ3Ihc4di5k9KutJQhVDYRhQhvgYTiliUovi_X6cj4rZ4K1rRLdqa_Cm97u_BEtqFPoaEFvmQvoH8RxC0GSqIkSSdAs-xFlV7Tf_3x_hza_mzrloJpqSC07VbFFASKi1vj4F2NjZZKftJp2kcnt1gfvxGEt5MaEE21YwvR9xC9M2ctVg-r4VmNs8pVkkBHcgtT5QsNdtvisvh6lJDhP6NCddsqUwOhP0Kgv-6mtgwew3qiOyOm5TFC_2x9009rYDDQE";
+  File? imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +31,6 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        // Optional back button if needed, but since it's a bottom nav tab, usually it's omitted.
-        // I will include the title and the trailing button as in the HTML.
         title: Text(
           "Profile",
           style: TextStyles.title.copyWith(
@@ -40,17 +50,36 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
           child: Column(
             children: [
               // Profile Header section
-              const ProfileHeader(
-                name: "Julian Alvarez",
-                email: "j.alvarez@sportsclub.com",
-                imageUrl:
-                    "https://lh3.googleusercontent.com/aida-public/AB6AXuBE1FuA12FaeNZ3Ihc4di5k9KutJQhVDYRhQhvgYTiliUovi_X6cj4rZ4K1rRLdqa_Cm97u_BEtqFPoaEFvmQvoH8RxC0GSqIkSSdAs-xFlV7Tf_3x_hza_mzrloJpqSC07VbFFASKi1vj4F2NjZZKftJp2kcnt1gfvxGEt5MaEE21YwvR9xC9M2ctVg-r4VmNs8pVkkBHcgtT5QsNdtvisvh6lJDhP6NCddsqUwOhP0Kgv-6mtgwew3qiOyOm5TFC_2x9009rYDDQE",
+              ProfileHeader(
+                name: name,
+                imageUrl: imageUrl,
+                imageFile: imageFile,
+                onEditTap: () async {
+                  final result = await context.push<Map<String, dynamic>?>(
+                    AppRoutes.editProfile,
+                    extra: {
+                      'initialName': name,
+                      'initialImageUrl': imageUrl,
+                    },
+                  );
+
+                  if (result != null) {
+                    setState(() {
+                      if (result['name'] != null) {
+                        name = result['name'];
+                      }
+                      if (result['imageFile'] != null) {
+                        imageFile = result['imageFile'];
+                      }
+                    });
+                  }
+                },
               ),
               32.H,
 
@@ -61,7 +90,7 @@ class ProfilePage extends StatelessWidget {
                 iconColor: AppColors.primaryGreen,
                 iconBackgroundColor: AppColors.primaryGreen.withOpacity(0.1),
                 onTap: () {
-                  // Handle renew membership tap
+                  context.push(AppRoutes.renewMembership);
                 },
               ),
               ProfileMenuItem(
@@ -87,7 +116,6 @@ class ProfilePage extends StatelessWidget {
               // Logout section
               LogoutButton(
                 onTap: () {
-                  // Handle logout
                   context.go(AppRoutes.login);
                 },
               ),

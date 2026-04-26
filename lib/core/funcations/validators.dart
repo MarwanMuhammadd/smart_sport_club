@@ -23,10 +23,22 @@ class AppValidators {
     return null;
   }
 
-  // Password (min 8 chars)
+  // Password (strict requirements from backend)
   static String? password(String? value) {
     if (value == null || value.isEmpty) return "Password is required";
     if (value.length < 8) return "Password must be at least 8 characters";
+
+    // Regex for: uppercase, lowercase, digit, special character
+    final hasUppercase = RegExp(r'[A-Z]');
+    final hasLowercase = RegExp(r'[a-z]');
+    final hasDigit = RegExp(r'[0-9]');
+    final hasSpecial = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+    if (!hasUppercase.hasMatch(value)) return "Must have one uppercase letter";
+    if (!hasLowercase.hasMatch(value)) return "Must have one lowercase letter";
+    if (!hasDigit.hasMatch(value)) return "Must have one digit";
+    if (!hasSpecial.hasMatch(value)) return "Must have one special character";
+
     return null;
   }
 

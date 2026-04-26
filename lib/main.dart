@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/goRouter/app_routers.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
+import 'package:smart_sport_club/core/services/apis/dio_provider.dart';
 import 'package:smart_sport_club/core/styles/theme.dart';
 import 'package:smart_sport_club/feature/notification/logic/notification_cubit.dart';
 import 'package:smart_sport_club/feature/sports/logic/sports_cubit.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPref.init();
+  DioProvider.init();
   runApp(const MainApp());
 }
 
@@ -29,4 +34,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-

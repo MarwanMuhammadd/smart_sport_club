@@ -11,10 +11,7 @@ class SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Text(
-        title,
-        style: TextStyles.title.copyWith(fontSize: 18.sp),
-      ),
+      child: Text(title, style: TextStyles.title.copyWith(fontSize: 18.sp)),
     );
   }
 }

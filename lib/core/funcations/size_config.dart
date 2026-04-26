@@ -25,9 +25,11 @@ class SizeConfig {
     blockHorizontal = screenWidth / designWidth;
     blockVertical = screenHeight / designHeight;
 
-    _safeAreaHorizontal = _mediaQueryData.padding.left + _mediaQueryData.padding.right;
-    _safeAreaVertical = _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
-    
+    _safeAreaHorizontal =
+        _mediaQueryData.padding.left + _mediaQueryData.padding.right;
+    _safeAreaVertical =
+        _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
+
     safeBlockHorizontal = (screenWidth - _safeAreaHorizontal) / designWidth;
     safeBlockVertical = (screenHeight - _safeAreaVertical) / designHeight;
   }

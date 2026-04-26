@@ -21,7 +21,8 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   bool passwordsMatch = false;
   bool hasSpecialChar = false;
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
   final formKey = GlobalKey<FormState>();
@@ -113,7 +114,11 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   controller: newPasswordController,
                   obscureText: _obscureNewPassword,
                   onChanged: checkPassword,
-                  prefixIcon: Icon(Icons.key, color: const Color(0xff5C6D65), size: 20.w),
+                  prefixIcon: Icon(
+                    Icons.key,
+                    color: const Color(0xff5C6D65),
+                    size: 20.w,
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureNewPassword
@@ -141,7 +146,11 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                   controller: confirmPasswordController,
                   obscureText: _obscureConfirmPassword,
                   onChanged: (value) => checkMatch(),
-                  prefixIcon: Icon(Icons.check, color: const Color(0xff5C6D65), size: 20.w),
+                  prefixIcon: Icon(
+                    Icons.check,
+                    color: const Color(0xff5C6D65),
+                    size: 20.w,
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword

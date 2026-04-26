@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Navigations {
-  static void pushTo(BuildContext context, Widget newScreen) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => newScreen));
+  /// Push a new named route using GoRouter
+  static void pushTo(BuildContext context, String routePath, {Object? extra}) {
+    context.push(routePath, extra: extra);
   }
 
-  static void pushReplacement(BuildContext context, Widget newScreen) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => newScreen),
-    );
+  /// Replace current route with a new one using GoRouter
+  static void pushReplacement(
+    BuildContext context,
+    String routePath, {
+    Object? extra,
+  }) {
+    context.pushReplacement(routePath, extra: extra);
   }
 
+  /// Go back to previous page using GoRouter
   static void pop(BuildContext context) {
-    Navigator.pop(context);
+    context.pop();
   }
 
-  static void popUntilFirst(BuildContext context) {
-    Navigator.popUntil(context, (route) => route.isFirst);
-  }
-
-  static void pushAndRemoveUntil(BuildContext context, Widget newScreen) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => newScreen),
-      (route) => false,
-    );
+  void pushToBase(BuildContext context, String routeName) {
+    context.go(routeName);
   }
 }
-
-

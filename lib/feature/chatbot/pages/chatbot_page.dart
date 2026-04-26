@@ -48,11 +48,11 @@ class _ChatbotPageState extends State<ChatbotPage> {
           final messages = state is ChatbotLoaded
               ? state.messages
               : (state is ChatbotLoading
-                  ? state.messages
-                  : (state is ChatbotError ? state.messages : []));
-    
+                    ? state.messages
+                    : (state is ChatbotError ? state.messages : []));
+
           _scrollToBottom();
-    
+
           return Column(
             children: [
               Expanded(
@@ -74,4 +74,3 @@ class _ChatbotPageState extends State<ChatbotPage> {
     );
   }
 }
-

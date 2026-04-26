@@ -89,7 +89,9 @@ class CustomDialog extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 14.h),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.w),
-                      side: BorderSide(color: AppColors.accentGrey.withOpacity(0.2)),
+                      side: BorderSide(
+                        color: AppColors.accentGrey.withOpacity(0.2),
+                      ),
                     ),
                   ),
                   child: Text(
@@ -114,13 +116,16 @@ class CustomDialog extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           confirmColor ?? AppColors.primaryGreen,
-                          (confirmColor ?? AppColors.primaryGreen).withOpacity(0.8),
+                          (confirmColor ?? AppColors.primaryGreen).withOpacity(
+                            0.8,
+                          ),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12.w),
                       boxShadow: [
                         BoxShadow(
-                          color: (confirmColor ?? AppColors.primaryGreen).withOpacity(0.3),
+                          color: (confirmColor ?? AppColors.primaryGreen)
+                              .withOpacity(0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),

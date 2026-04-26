@@ -53,9 +53,7 @@ class NotificationCard extends StatelessWidget {
           ),
         ],
       ),
-      
     );
-    
   }
 
   BoxDecoration _buildCardDecoration() {

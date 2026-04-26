@@ -48,15 +48,16 @@ class CircleImage extends StatelessWidget {
                     ),
                     child: CircleAvatar(
                       radius: 30.w,
-                      backgroundImage: AssetImage(
-                        coach.imagePath,
-                      ),
+                      backgroundImage: AssetImage(coach.imagePath),
                     ),
                   ),
                 ),
                 Text(
                   coach.name,
-                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 20.W,
               ],

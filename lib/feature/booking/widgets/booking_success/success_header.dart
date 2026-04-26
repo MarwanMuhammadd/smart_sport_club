@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 
-
 class SuccessHeader extends StatelessWidget {
   const SuccessHeader({super.key});
 
@@ -21,11 +20,7 @@ class SuccessHeader extends StatelessWidget {
           ),
         ],
       ),
-      child: Icon(
-        Icons.check,
-        size: 48.w,
-        color: Colors.black,
-      ),
+      child: Icon(Icons.check, size: 48.w, color: Colors.black),
     );
   }
 }

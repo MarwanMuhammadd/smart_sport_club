@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 
-
 class BookingInfoBox extends StatelessWidget {
   final IconData icon;
   final String title;

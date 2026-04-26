@@ -28,10 +28,7 @@ class SuccessActionButtons extends StatelessWidget {
           },
           child: Text(
             'Go to My Bookings',
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(height: 12.h),
@@ -45,13 +42,8 @@ class SuccessActionButtons extends StatelessWidget {
             context.go(AppRoutes.booking, extra: data);
           },
           icon: Icon(Icons.arrow_back, size: 18.w),
-          label: Text(
-            'Back to Academy',
-            style: TextStyle(fontSize: 14.sp),
-          ),
-          style: TextButton.styleFrom(
-            foregroundColor: AppColors.secondaryText,
-          ),
+          label: Text('Back to Academy', style: TextStyle(fontSize: 14.sp)),
+          style: TextButton.styleFrom(foregroundColor: AppColors.secondaryText),
         ),
       ],
     );

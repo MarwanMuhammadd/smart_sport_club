@@ -33,7 +33,11 @@ class SportsCubit extends Cubit<SportsState> {
   }
 
   void confirmBooking(BookingModel booking) {
-    final day = DateTime(booking.date.year, booking.date.month, booking.date.day);
+    final day = DateTime(
+      booking.date.year,
+      booking.date.month,
+      booking.date.day,
+    );
     final key = _getDateKey(day);
 
     if (_sessionsCache.containsKey(key)) {

@@ -12,4 +12,7 @@ class AppRoutes {
   static const String bookingSuccess = '/bookingSuccess';
   static const String myBookings = '/myBookings';
   static const String booking = '/booking';
+  static const String editProfile = '/editProfile';
+  static const String renewMembership = '/renewMembership';
+  static const String payment = '/payment';
 }

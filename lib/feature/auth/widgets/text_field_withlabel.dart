@@ -11,6 +11,7 @@ class TextFieldWithlabel extends StatelessWidget {
   final Widget? suffixIcon; // دلوقتي اختياري
   final String? Function(String?)? validator;
   final bool obscureText; // محتاج default false
+  final TextEditingController? controller;
 
   const TextFieldWithlabel({
     super.key,
@@ -20,6 +21,7 @@ class TextFieldWithlabel extends StatelessWidget {
     this.validator,
     this.suffixIcon, // اختياري دلوقتي
     this.obscureText = false, // default false
+    this.controller,
   });
 
   @override
@@ -33,6 +35,7 @@ class TextFieldWithlabel extends StatelessWidget {
         ),
         8.H,
         CustomTextFormField(
+          controller: controller,
           obscureText: obscureText,
           suffixIcon: suffixIcon, // لو مفيش suffixIcon، يبقى null
           validator: validator,

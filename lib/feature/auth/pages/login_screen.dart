@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
@@ -8,6 +11,8 @@ import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
 import 'package:smart_sport_club/core/widgets/text_with_different_color.dart';
+import 'package:smart_sport_club/feature/auth/cubit/auth_cubit.dart';
+import 'package:smart_sport_club/feature/auth/cubit/auth_state.dart';
 import 'package:smart_sport_club/feature/auth/widgets/text_field_withlabel.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,118 +28,141 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoadingState) {
+          log("loading");
+        } else if (state is AuthLoadedState) {
+          log("done");
+          context.go(AppRoutes.mainApp);
+        } else if (state is AuthErrorState) {
+          log("Failure: ${state.massage}");
+        }
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Club Access",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 18.sp,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            "Club Access",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.sp,
+            ),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () => context.pop(),
+            icon: Icon(Icons.chevron_left, size: 32.w, color: Colors.black),
           ),
         ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: Icon(Icons.chevron_left, size: 32.w, color: Colors.black),
-        ),
-      ),
-      body: SafeArea(
-        child: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: formKey,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildMembershipCard(),
-                      30.H,
-                      Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      20.H,
-                      TextFieldWithlabel(
-                        path: AppImages.idIconSvg,
-                        label: "Membership ID",
-                        hint: "Enter ID number",
-                        validator: AppValidators.numeric,
-                      ),
-                      16.H,
-                      TextFieldWithlabel(
-                        validator: AppValidators.numeric,
-                        path: AppImages.sequenceSvg,
-                        label: "Sequence Number",
-                        hint: "Enter Sequence Code",
-                      ),
-                      16.H,
-                      TextFieldWithlabel(
-                        obscureText: _obscurePassword,
-                        suffixIcon: InkWell(
-                          child: Icon(
-                            _obscurePassword
-                                ? Icons.visibility
-                                : Icons.visibility_off_outlined,
+        body: SafeArea(
+          child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: context.read<AuthCubit>().formKey,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildMembershipCard(),
+                        30.H,
+                        Text(
+                          "Sign In",
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
                           ),
-                          onTap: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
                         ),
-                        validator: AppValidators.password,
-                        path: AppImages.lockSvg,
-                        label: "Password",
-                        hint: "********",
-                      ),
-                      10.H,
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            context.push(AppRoutes.requestPassword);
-                          },
-                          child: Text(
-                            "Forgot Password?",
-                            style: TextStyles.caption1.copyWith(
-                              color: AppColors.primaryGreen,
-                              fontWeight: FontWeight.w600,
+                        20.H,
+                        TextFieldWithlabel(
+                          controller: context.read<AuthCubit>().emailController,
+                          path: AppImages.idIconSvg,
+                          label: "Email Address",
+                          hint: "example@club.com",
+                          validator: AppValidators.email,
+                        ),
+                        16.H,
+                        TextFieldWithlabel(
+                          controller: context
+                              .read<AuthCubit>()
+                              .clubCodeController,
+                          validator: AppValidators.clubCode,
+                          path: AppImages.sequenceSvg,
+                          label: "Club Code",
+                          hint: "XXXX-XXXX-XXXX",
+                        ),
+                        16.H,
+                        TextFieldWithlabel(
+                          controller: context
+                              .read<AuthCubit>()
+                              .passwordController,
+                          obscureText: _obscurePassword,
+                          suffixIcon: InkWell(
+                            child: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off_outlined,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                          validator: AppValidators.password,
+                          path: AppImages.lockSvg,
+                          label: "Password",
+                          hint: "********",
+                        ),
+                        10.H,
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              context.push(AppRoutes.requestPassword);
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: TextStyles.caption1.copyWith(
+                                color: AppColors.primaryGreen,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      20.H,
-                      MainButton(
-                        text: "Sign In to Club",
-                        onPressed: () {
-                          if (formKey.currentState?.validate() ?? false) {
-                            context.go(AppRoutes.mainApp);
-                          }
-                        },
-                      ),
-                      25.H,
-                      TextWithDifferentColor(
-                        text1: "Don't have an account? ",
-                        text2: 'Register Now',
-                        onTap: () {
-                          context.push(AppRoutes.register);
-                        },
-                      ),
-                    ],
+                        20.H,
+                        MainButton(
+                          text: "Sign In to Club",
+                          onPressed: () {
+                            if (context
+                                .read<AuthCubit>()
+                                .formKey
+                                .currentState!
+                                .validate()) {
+                              context.read<AuthCubit>().login();
+                            }
+                          },
+                        ),
+                        25.H,
+                        TextWithDifferentColor(
+                          text1: "Don't have an account? ",
+                          text2: 'Register Now',
+                          onTap: () {
+                            context.push(AppRoutes.register);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

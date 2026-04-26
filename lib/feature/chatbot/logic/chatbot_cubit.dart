@@ -33,7 +33,11 @@ class ChatbotCubit extends Cubit<ChatbotState> {
 
     // 1. Add user message instantly
     _messages.add(
-      MessageModel(text: text, sender: MessageSender.user, time: DateTime.now()),
+      MessageModel(
+        text: text,
+        sender: MessageSender.user,
+        time: DateTime.now(),
+      ),
     );
     emit(ChatbotLoading(List.from(_messages)));
 
@@ -53,10 +57,7 @@ class ChatbotCubit extends Cubit<ChatbotState> {
               ],
             },
           ],
-          "generationConfig": {
-            "temperature": 0.7,
-            "maxOutputTokens": 300,
-          },
+          "generationConfig": {"temperature": 0.7, "maxOutputTokens": 300},
         }),
       );
 

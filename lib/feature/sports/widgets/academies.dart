@@ -6,7 +6,6 @@ import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/feature/sports/data/sports_data.dart';
 import 'package:smart_sport_club/feature/sports/pages/booking_page.dart';
 
-
 Widget academyCard({
   //required String image,
   required final List<SportsData> sportData,
@@ -18,10 +17,7 @@ Widget academyCard({
     itemBuilder: (context, index) {
       return InkWell(
         onTap: () {
-          context.push(
-            AppRoutes.booking,
-            extra: sportData[index],
-          );
+          context.push(AppRoutes.booking, extra: sportData[index]);
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),

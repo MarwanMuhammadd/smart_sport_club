@@ -17,10 +17,7 @@ class LogoutButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.w),
-          border: Border.all(
-            color: Colors.red.withOpacity(0.2),
-            width: 2.w,
-          ),
+          border: Border.all(color: Colors.red.withOpacity(0.2), width: 2.w),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

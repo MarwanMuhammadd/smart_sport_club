@@ -35,9 +35,9 @@ class SlotsSelectionSection extends StatelessWidget {
 
             return BlocBuilder<SportsCubit, SportsState>(
               builder: (context, sportsState) {
-                final sessions = context
-                    .read<SportsCubit>()
-                    .getSessionsForDate(selectedDate);
+                final sessions = context.read<SportsCubit>().getSessionsForDate(
+                  selectedDate,
+                );
 
                 return AvailableSlots(
                   sessions: sessions,
