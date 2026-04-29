@@ -15,4 +15,5 @@ class AppRoutes {
   static const String editProfile = '/editProfile';
   static const String renewMembership = '/renewMembership';
   static const String payment = '/payment';
+  static const String paymentSuccessful = '/paymentSuccessful';
 }

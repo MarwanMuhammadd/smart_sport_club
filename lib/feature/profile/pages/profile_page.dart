@@ -38,16 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
             color: AppColors.primaryColor,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: AppColors.primaryColor,
-              size: 24.w,
-            ),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -66,6 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     extra: {
                       'initialName': name,
                       'initialImageUrl': imageUrl,
+                      'initialImageFile': imageFile,
                     },
                   );
 

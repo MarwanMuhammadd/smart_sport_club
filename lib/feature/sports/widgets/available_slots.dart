@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/funcations/format_time.dart';
@@ -97,11 +98,23 @@ class AvailableSlots extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (onSessionSelected != null) {
-                        onSessionSelected!(session);
-                      }
-                      if (onBookNow != null) {
-                        onBookNow!();
+                      log("--- DEBUG BOOKING ---");
+                      log("Session: ${session.title}");
+                      
+                      bool isFull = session.currentBookings >= session.maxCapacity;
+                      log("Current Capacity: ${session.currentBookings}/${session.maxCapacity}");
+                      log("Is Session Full: $isFull");
+
+                      if (!isFull) {
+                        log("LOGIC: Booking triggered successfully");
+                        if (onSessionSelected != null) {
+                          onSessionSelected!(session);
+                        }
+                        if (onBookNow != null) {
+                          onBookNow!();
+                        }
+                      } else {
+                        log("LOGIC: Booking BLOCKED because session is full");
                       }
                     },
                     style: ElevatedButton.styleFrom(

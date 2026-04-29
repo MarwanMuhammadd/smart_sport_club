@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
@@ -43,33 +42,38 @@ class _ChatbotPageState extends State<ChatbotPage> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: const ChatHeader(),
-      body: BlocBuilder<ChatbotCubit, ChatbotState>(
-        builder: (context, state) {
-          final messages = state is ChatbotLoaded
-              ? state.messages
-              : (state is ChatbotLoading
+      body: BlocListener<ChatbotCubit, ChatbotState>(
+        listener: (context, state) {
+          if (state is ChatbotLoaded || state is ChatbotLoading) {
+            _scrollToBottom();
+          }
+        },
+        child: BlocBuilder<ChatbotCubit, ChatbotState>(
+          builder: (context, state) {
+            final messages = state is ChatbotLoaded
+                ? state.messages
+                : (state is ChatbotLoading
                     ? state.messages
                     : (state is ChatbotError ? state.messages : []));
 
-          _scrollToBottom();
-
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  padding: EdgeInsets.only(top: 20.h),
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    return ChatBubble(message: messages[index]);
-                  },
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    padding: EdgeInsets.only(top: 20.h),
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      return ChatBubble(message: messages[index]);
+                    },
+                  ),
                 ),
-              ),
-              if (state is ChatbotLoading) const TypingIndicator(),
-              const ChatInputField(),
-            ],
-          );
-        },
+                if (state is ChatbotLoading) const TypingIndicator(),
+                const ChatInputField(),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

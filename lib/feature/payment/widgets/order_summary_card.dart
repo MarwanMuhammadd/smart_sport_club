@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
+import 'package:smart_sport_club/feature/payment/data/renewal_plan_model.dart';
 
 class OrderSummaryCard extends StatelessWidget {
-  const OrderSummaryCard({super.key});
+  final RenewalPlan? plan;
+
+  const OrderSummaryCard({super.key, this.plan});
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +47,11 @@ class OrderSummaryCard extends StatelessWidget {
                   spacing: 4,
                   children: [
                     Text(
-                      '1 Year Membership',
-                      style: TextStyles.headline.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
+                      plan?.title ?? '1 Year Membership',
+                      style: TextStyles.headline.copyWith(),
                     ),
                     Text(
-                      'Full Club Access',
+                      plan?.description ?? 'Full Club Access',
                       style: TextStyles.caption1.copyWith(
                         color: AppColors.secondaryText,
                       ),
@@ -59,7 +60,7 @@ class OrderSummaryCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '2,000 EGP',
+                plan?.price ?? '2,000 EGP',
                 textAlign: TextAlign.right,
                 style: TextStyles.headline.copyWith(
                   color: AppColors.primaryGreen,

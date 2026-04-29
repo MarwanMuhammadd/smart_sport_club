@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -16,12 +17,14 @@ import 'package:smart_sport_club/feature/profile/edit_profile/widgets/edit_heade
 class EditProfile extends StatefulWidget {
   final String initialName;
   final String initialImageUrl;
+  final File? initialImageFile;
 
   const EditProfile({
     super.key,
     this.initialName = "Julian Alvarez",
     this.initialImageUrl =
         "https://lh3.googleusercontent.com/aida-public/AB6AXuBE1FuA12FaeNZ3Ihc4di5k9KutJQhVDYRhQhvgYTiliUovi_X6cj4rZ4K1rRLdqa_Cm97u_BEtqFPoaEFvmQvoH8RxC0GSqIkSSdAs-xFlV7Tf_3x_hza_mzrloJpqSC07VbFFASKi1vj4F2NjZZKftJp2kcnt1gfvxGEt5MaEE21YwvR9xC9M2ctVg-r4VmNs8pVkkBHcgtT5QsNdtvisvh6lJDhP6NCddsqUwOhP0Kgv-6mtgwew3qiOyOm5TFC_2x9009rYDDQE",
+    this.initialImageFile,
   });
 
   @override
@@ -48,6 +51,7 @@ class _EditProfileState extends State<EditProfile> {
     return BlocConsumer<EditProfileCubit, EditProfileState>(
       listener: (context, state) {
         if (state.isSuccess) {
+          log("saved");
           context.pop({
             'name': state.currentName,
             'imageFile': state.currentImageFile,
@@ -89,12 +93,13 @@ class _EditProfileState extends State<EditProfile> {
                   EditHeader(
                     imageUrl: widget.initialImageUrl,
                     imageFile: state.currentImageFile,
-                    onImageTap: () => ImagePickerHelper.showImagePickerBottomSheet(
-                      context: context,
-                      onImagePicked: (file) {
-                        context.read<EditProfileCubit>().updateImage(file);
-                      },
-                    ),
+                    onImageTap: () =>
+                        ImagePickerHelper.showImagePickerBottomSheet(
+                          context: context,
+                          onImagePicked: (file) {
+                            context.read<EditProfileCubit>().updateImage(file);
+                          },
+                        ),
                   ),
                   Text(
                     state.currentImageFile != null
@@ -119,11 +124,13 @@ class _EditProfileState extends State<EditProfile> {
                     },
                   ),
                   60.H,
+
                   MainButton(
                     text: "Save",
                     isDisabled: !state.isChanged,
                     isLoading: state.isLoading,
                     onPressed: () {
+                      log("loading");
                       context.read<EditProfileCubit>().saveChanges();
                     },
                   ),

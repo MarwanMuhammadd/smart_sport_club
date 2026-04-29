@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
-import 'package:smart_sport_club/feature/payment/models/renewal_plan_model.dart';
+import 'package:smart_sport_club/feature/payment/data/renewal_plan_model.dart';
 import 'package:smart_sport_club/feature/payment/renew_membership/widgets/renewal_plan_card.dart';
 
 class RenewalPlansSelector extends StatefulWidget {

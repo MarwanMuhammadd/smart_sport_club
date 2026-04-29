@@ -1,14 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/feature/chatbot/logic/chatbot_cubit.dart';
+import 'package:smart_sport_club/feature/chatbot/pages/chatbot_page.dart';
 import 'package:smart_sport_club/feature/home/pages/home_page.dart';
 import 'package:smart_sport_club/feature/notification/logic/notification_cubit.dart';
 import 'package:smart_sport_club/feature/notification/logic/notification_state.dart';
 import 'package:smart_sport_club/feature/notification/pages/notification_page.dart';
 import 'package:smart_sport_club/feature/profile/pages/profile_page.dart';
 import 'package:smart_sport_club/feature/sports/pages/sport_screen.dart';
-import 'package:smart_sport_club/feature/chatbot/pages/chatbot_page.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key, this.initialIndex = 0});
@@ -51,6 +53,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
         onTap: (value) {
           setState(() {
             currentIndex = value;
+            log("$currentIndex");
           });
           if (value == 1) {
             context.read<NotificationCubit>().markAllAsRead();
