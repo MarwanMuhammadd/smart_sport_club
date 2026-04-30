@@ -19,4 +19,8 @@ class AppImages {
   static const String notificationJson = "assets/images/notification.json";
   static const String loadingJson = "assets/images/loading.json";
   static const String circleCheckJson = "assets/images/circle_check.json";
+  static const String trainerDashSvg = "assets/images/trainer_dash.svg";
+  static const String offerDashSvg = "assets/images/offer_dash.svg";
+  static const String memberDashSvg = "assets/images/members_dash.svg";
+  static const String academyDashSvg = "assets/images/academies_dash.svg";
 }

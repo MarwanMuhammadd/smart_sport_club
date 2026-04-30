@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run App (Emulator)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main_app.dart",
+      "deviceId": "emulator-5554"
+    },
+    {
+      "name": "Run Dashboard (Chrome)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main_dashboard.dart",
+      "deviceId": "chrome"
+    }
+  ]
+}

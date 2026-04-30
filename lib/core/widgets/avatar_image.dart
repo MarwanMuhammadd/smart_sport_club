@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:date_picker_timeline/extra/color.dart' hide AppColors;
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
@@ -21,14 +22,13 @@ class AvatarImage extends StatelessWidget {
           width: 112.w, // 28 * 4 from tailwind w-28
           height: 112.w,
           padding: EdgeInsets.all(4.w), // p-1 equivalent
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             shape: BoxShape.circle,
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppColors
-                    .primaryColor, // using primary and green to match the theme
+                AppColors.primaryColor, // using primary and green to match the theme
                 AppColors.primaryGreen,
               ],
             ),
