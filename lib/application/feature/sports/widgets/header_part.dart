@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
@@ -46,9 +47,29 @@ class CircleImage extends StatelessWidget {
                         width: 2.w,
                       ),
                     ),
-                    child: CircleAvatar(
-                      radius: 30.w,
-                      backgroundImage: AssetImage(coach.imagePath),
+                    child: Container(
+                      width: 60.w,
+                      height: 60.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primaryGreen.withOpacity(0.1), // Light background for SVGs
+                      ),
+                      child: ClipOval(
+                        child: coach.imagePath.endsWith('.svg')
+                            ? Padding(
+                                padding: EdgeInsets.all(12.w), // Padding for SVG icons
+                                child: SvgPicture.asset(
+                                  coach.imagePath,
+                                  fit: BoxFit.contain,
+                                ),
+                              )
+                            : Image.asset(
+                                coach.imagePath,
+                                fit: BoxFit.cover,
+                                width: 60.w,
+                                height: 60.w,
+                              ),
+                      ),
                     ),
                   ),
                 ),

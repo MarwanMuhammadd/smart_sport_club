@@ -12,10 +12,10 @@ class AppImages {
   static const String tennisAcademy = "assets/images/tennis_academy.png";
   static const String swimmingAcademy = "assets/images/swimming_academy.png";
   static const String footballAcademy = "assets/images/football_academy.png";
-  static const String coachOne = "assets/images/Image (8).png";
-  static const String coachTwo = "assets/images/Image (7).png";
-  static const String coachThree = "assets/images/Image (6).png";
-  static const String coachFour = "assets/images/Image (5).png";
+  static const String coachOneTennis = "assets/images/coach_one_tennis.svg";
+  static const String coachTwoTennis = "assets/images/coach_two_tennis.svg";
+  static const String coachThreeTennis = "assets/images/coach_three_tennis.svg";
+  static const String coachFourTennis = "assets/images/coach_four_tennis.svg";
   static const String notificationJson = "assets/images/notification.json";
   static const String loadingJson = "assets/images/loading.json";
   static const String circleCheckJson = "assets/images/circle_check.json";
@@ -23,4 +23,12 @@ class AppImages {
   static const String offerDashSvg = "assets/images/offer_dash.svg";
   static const String memberDashSvg = "assets/images/members_dash.svg";
   static const String academyDashSvg = "assets/images/academies_dash.svg";
+  static const String coachOneFootball = "assets/images/coach_one_football.png";
+  static const String coachTwoFootball = "assets/images/coach_two_football.png";
+  static const String coachThreeFootball = "assets/images/coach_three_football.png";
+  static const String coachFourFootball = "assets/images/coach_four_football.png";
+  static const String coachOneSwimming = "assets/images/coach_one_swimming.png";
+  static const String coachTwoSwimming = "assets/images/coach_two_swimming.png";
+  static const String coachThreeSwimming = "assets/images/coach_three_swimming.png";
+  static const String coachFourSwimming = "assets/images/coach_four_swimming.png";
 }

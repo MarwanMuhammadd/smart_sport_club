@@ -37,15 +37,13 @@ class DashboardStaticData {
     },
   ];
 
-  
-
   // Management Hub Cards
   static const List<Map<String, dynamic>> managementCards = [
     {
       'title': 'Trainers',
       'description':
           'Manage certifications, schedules, and performance ratings of 800+ trainers.',
-      'imageUrl': AppImages.coachOne,
+      'imageUrl': AppImages.coachOneTennis,
       'icon': Icons.fitness_center,
     },
     {

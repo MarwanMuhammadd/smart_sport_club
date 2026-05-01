@@ -6,7 +6,7 @@ class TrainersStaticData {
     {
       'name': 'Marcus Sterling',
       'role': 'Tennis Coach',
-      'image': AppImages.coachOne,
+      'image': AppImages.coachOneTennis,
       'tagColor': AppColors.tennisTag,
       'tagTextColor': AppColors.tennisText,
       'borderColor': AppColors.tennisBorder,
@@ -14,7 +14,7 @@ class TrainersStaticData {
     {
       'name': 'Elena Rodriguez',
       'role': 'Fitness Coach',
-      'image': AppImages.coachTwo,
+      'image': AppImages.coachTwoTennis,
       'tagColor': AppColors.fitnessTag,
       'tagTextColor': AppColors.fitnessText,
       'borderColor': AppColors.fitnessBorder,
@@ -22,7 +22,7 @@ class TrainersStaticData {
     {
       'name': 'Julian Vane',
       'role': 'Football Coach',
-      'image': AppImages.coachThree,
+      'image': AppImages.coachThreeTennis,
       'tagColor': AppColors.footballTag,
       'tagTextColor': AppColors.footballText,
       'borderColor': AppColors.footballBorder,
@@ -30,7 +30,7 @@ class TrainersStaticData {
     {
       'name': 'Sarah Jenkins',
       'role': 'Yoga Instructor',
-      'image': AppImages.coachFour,
+      'image': AppImages.coachFourTennis,
       'tagColor': AppColors.yogaTag,
       'tagTextColor': AppColors.yogaText,
       'borderColor': AppColors.yogaBorder,

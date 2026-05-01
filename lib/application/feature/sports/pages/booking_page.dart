@@ -10,6 +10,7 @@ import 'package:smart_sport_club/application/feature/sports/data/sports_data.dar
 import 'package:smart_sport_club/application/feature/sports/logic/sports_cubit.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/coach_selection_section.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/date_selection_section.dart';
+import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/slots_selection_section.dart';
 
 class BookingScreen extends StatelessWidget {
@@ -67,7 +68,13 @@ class BookingScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CoachSelectionSection(),
+                        CoachSelectionSection(
+                          coaches: sportsData.name == "Tennis Academy"
+                              ? tennisCoaches
+                              : sportsData.name == "Football Academy"
+                                  ? footballCoaches
+                                  : swimmingCoaches,
+                        ),
                         20.H,
                         const DateSelectionSection(),
                         20.H,

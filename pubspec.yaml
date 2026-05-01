@@ -8,12 +8,15 @@ environment:
 
 dependencies:
   carousel_slider: ^5.1.2
+  cloud_firestore: ^6.3.0
   date_picker_timeline:
     git:
       url: https://github.com/MarwanMuhammadd/DatePickerTimelineFlutter.git
       ref: dev  # الفرع اللي انت عدلت فيه
   dio: ^5.9.2
   equatable: ^2.0.8
+  firebase_auth: ^6.4.0
+  firebase_core: ^4.7.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1

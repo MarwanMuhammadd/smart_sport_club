@@ -8,7 +8,8 @@ import 'package:smart_sport_club/application/feature/sports/widgets/booking/sect
 import 'package:smart_sport_club/application/feature/sports/widgets/header_part.dart';
 
 class CoachSelectionSection extends StatelessWidget {
-  const CoachSelectionSection({super.key});
+  const CoachSelectionSection({super.key, required this.coaches});
+  final List<CoachData> coaches;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CoachSelectionSection extends StatelessWidget {
               }
 
               return CircleImage(
-                coachData: coachData,
+                coachData: coaches,
                 selectedCoachId: selectedCoachId,
                 onCoachSelected: (coach) {
                   context.read<BookingCubit>().selectCoach(coach);

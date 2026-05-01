@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "311248955563",
+    "project_id": "graduation-3881d",
+    "storage_bucket": "graduation-3881d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311248955563:android:7ac3a7eb17a6af6ef92fee",
+        "android_client_info": {
+          "package_name": "com.example.smart_sport_club"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSBgULF3z70EPqwaBS2ifc383PgH39YrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
