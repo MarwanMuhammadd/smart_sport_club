@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_sport_club/core/constant/app_images.dart';
 
 class CoachData {
@@ -6,6 +7,15 @@ class CoachData {
   final String id;
 
   CoachData({required this.name, required this.imagePath, required this.id});
+
+  factory CoachData.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>? ?? {};
+    return CoachData(
+      id: data['id'] ?? doc.id,
+      name: data['name'] ?? '',
+      imagePath: data['imageBase64'] ?? data['imageUrl'] ?? '',
+    );
+  }
 }
 
 final List<CoachData> tennisCoaches = [
@@ -28,5 +38,3 @@ final List<CoachData> swimmingCoaches = [
   CoachData(name: "Sophia", imagePath: AppImages.coachThreeSwimming, id: "s3"),
   CoachData(name: "Olivia", imagePath: AppImages.coachFourSwimming, id: "s4"),
 ];
-
-//final List<CoachData> coachData = tennisCoaches; // Default for backward compatibility if needed

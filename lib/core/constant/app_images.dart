@@ -12,10 +12,10 @@ class AppImages {
   static const String tennisAcademy = "assets/images/tennis_academy.png";
   static const String swimmingAcademy = "assets/images/swimming_academy.png";
   static const String footballAcademy = "assets/images/football_academy.png";
-  static const String coachOneTennis = "assets/images/coach_one_tennis.svg";
-  static const String coachTwoTennis = "assets/images/coach_two_tennis.svg";
-  static const String coachThreeTennis = "assets/images/coach_three_tennis.svg";
-  static const String coachFourTennis = "assets/images/coach_four_tennis.svg";
+  static const String coachOneTennis = "assets/images/Image (5).png";
+  static const String coachTwoTennis = "assets/images/Image (6).png";
+  static const String coachThreeTennis = "assets/images/Image (7).png";
+  static const String coachFourTennis = "assets/images/Image (8).png";
   static const String notificationJson = "assets/images/notification.json";
   static const String loadingJson = "assets/images/loading.json";
   static const String circleCheckJson = "assets/images/circle_check.json";

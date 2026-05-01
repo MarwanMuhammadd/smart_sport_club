@@ -69,11 +69,7 @@ class BookingScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CoachSelectionSection(
-                          coaches: sportsData.name == "Tennis Academy"
-                              ? tennisCoaches
-                              : sportsData.name == "Football Academy"
-                                  ? footballCoaches
-                                  : swimmingCoaches,
+                          academyName: sportsData.name,
                         ),
                         20.H,
                         const DateSelectionSection(),

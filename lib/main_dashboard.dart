@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/goRouter/dashboard_router.dart';
 import 'package:smart_sport_club/core/styles/theme.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_sport_club/firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const SmartSportDashboard());
 }
 

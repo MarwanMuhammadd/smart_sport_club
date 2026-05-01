@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
@@ -55,20 +56,50 @@ class CircleImage extends StatelessWidget {
                         color: AppColors.primaryGreen.withOpacity(0.1), // Light background for SVGs
                       ),
                       child: ClipOval(
-                        child: coach.imagePath.endsWith('.svg')
-                            ? Padding(
-                                padding: EdgeInsets.all(12.w), // Padding for SVG icons
-                                child: SvgPicture.asset(
-                                  coach.imagePath,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            : Image.asset(
-                                coach.imagePath,
-                                fit: BoxFit.cover,
+                        child: coach.imagePath.isEmpty
+                            ? Container(
                                 width: 60.w,
                                 height: 60.w,
-                              ),
+                                color: Colors.grey[300],
+                                child: const Icon(Icons.person, color: Colors.grey),
+                              )
+                            : coach.imagePath.startsWith('http')
+                                ? Image.network(
+                                    coach.imagePath,
+                                    fit: BoxFit.cover,
+                                    width: 60.w,
+                                    height: 60.w,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        width: 60.w,
+                                        height: 60.w,
+                                        color: Colors.grey[300],
+                                        child: const Icon(Icons.person, color: Colors.grey),
+                                      );
+                                    },
+                                  )
+                                : coach.imagePath.endsWith('.svg')
+                                    ? Padding(
+                                        padding: EdgeInsets.all(12.w),
+                                        child: SvgPicture.asset(
+                                          coach.imagePath,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      )
+                                    : Image.asset(
+                                        coach.imagePath,
+                                        fit: BoxFit.cover,
+                                        width: 60.w,
+                                        height: 60.w,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Container(
+                                            width: 60.w,
+                                            height: 60.w,
+                                            color: Colors.grey[300],
+                                            child: const Icon(Icons.person, color: Colors.grey),
+                                          );
+                                        },
+                                      ),
                       ),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/add_trainer_sheet.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/responsive.dart';
@@ -41,10 +42,10 @@ class TrainersHeader extends StatelessWidget {
                 ],
               ),
             ),
-            if (!isMobile) _buildAddButton(),
+            if (!isMobile) _buildAddButton(context),
           ],
         ),
-        if (isMobile) ...[const SizedBox(height: 16), _buildAddButton()],
+        if (isMobile) ...[const SizedBox(height: 16), _buildAddButton(context)],
         const SizedBox(height: 32),
         // Search Bar
         _buildSearchBar(context),
@@ -52,26 +53,38 @@ class TrainersHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildAddButton() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(
-        color: AppColors.primaryGreen,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.add, color: AppColors.primaryColor, size: 20),
-          const SizedBox(width: 8),
-          Text(
-            'Add New Trainer',
-            style: TextStyles.body.copyWith(
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.w700,
+  Widget _buildAddButton(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => const AddTrainerSheet(),
+        );
+      },
+
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        decoration: BoxDecoration(
+          color: AppColors.primaryGreen,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.add, color: AppColors.primaryColor, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              'Add New Trainer',
+              style: TextStyles.body.copyWith(
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
