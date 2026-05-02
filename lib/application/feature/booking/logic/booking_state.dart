@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:smart_sport_club/application/feature/booking/data/booking_model.dart';
-import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
+import 'package:smart_sport_club/core/models/trainer_model.dart';
 import 'package:smart_sport_club/application/feature/sports/data/slots_data.dart';
 
 abstract class BookingState extends Equatable {
@@ -13,7 +13,7 @@ abstract class BookingState extends Equatable {
 class BookingInitial extends BookingState {}
 
 class BookingSelectionUpdated extends BookingState {
-  final CoachData? selectedCoach;
+  final TrainerModel? selectedCoach;
   final DateTime? selectedDate;
   final SessionModel? selectedSession;
 
@@ -27,7 +27,7 @@ class BookingSelectionUpdated extends BookingState {
   List<Object?> get props => [selectedCoach, selectedDate, selectedSession];
 
   BookingSelectionUpdated copyWith({
-    CoachData? selectedCoach,
+    TrainerModel? selectedCoach,
     DateTime? selectedDate,
     SessionModel? selectedSession,
   }) {

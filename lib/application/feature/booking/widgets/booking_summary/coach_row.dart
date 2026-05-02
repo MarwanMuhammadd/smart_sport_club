@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
-
-import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
+import 'package:smart_sport_club/core/models/trainer_model.dart';
 
 class CoachRow extends StatelessWidget {
   const CoachRow({super.key, required this.coach});
-  final CoachData coach;
+  final TrainerModel coach;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,12 @@ class CoachRow extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 24.w,
-          backgroundImage: AssetImage(coach.imagePath),
+          backgroundColor: Colors.grey[300],
+          backgroundImage:
+              coach.imageUrl.isNotEmpty ? NetworkImage(coach.imageUrl) : null,
+          child: coach.imageUrl.isEmpty
+              ? const Icon(Icons.person, color: Colors.grey)
+              : null,
         ),
         SizedBox(width: 12.w),
         Column(

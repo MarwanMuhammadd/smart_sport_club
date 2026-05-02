@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
+import 'package:smart_sport_club/core/models/trainer_model.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_cubit.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_state.dart';
-import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/section_header.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/header_part.dart';
 
@@ -14,7 +14,7 @@ class CoachSelectionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Convert "Tennis Academy" to "Tennis" for DB query
+    // Convert e.g. "Tennis Academy" → "Tennis" for Firestore query
     final String queryName = academyName.replaceAll(' Academy', '');
 
     return Column(
@@ -33,23 +33,14 @@ class CoachSelectionSection extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-              List<CoachData> staticCoaches = [];
-              if (queryName == 'Tennis') {
-                staticCoaches = tennisCoaches;
-              } else if (queryName == 'Football') {
-                staticCoaches = footballCoaches;
-              } else if (queryName == 'Swimming') {
-                staticCoaches = swimmingCoaches;
+
+              if (snapshot.hasError) {
+                return const Center(child: Text('Error loading trainers'));
               }
 
-              List<CoachData> dynamicCoaches = [];
-              if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                dynamicCoaches = snapshot.data!.docs
-                    .map((doc) => CoachData.fromFirestore(doc))
-                    .toList();
-              }
-
-              final coaches = [...staticCoaches, ...dynamicCoaches];
+              final coaches = (snapshot.data?.docs ?? [])
+                  .map((doc) => TrainerModel.fromFirestore(doc))
+                  .toList();
 
               if (coaches.isEmpty) {
                 return const Center(child: Text('No trainers available'));
@@ -57,12 +48,13 @@ class CoachSelectionSection extends StatelessWidget {
 
               return BlocBuilder<BookingCubit, BookingState>(
                 buildWhen: (previous, current) =>
-                    current is BookingInitial || current is BookingSelectionUpdated,
+                    current is BookingInitial ||
+                    current is BookingSelectionUpdated,
                 builder: (context, state) {
-                  String? selectedCoachId;
-                  if (state is BookingSelectionUpdated) {
-                    selectedCoachId = state.selectedCoach?.id;
-                  }
+                  final selectedCoachId =
+                      state is BookingSelectionUpdated
+                          ? state.selectedCoach?.id
+                          : null;
 
                   return CircleImage(
                     coachData: coaches,

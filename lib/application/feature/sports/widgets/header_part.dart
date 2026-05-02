@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
-import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
+import 'package:smart_sport_club/core/models/trainer_model.dart';
 
 class CircleImage extends StatelessWidget {
   const CircleImage({
@@ -13,8 +11,8 @@ class CircleImage extends StatelessWidget {
     this.selectedCoachId,
   });
 
-  final List<CoachData> coachData;
-  final Function(CoachData)? onCoachSelected;
+  final List<TrainerModel> coachData;
+  final Function(TrainerModel)? onCoachSelected;
   final String? selectedCoachId;
 
   @override
@@ -26,17 +24,13 @@ class CircleImage extends StatelessWidget {
         itemCount: coachData.length,
         itemBuilder: (context, index) {
           final coach = coachData[index];
-          bool isSelected = selectedCoachId == coach.id;
+          final bool isSelected = selectedCoachId == coach.id;
           return Container(
             margin: EdgeInsets.only(right: 16.w),
             child: Column(
               children: [
                 InkWell(
-                  onTap: () {
-                    if (onCoachSelected != null) {
-                      onCoachSelected!(coach);
-                    }
-                  },
+                  onTap: () => onCoachSelected?.call(coach),
                   child: Container(
                     padding: EdgeInsets.all(2.w),
                     decoration: BoxDecoration(
@@ -53,57 +47,31 @@ class CircleImage extends StatelessWidget {
                       height: 60.w,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.primaryGreen.withOpacity(0.1), // Light background for SVGs
+                        color: AppColors.primaryGreen.withOpacity(0.1),
                       ),
                       child: ClipOval(
-                        child: coach.imagePath.isEmpty
+                        child: coach.imageUrl.isEmpty
                             ? Container(
+                                color: Colors.grey[300],
+                                child: const Icon(Icons.person,
+                                    color: Colors.grey),
+                              )
+                            : Image.network(
+                                coach.imageUrl,
+                                fit: BoxFit.cover,
                                 width: 60.w,
                                 height: 60.w,
-                                color: Colors.grey[300],
-                                child: const Icon(Icons.person, color: Colors.grey),
-                              )
-                            : coach.imagePath.startsWith('http')
-                                ? Image.network(
-                                    coach.imagePath,
-                                    fit: BoxFit.cover,
-                                    width: 60.w,
-                                    height: 60.w,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        width: 60.w,
-                                        height: 60.w,
-                                        color: Colors.grey[300],
-                                        child: const Icon(Icons.person, color: Colors.grey),
-                                      );
-                                    },
-                                  )
-                                : coach.imagePath.endsWith('.svg')
-                                    ? Padding(
-                                        padding: EdgeInsets.all(12.w),
-                                        child: SvgPicture.asset(
-                                          coach.imagePath,
-                                          fit: BoxFit.contain,
-                                        ),
-                                      )
-                                    : Image.asset(
-                                        coach.imagePath,
-                                        fit: BoxFit.cover,
-                                        width: 60.w,
-                                        height: 60.w,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return Container(
-                                            width: 60.w,
-                                            height: 60.w,
-                                            color: Colors.grey[300],
-                                            child: const Icon(Icons.person, color: Colors.grey),
-                                          );
-                                        },
-                                      ),
+                                errorBuilder: (_, __, ___) => Container(
+                                  color: Colors.grey[300],
+                                  child: const Icon(Icons.person,
+                                      color: Colors.grey),
+                                ),
+                              ),
                       ),
                     ),
                   ),
                 ),
+                SizedBox(height: 4.h),
                 Text(
                   coach.name,
                   style: TextStyle(

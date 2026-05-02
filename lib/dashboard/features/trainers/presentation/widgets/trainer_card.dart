@@ -3,22 +3,59 @@ import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 
 class TrainerCard extends StatelessWidget {
+  final String trainerId;
   final String name;
-  final String role;
+  final String academy;
   final String imageUrl;
-  final Color tagColor;
-  final Color tagTextColor;
-  final Color avatarBorderColor;
+  final VoidCallback? onDelete;
 
   const TrainerCard({
     super.key,
+    required this.trainerId,
     required this.name,
-    required this.role,
+    required this.academy,
     required this.imageUrl,
-    this.tagColor = const Color(0xFFEFF6FF),
-    this.tagTextColor = const Color(0xFF1D4ED8),
-    this.avatarBorderColor = const Color(0x191AD55F),
+    this.onDelete,
   });
+
+  Color get _tagColor {
+    switch (academy.toLowerCase()) {
+      case 'tennis':
+        return const Color(0xFFEFF6FF);
+      case 'football':
+        return const Color(0xFFF0FDF4);
+      case 'swimming':
+        return const Color(0xFFF0F9FF);
+      default:
+        return const Color(0xFFF4F4F5);
+    }
+  }
+
+  Color get _tagTextColor {
+    switch (academy.toLowerCase()) {
+      case 'tennis':
+        return const Color(0xFF1D4ED8);
+      case 'football':
+        return const Color(0xFF15803D);
+      case 'swimming':
+        return const Color(0xFF0369A1);
+      default:
+        return const Color(0xFF71717A);
+    }
+  }
+
+  Color get _borderColor {
+    switch (academy.toLowerCase()) {
+      case 'tennis':
+        return const Color(0x191AD55F);
+      case 'football':
+        return const Color(0x1922C55E);
+      case 'swimming':
+        return const Color(0x190EA5E9);
+      default:
+        return const Color(0xFFE2E8F0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +78,24 @@ class TrainerCard extends StatelessWidget {
               height: 96,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: avatarBorderColor, width: 4),
-                image: DecorationImage(
-                  image: AssetImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
+                border: Border.all(color: _borderColor, width: 4),
+              ),
+              child: ClipOval(
+                child: imageUrl.isNotEmpty
+                    ? Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          color: Colors.grey[200],
+                          child: const Icon(Icons.person,
+                              size: 48, color: Colors.grey),
+                        ),
+                      )
+                    : Container(
+                        color: Colors.grey[200],
+                        child: const Icon(Icons.person,
+                            size: 48, color: Colors.grey),
+                      ),
               ),
             ),
             const SizedBox(height: 16),
@@ -59,46 +109,47 @@ class TrainerCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            // Role Tag
+            // Academy Tag
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: tagColor,
+                color: _tagColor,
                 borderRadius: BorderRadius.circular(9999),
               ),
               child: Text(
-                role,
+                academy,
                 textAlign: TextAlign.center,
                 style: TextStyles.caption2.copyWith(
-                  color: tagTextColor,
+                  color: _tagTextColor,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            // Divider
             const Divider(color: Color(0xFFF4F4F5), height: 1),
             const SizedBox(height: 16),
-            // Actions/Stats Placeholder
+            // Delete Button
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [_buildActionButton(Icons.delete)],
+              children: [
+                GestureDetector(
+                  onTap: onDelete,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF1F1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xFFFFCDD2)),
+                    ),
+                    child:
+                        const Icon(Icons.delete, size: 18, color: AppColors.errorColor),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildActionButton(IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Icon(icon, size: 18, color: AppColors.errorColor),
     );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/application/feature/booking/data/booking_model.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_state.dart';
-import 'package:smart_sport_club/application/feature/sports/data/coach_data.dart';
+import 'package:smart_sport_club/core/models/trainer_model.dart';
 import 'package:smart_sport_club/application/feature/sports/data/slots_data.dart';
 
 class BookingCubit extends Cubit<BookingState> {
   BookingCubit() : super(BookingInitial());
 
-  void selectCoach(CoachData coach) {
+  void selectCoach(TrainerModel coach) {
     if (state is BookingSelectionUpdated) {
       emit((state as BookingSelectionUpdated).copyWith(selectedCoach: coach));
     } else {
