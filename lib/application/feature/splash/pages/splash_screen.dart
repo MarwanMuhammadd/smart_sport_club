@@ -40,9 +40,9 @@ class _SplashScreenState extends State<SplashScreen>
       if (mounted) {
         String Token = SharedPref.getToken();
         if (Token.isNotEmpty) {
-          context.go(AppRoutes.welcome);
-        } else {
           context.go(AppRoutes.mainApp);
+        } else {
+          context.go(AppRoutes.welcome);
         }
       }
     });

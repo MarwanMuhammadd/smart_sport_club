@@ -6,7 +6,7 @@
       "type": "dart",
       "request": "launch",
       "program": "lib/main_app.dart",
-      "deviceId": "emulator-5554"
+      "deviceId": "RZ8N30XVQCA"
     },
     {
       "name": "Run Dashboard (Chrome)",
