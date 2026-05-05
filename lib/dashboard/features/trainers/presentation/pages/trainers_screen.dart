@@ -4,22 +4,19 @@ import 'package:smart_sport_club/core/models/trainer_model.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/widgets/responsive.dart';
 import 'package:smart_sport_club/dashboard/features/home_dashboard/presentation/widgets/dashboard_layout.dart';
+import 'package:smart_sport_club/dashboard/features/trainers/logic/trainers_cubit.dart';
+import 'package:smart_sport_club/dashboard/features/trainers/logic/trainers_state.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/delete_confirm_sheet.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/trainers_grid.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/trainers_header.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/trainers_stats.dart';
 
-class TrainersScreen extends StatefulWidget {
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class TrainersScreen extends StatelessWidget {
   const TrainersScreen({super.key});
 
-  @override
-  State<TrainersScreen> createState() => _TrainersScreenState();
-}
-
-class _TrainersScreenState extends State<TrainersScreen> {
-  String searchQuery = '';
-
-  Future<void> _confirmDelete(TrainerModel trainer) async {
+  Future<void> _confirmDelete(BuildContext context, TrainerModel trainer) async {
     await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -44,48 +41,56 @@ class _TrainersScreenState extends State<TrainersScreen> {
             : null,
         title: const Text("Trainers"),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('trainers').snapshots(),
-        builder: (context, snapshot) {
-          final allTrainers = (snapshot.data?.docs ?? [])
-              .map((doc) => TrainerModel.fromFirestore(doc))
-              .toList();
-
-          final filteredTrainers = searchQuery.isEmpty
-              ? allTrainers
-              : allTrainers
-                  .where((t) => t.name
-                      .toLowerCase()
-                      .contains(searchQuery.toLowerCase()))
-                  .toList();
-
+      body: BlocBuilder<TrainersCubit, TrainersState>(
+        builder: (context, state) {
+          List<TrainerModel> allTrainers = [];
+          List<TrainerModel> filteredTrainers = [];
+          String searchQuery = '';
+          bool isLoading = state is TrainersLoading;
+    
+          if (state is TrainersLoaded) {
+            allTrainers = state.allTrainers;
+            filteredTrainers = state.filteredTrainers;
+            searchQuery = state.searchQuery;
+          }
+    
           return ListView(
             padding: EdgeInsets.all(isMobile ? 16 : 48),
             children: [
               TrainersHeader(
                 onSearchChanged: (value) =>
-                    setState(() => searchQuery = value),
+                    context.read<TrainersCubit>().searchTrainers(value),
               ),
               const SizedBox(height: 32),
               TrainersStats(totalTrainers: allTrainers.length),
               const SizedBox(height: 32),
-              if (snapshot.connectionState == ConnectionState.waiting &&
-                  allTrainers.isEmpty)
-                const Center(child: CircularProgressIndicator())
+              
+              if (isLoading && allTrainers.isEmpty)
+                const Center(child: CircularProgressIndicator(color: AppColors.primaryGreen))
+              else if (state is TrainersError)
+                Center(child: Text(state.message))
               else if (filteredTrainers.isEmpty)
-                const Center(
+                Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 48),
-                    child: Text(
-                      'No trainers found.',
-                      style: TextStyle(color: Colors.grey),
+                    padding: const EdgeInsets.symmetric(vertical: 48),
+                    child: Column(
+                      children: [
+                        const Icon(Icons.search_off, size: 48, color: Colors.grey),
+                        const SizedBox(height: 16),
+                        Text(
+                          searchQuery.isEmpty 
+                              ? 'No trainers found.' 
+                              : 'No results for "$searchQuery"',
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ),
                 )
               else
                 TrainersGrid(
                   trainers: filteredTrainers,
-                  onDelete: _confirmDelete,
+                  onDelete: (trainer) => _confirmDelete(context, trainer),
                 ),
             ],
           );

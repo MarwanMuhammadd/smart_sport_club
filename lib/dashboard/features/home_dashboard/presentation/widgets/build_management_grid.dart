@@ -37,6 +37,8 @@ class BuildManagementGrid extends StatelessWidget {
                 onViewDetails: () {
                   if (card['title'] == 'Trainers') {
                     context.go(AppRoutes.trainers);
+                  } else if (card['title'] == 'Academies') {
+                    context.go(AppRoutes.academies);
                   }
                 },
               ),
