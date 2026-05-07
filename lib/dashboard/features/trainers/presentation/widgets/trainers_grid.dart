@@ -41,7 +41,7 @@ class TrainersGrid extends StatelessWidget {
             return TrainerCard(
               trainerId: trainer.id,
               name: trainer.name,
-              academy: trainer.academy,
+              academy: trainer.academyName,
               imageUrl: trainer.imageUrl,
               onDelete: () => onDelete(trainer),
             );

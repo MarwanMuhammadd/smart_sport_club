@@ -4,7 +4,7 @@ import '../../../../core/styles/text_styles.dart';
 import '../../../../core/widgets/main_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../logic/academies_cubit.dart';
-import '../data/academy_model.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'add_academy_bottom_sheet.dart';
 
 class AcademiesHeader extends StatelessWidget {

@@ -105,16 +105,16 @@ class AdminAcademiesPage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final academy = state.filteredAcademies[index];
                           return AcademyCard(
+                            academyId: academy.academyId,
                             name: academy.name,
                             category: academy.category,
                             isActive: academy.isActive,
-                            trainerCount: academy.trainerCount,
                             imageUrl: academy.imageUrl,
                             onDelete: () async {
                               final bool? confirm = await AcademyDeleteDialog.show(context, academy.name);
 
                               if (confirm == true && context.mounted) {
-                                context.read<AcademiesCubit>().deleteAcademy(academy.id);
+                                context.read<AcademiesCubit>().deleteAcademy(academy.academyId);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text('${academy.name} deleted'),

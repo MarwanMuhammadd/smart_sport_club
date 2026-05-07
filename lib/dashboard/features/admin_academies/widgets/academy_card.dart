@@ -1,21 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/text_styles.dart';
 
 class AcademyCard extends StatelessWidget {
+  final String academyId;
   final String name;
   final String category;
   final bool isActive;
-  final int trainerCount;
   final String imageUrl;
   final VoidCallback? onDelete;
 
   const AcademyCard({
     super.key,
+    required this.academyId,
     required this.name,
     required this.category,
     required this.isActive,
-    required this.trainerCount,
     required this.imageUrl,
     this.onDelete,
   });
@@ -101,30 +102,42 @@ class AcademyCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.dashboardBackground,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.people_alt_rounded,
-                        size: 16,
-                        color: AppColors.primaryGreen,
+                
+                // Realtime Trainers Count
+                StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('trainers')
+                      .where('academyId', isEqualTo: academyId)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    final count = snapshot.hasData ? snapshot.data!.docs.length : 0;
+                    
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: AppColors.dashboardBackground,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '$trainerCount Trainers',
-                        style: TextStyles.caption1.copyWith(
-                          color: AppColors.secondaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.people_alt_rounded,
+                            size: 16,
+                            color: AppColors.primaryGreen,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '$count Trainers',
+                            style: TextStyles.caption1.copyWith(
+                              color: AppColors.secondaryColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  }
                 ),
               ],
             ),

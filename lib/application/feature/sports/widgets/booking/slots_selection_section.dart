@@ -6,13 +6,14 @@ import 'package:smart_sport_club/application/feature/booking/logic/booking_state
 import 'package:smart_sport_club/application/feature/sports/data/slots_data.dart';
 import 'package:smart_sport_club/application/feature/sports/logic/sports_cubit.dart';
 import 'package:smart_sport_club/application/feature/sports/logic/sports_state.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/available_slots.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/section_header.dart';
 
 class SlotsSelectionSection extends StatelessWidget {
-  final String academyName;
+  final Academy academy;
 
-  const SlotsSelectionSection({super.key, required this.academyName});
+  const SlotsSelectionSection({super.key, required this.academy});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class SlotsSelectionSection extends StatelessWidget {
                     context.read<BookingCubit>().selectSession(session);
                   },
                   onBookNow: () {
-                    context.read<BookingCubit>().bookNow(academyName);
+                    context.read<BookingCubit>().bookNow(academy);
                   },
                 );
               },

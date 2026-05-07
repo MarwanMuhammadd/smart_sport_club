@@ -27,8 +27,15 @@ class DashboardRouter {
       ),
       GoRoute(
         path: AppRoutes.trainers,
-        builder: (context, state) => BlocProvider(
-          create: (context) => TrainersCubit()..subscribeToTrainers(),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => TrainersCubit()..subscribeToTrainers(),
+            ),
+            BlocProvider(
+              create: (context) => AcademiesCubit()..loadAcademies(),
+            ),
+          ],
           child: const TrainersScreen(),
         ),
       ),

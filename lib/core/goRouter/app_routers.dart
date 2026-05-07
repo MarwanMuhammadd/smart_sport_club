@@ -21,7 +21,7 @@ import 'package:smart_sport_club/application/feature/payment/renew_membership/pa
 import 'package:smart_sport_club/application/feature/profile/edit_profile/logic/edit_profile_cubit.dart';
 import 'package:smart_sport_club/application/feature/profile/edit_profile/pages/edit_profile.dart';
 import 'package:smart_sport_club/application/feature/splash/pages/splash_screen.dart';
-import 'package:smart_sport_club/application/feature/sports/data/sports_data.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/sports/pages/booking_page.dart';
 import 'package:smart_sport_club/application/main_screen.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
@@ -91,8 +91,8 @@ class AppRouters {
       GoRoute(
         path: AppRoutes.booking,
         builder: (context, state) {
-          final sportsData = state.extra as SportsData;
-          return BookingScreen(sportsData: sportsData);
+          final academy = state.extra as Academy;
+          return BookingScreen(academy: academy);
         },
       ),
       GoRoute(

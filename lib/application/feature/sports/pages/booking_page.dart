@@ -3,19 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_cubit.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_state.dart';
-import 'package:smart_sport_club/application/feature/sports/data/sports_data.dart';
 import 'package:smart_sport_club/application/feature/sports/logic/sports_cubit.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/coach_selection_section.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/date_selection_section.dart';
-
 import 'package:smart_sport_club/application/feature/sports/widgets/booking/slots_selection_section.dart';
 
 class BookingScreen extends StatelessWidget {
-  const BookingScreen({super.key, required this.sportsData});
-  final SportsData sportsData;
+  const BookingScreen({super.key, required this.academy});
+  final Academy academy;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class BookingScreen extends StatelessWidget {
               },
             ),
             title: Text(
-              sportsData.name,
+              academy.name,
               style: TextStyles.title.copyWith(
                 fontWeight: FontWeight.w800,
                 fontSize: 20.sp,
@@ -69,12 +68,12 @@ class BookingScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CoachSelectionSection(
-                          academyName: sportsData.name,
+                          academyId: academy.academyId,
                         ),
                         20.H,
                         const DateSelectionSection(),
                         20.H,
-                        SlotsSelectionSection(academyName: sportsData.name),
+                        SlotsSelectionSection(academy: academy),
                       ],
                     ),
                   ),

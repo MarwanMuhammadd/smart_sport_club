@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/custom_text_form_fields.dart';
+
 
 class TrainerFormFields extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController idController;
   final TextEditingController imageUrlController;
-  final String? selectedAcademy;
-  final List<String> academies;
-  final ValueChanged<String?> onAcademyChanged;
+  final Academy? selectedAcademy;
+  final List<Academy> academies;
+  final ValueChanged<Academy?> onAcademyChanged;
 
   const TrainerFormFields({
     super.key,
@@ -45,13 +47,13 @@ class TrainerFormFields extends StatelessWidget {
         ),
         const SizedBox(height: 16),
 
-        // Academy Type
+        // Select Academy
         Text(
-          'Academy Type',
+          'Select Academy',
           style: TextStyles.body.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
-        DropdownButtonFormField<String>(
+        DropdownButtonFormField<Academy>(
           value: selectedAcademy,
           decoration: InputDecoration(
             filled: true,
@@ -66,10 +68,10 @@ class TrainerFormFields extends StatelessWidget {
             'Select Academy',
             style: TextStyles.caption1.copyWith(color: AppColors.blackColor),
           ),
-          items: academies.map((String academy) {
-            return DropdownMenuItem<String>(
+          items: academies.map((Academy academy) {
+            return DropdownMenuItem<Academy>(
               value: academy,
-              child: Text(academy),
+              child: Text(academy.name),
             );
           }).toList(),
           onChanged: onAcademyChanged,

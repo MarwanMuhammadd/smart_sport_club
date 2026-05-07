@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../data/academy_model.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 
 abstract class AcademiesState extends Equatable {
   const AcademiesState();

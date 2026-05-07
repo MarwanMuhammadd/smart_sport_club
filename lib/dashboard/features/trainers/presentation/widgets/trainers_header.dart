@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/add_trainer_sheet.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/responsive.dart';
+import 'package:smart_sport_club/dashboard/features/admin_academies/logic/academies_cubit.dart';
 
 class TrainersHeader extends StatelessWidget {
   final Function(String) onSearchChanged;
@@ -56,11 +58,15 @@ class TrainersHeader extends StatelessWidget {
   Widget _buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {
+        final academiesCubit = context.read<AcademiesCubit>();
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (context) => const AddTrainerSheet(),
+          builder: (context) => BlocProvider.value(
+            value: academiesCubit,
+            child: const AddTrainerSheet(),
+          ),
         );
       },
 

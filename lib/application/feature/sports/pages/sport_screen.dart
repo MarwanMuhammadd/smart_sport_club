@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/application/feature/sports/data/sports_data.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/academies.dart';
 
 class SportsScreen extends StatefulWidget {
@@ -12,21 +13,7 @@ class SportsScreen extends StatefulWidget {
 
 class _SportsScreenState extends State<SportsScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<SportsData> _filteredSportData = sportData;
-
-  void _filterSports(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        _filteredSportData = sportData;
-      } else {
-        _filteredSportData = sportData
-            .where(
-              (sport) => sport.name.toLowerCase().contains(query.toLowerCase()),
-            )
-            .toList();
-      }
-    });
-  }
+  String _searchQuery = '';
 
   @override
   void dispose() {
@@ -41,10 +28,14 @@ class _SportsScreenState extends State<SportsScreen> {
 
       /// Top Bar
       appBar: AppBar(
-        leading: Icon(Icons.sports_soccer, color: Colors.green, size: 24.w),
+        leading: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: Icon(Icons.sports_soccer, color: Colors.green, size: 24.w),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
         elevation: 0,
+        backgroundColor: const Color(0xff0A1A12),
         title: Text(
           "Elite Sports",
           style: TextStyle(
@@ -68,7 +59,11 @@ class _SportsScreenState extends State<SportsScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: TextFormField(
                   controller: _searchController,
-                  onChanged: _filterSports,
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value.toLowerCase();
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: "Search sports academies",
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
@@ -110,7 +105,35 @@ class _SportsScreenState extends State<SportsScreen> {
 
               SizedBox(height: 16.h),
 
-              academyCard(sportData: _filteredSportData),
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('academies').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text('No academies found.'));
+                  }
+
+                  final academies = snapshot.data!.docs.map((doc) {
+                    return Academy.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+                  }).where((academy) {
+                    return academy.name.toLowerCase().contains(_searchQuery) ||
+                           academy.category.toLowerCase().contains(_searchQuery);
+                  }).toList();
+
+                  if (academies.isEmpty && _searchQuery.isNotEmpty) {
+                    return const Center(child: Text('No matching academies found.'));
+                  }
+
+                  return academyCard(academies: academies);
+                },
+              ),
 
               SizedBox(height: 30.h),
             ],

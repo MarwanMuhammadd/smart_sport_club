@@ -9,14 +9,11 @@ import 'package:smart_sport_club/application/feature/sports/widgets/booking/sect
 import 'package:smart_sport_club/application/feature/sports/widgets/header_part.dart';
 
 class CoachSelectionSection extends StatelessWidget {
-  const CoachSelectionSection({super.key, required this.academyName});
-  final String academyName;
+  const CoachSelectionSection({super.key, required this.academyId});
+  final String academyId;
 
   @override
   Widget build(BuildContext context) {
-    // Convert e.g. "Tennis Academy" → "Tennis" for Firestore query
-    final String queryName = academyName.replaceAll(' Academy', '');
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,7 +24,7 @@ class CoachSelectionSection extends StatelessWidget {
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('trainers')
-                .where('academy', isEqualTo: queryName)
+                .where('academyId', isEqualTo: academyId)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

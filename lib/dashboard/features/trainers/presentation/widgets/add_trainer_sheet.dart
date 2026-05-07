@@ -2,11 +2,15 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:smart_sport_club/core/funcations/size_config.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/trainer_form_fields.dart';
+import 'package:smart_sport_club/dashboard/features/admin_academies/logic/academies_cubit.dart';
+import 'package:smart_sport_club/dashboard/features/admin_academies/logic/academies_state.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 
 class AddTrainerSheet extends StatefulWidget {
   const AddTrainerSheet({super.key});
@@ -21,16 +25,14 @@ class _AddTrainerSheetState extends State<AddTrainerSheet> {
   final _idController = TextEditingController();
   final _imageUrlController = TextEditingController();
 
-  String? _selectedAcademy;
-  final List<String> _academies = ['Tennis', 'Football', 'Swimming'];
-
+  Academy? _selectedAcademy;
   bool _isLoading = false;
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       if (_selectedAcademy == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select an academy type')),
+          const SnackBar(content: Text('Please select an academy')),
         );
         return;
       }
@@ -43,10 +45,10 @@ class _AddTrainerSheetState extends State<AddTrainerSheet> {
         // Step 1: Save data to Firestore directly using the provided URL
         await FirebaseFirestore.instance.collection('trainers').add({
           'name': _nameController.text.trim(),
-          'id': _idController.text.trim(),
-          'academy': _selectedAcademy,
+          'academyId': _selectedAcademy!.academyId,
+          'academyName': _selectedAcademy!.name,
           'imageUrl': _imageUrlController.text.trim(),
-          'createdAt': DateTime.now(),
+          'createdAt': FieldValue.serverTimestamp(),
         });
 
         if (mounted) {
@@ -61,9 +63,7 @@ class _AddTrainerSheetState extends State<AddTrainerSheet> {
               duration: const Duration(seconds: 5),
             ),
           );
-          
         }
-        
       } finally {
         if (mounted) {
           setState(() {
@@ -78,6 +78,7 @@ class _AddTrainerSheetState extends State<AddTrainerSheet> {
   void dispose() {
     _nameController.dispose();
     _idController.dispose();
+    _imageUrlController.dispose();
     super.dispose();
   }
 
@@ -135,16 +136,25 @@ class _AddTrainerSheetState extends State<AddTrainerSheet> {
                 const SizedBox(height: 24),
 
                 // Form Fields Component
-                TrainerFormFields(
-                  nameController: _nameController,
-                  idController: _idController,
-                  imageUrlController: _imageUrlController,
-                  selectedAcademy: _selectedAcademy,
-                  academies: _academies,
-                  onAcademyChanged: (String? newValue) {
-                    setState(() {
-                      _selectedAcademy = newValue;
-                    });
+                BlocBuilder<AcademiesCubit, AcademiesState>(
+                  builder: (context, state) {
+                    List<Academy> academies = [];
+                    if (state is AcademiesLoaded) {
+                      academies = state.allAcademies;
+                    }
+                    
+                    return TrainerFormFields(
+                      nameController: _nameController,
+                      idController: _idController,
+                      imageUrlController: _imageUrlController,
+                      selectedAcademy: _selectedAcademy,
+                      academies: academies,
+                      onAcademyChanged: (Academy? newValue) {
+                        setState(() {
+                          _selectedAcademy = newValue;
+                        });
+                      },
+                    );
                   },
                 ),
                 const SizedBox(height: 32),

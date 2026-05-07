@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
-import 'package:smart_sport_club/application/feature/sports/data/sports_data.dart';
-import 'package:smart_sport_club/application/feature/sports/pages/booking_page.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 
 Widget academyCard({
-  //required String image,
-  required final List<SportsData> sportData,
+  required final List<Academy> academies,
 }) {
   return ListView.builder(
     shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-    itemCount: sportData.length,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: academies.length,
     itemBuilder: (context, index) {
+      final academy = academies[index];
       return InkWell(
         onTap: () {
-          context.push(AppRoutes.booking, extra: sportData[index]);
+          context.push(AppRoutes.booking, extra: academy);
         },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -25,7 +23,9 @@ Widget academyCard({
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.w),
             image: DecorationImage(
-              image: AssetImage(sportData[index].imagePath),
+              image: academy.imageUrl.startsWith('http')
+                  ? NetworkImage(academy.imageUrl)
+                  : AssetImage(academy.imageUrl) as ImageProvider,
               fit: BoxFit.cover,
             ),
           ),
@@ -44,11 +44,19 @@ Widget academyCard({
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  sportData[index].name,
+                  academy.name,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  academy.category,
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(height: 6.h),

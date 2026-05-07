@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/booking/data/booking_model.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_state.dart';
 import 'package:smart_sport_club/core/models/trainer_model.dart';
@@ -43,7 +44,7 @@ class BookingCubit extends Cubit<BookingState> {
     }
   }
 
-  void bookNow(String academyName) {
+  void bookNow(Academy academy) {
     if (state is BookingSelectionUpdated) {
       final selection = state as BookingSelectionUpdated;
 
@@ -70,7 +71,7 @@ class BookingCubit extends Cubit<BookingState> {
         );
       } else {
         final booking = BookingModel(
-          academyName: academyName,
+          academy: academy,
           coach: selection.selectedCoach!,
           date: selection.selectedDate!,
           session: selection.selectedSession!,
