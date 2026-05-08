@@ -4,7 +4,7 @@ import 'package:smart_sport_club/core/models/academy_model.dart';
 class MockAcademiesData {
   static final List<Academy> academies = [
     const Academy(
-      academyId: '1',
+      academyId:  '1',
       name: 'Tennis Academy',
       category: 'TENNIS',
       isActive: true,
