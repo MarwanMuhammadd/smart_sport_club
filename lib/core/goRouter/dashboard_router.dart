@@ -7,6 +7,7 @@ import 'package:smart_sport_club/dashboard/features/auth/presentation/pages/admi
 import 'package:smart_sport_club/dashboard/features/home_dashboard/presentation/pages/home_dashboard_page.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/dashboard/features/members/presentation/pages/members_page.dart';
+import 'package:smart_sport_club/dashboard/features/members/logic/members_cubit.dart';
 import 'package:smart_sport_club/dashboard/features/splash/presentation/dashborad_spash.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/logic/trainers_cubit.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/pages/trainers_screen.dart';
@@ -52,7 +53,10 @@ class DashboardRouter {
       ),
       GoRoute(
         path: AppRoutes.members,
-        builder: (context, state) => const MembersPage(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => MembersCubit()..subscribeToMembers(),
+          child: const MembersPage(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.offers,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/funcations/size_config.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
@@ -6,7 +7,10 @@ import 'package:smart_sport_club/core/widgets/responsive.dart';
 import 'package:smart_sport_club/core/widgets/academies_header.dart';
 import 'package:smart_sport_club/core/widgets/academies_search_bar.dart';
 import 'package:smart_sport_club/dashboard/features/home_dashboard/presentation/widgets/dashboard_layout.dart';
+import 'package:smart_sport_club/dashboard/features/members/logic/members_cubit.dart';
+import 'package:smart_sport_club/dashboard/features/members/logic/members_state.dart';
 import '../widgets/member_card.dart';
+
 
 class MembersPage extends StatelessWidget {
   const MembersPage({super.key});
@@ -60,22 +64,61 @@ class MembersPage extends StatelessWidget {
                 AcademiesSearchBar(
                   hintText: 'Search members by name or email...',
                   onChanged: (value) {
-                    // UI only for now - no functionality
+                    context.read<MembersCubit>().searchMembers(value);
                   },
                 ),
                 const SizedBox(height: 32),
 
                 // 3. Members List
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                  separatorBuilder: (context, index) => const SizedBox(height: 16),
-                  itemBuilder: (context, index) {
-                    return MemberCard(
-                      name: 'Member ${index + 1}',
-                      email: 'member${index + 1}@example.com',
-                    );
+                BlocBuilder<MembersCubit, MembersState>(
+                  builder: (context, state) {
+                    if (state is MembersLoading || state is MembersInitial) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(32.0),
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryGreen,
+                          ),
+                        ),
+                      );
+                    } else if (state is MembersError) {
+                      return Center(
+                        child: Text(
+                          state.message,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      );
+                    } else if (state is MembersLoaded) {
+                      final members = state.filteredMembers;
+                      
+                      if (members.isEmpty) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(32.0),
+                            child: Text(
+                              "No members found.",
+                              style: TextStyle(color: AppColors.accentGrey),
+                            ),
+                          ),
+                        );
+                      }
+
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: members.length,
+                        separatorBuilder: (context, index) => const SizedBox(height: 16),
+                        itemBuilder: (context, index) {
+                          final member = members[index];
+                          return MemberCard(
+                            name: member.name,
+                            email: member.email,
+                            // Assuming all registered users are active by default for now
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox();
                   },
                 ),
               ],

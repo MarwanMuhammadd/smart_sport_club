@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/models/trainer_model.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';

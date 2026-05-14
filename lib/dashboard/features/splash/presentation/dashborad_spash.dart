@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/widgets/responsive.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/funcations/size_config.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';

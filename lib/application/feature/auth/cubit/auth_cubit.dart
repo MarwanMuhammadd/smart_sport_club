@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_sport_club/application/feature/auth/cubit/auth_state.dart';
 import 'package:smart_sport_club/application/feature/auth/data/model/params/auth_login_params.dart';
 import 'package:smart_sport_club/application/feature/auth/data/model/params/auth_register_params.dart';
@@ -28,6 +29,15 @@ class AuthCubit extends Cubit<AuthState> {
     );
     var result = await AuthRepo.register(params);
     if (result.response != null) {
+      try {
+        await FirebaseFirestore.instance.collection('users').add({
+          'name': params.fullName,
+          'email': params.email,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+      } catch (e) {
+        // ignore errors to not block the flow
+      }
       emit(AuthLoadedState());
     } else {
       emit(AuthErrorState(massage: result.error ?? "something wrong"));
