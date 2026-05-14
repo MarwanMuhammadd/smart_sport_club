@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/widgets/responsive.dart';
 import '../widgets/academy_card.dart';
-import '../widgets/academies_header.dart';
-import '../widgets/academies_search_bar.dart';
+import 'package:smart_sport_club/core/widgets/academies_header.dart';
+import 'package:smart_sport_club/core/widgets/academies_search_bar.dart';
 import '../widgets/academy_delete_dialog.dart';
 import '../../home_dashboard/presentation/widgets/dashboard_layout.dart';
 import '../../../../core/funcations/size_config.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../logic/academies_cubit.dart';
 import '../logic/academies_state.dart';
+import 'package:smart_sport_club/core/models/academy_model.dart';
+import '../widgets/add_academy_bottom_sheet.dart';
 
 class AdminAcademiesPage extends StatelessWidget {
   const AdminAcademiesPage({super.key});
@@ -50,11 +52,35 @@ class AdminAcademiesPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header
-                const AcademiesHeader(),
+                AcademiesHeader(
+                  onButtonPressed: () async {
+                    final result = await showModalBottomSheet<Academy>(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const AddAcademyBottomSheet(),
+                    );
+
+                    if (result != null && context.mounted) {
+                      context.read<AcademiesCubit>().addAcademy(result);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${result.name} added successfully!'),
+                          backgroundColor: AppColors.primaryGreen,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    }
+                  },
+                ),
                 const SizedBox(height: 32),
                 
                 // Search Bar
-                const AcademiesSearchBar(),
+                AcademiesSearchBar(
+                  onChanged: (value) {
+                    context.read<AcademiesCubit>().searchAcademies(value);
+                  },
+                ),
                 const SizedBox(height: 32),
                 
                 // Academies Grid

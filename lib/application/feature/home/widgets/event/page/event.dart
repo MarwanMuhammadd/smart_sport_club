@@ -1,21 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
+import '../data/event_model.dart';
 
 class LiveEventCard extends StatefulWidget {
-  const LiveEventCard({super.key});
+  final EventModel event;
+
+  const LiveEventCard({super.key, required this.event});
 
   @override
   State<LiveEventCard> createState() => _LiveEventCardState();
 }
 
 class _LiveEventCardState extends State<LiveEventCard> {
-  // 1. تحديد ميعاد الحفلة (مثلاً بعد يومين من دلوقتي)
-  DateTime eventDate = DateTime.now().add(
-    const Duration(days: 12, hours: 8, minutes: 45),
-  );
   late Timer _timer;
   Duration _duration = const Duration();
 
@@ -25,15 +22,27 @@ class _LiveEventCardState extends State<LiveEventCard> {
     _startTimer();
   }
 
-  // 2. ميثود تشغيل التايمر كل ثانية
+  // Update timer if the event data changes (e.g., eventDate)
+  @override
+  void didUpdateWidget(LiveEventCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.event.eventDate != widget.event.eventDate) {
+      _startTimer();
+    }
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      
       final now = DateTime.now();
       setState(() {
-        _duration = eventDate.difference(now);
+        _duration = widget.event.eventDate.difference(now);
       });
 
-      // لو الوقت خلص نوقف التايمر
       if (_duration.isNegative) {
         _timer.cancel();
       }
@@ -42,13 +51,12 @@ class _LiveEventCardState extends State<LiveEventCard> {
 
   @override
   void dispose() {
-    _timer.cancel(); // مهم جداً عشان ما يستهلكش رامات في الخلفية
+    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // استخراج القيم من الـ duration
     String days = _duration.inDays.toString().padLeft(2, '0');
     String hours = (_duration.inHours % 24).toString().padLeft(2, '0');
     String minutes = (_duration.inMinutes % 60).toString().padLeft(2, '0');
@@ -70,14 +78,19 @@ class _LiveEventCardState extends State<LiveEventCard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // الجزء اللي فوق (الصورة)
+              // Event Image
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-                child: Image.asset(
-                  AppImages.carouselTwo,
+                child: Image.network(
+                  widget.event.imageUrl,
                   height: 180.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 180.h,
+                    color: Colors.grey[800],
+                    child: const Icon(Icons.broken_image, color: Colors.white),
+                  ),
                 ),
               ),
 
@@ -87,7 +100,7 @@ class _LiveEventCardState extends State<LiveEventCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Annual Gala Dinner 2024',
+                      widget.event.title,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22.sp,
@@ -96,15 +109,17 @@ class _LiveEventCardState extends State<LiveEventCard> {
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      'Grand Ballroom, Smart Club Main Wing',
+                      widget.event.description,
                       style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 25.h),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // العداد الشغال
+                        // Countdown Timer
                         Row(
                           children: [
                             _buildTimeColumn(days, 'DAYS'),
@@ -115,9 +130,9 @@ class _LiveEventCardState extends State<LiveEventCard> {
                           ],
                         ),
 
-                        // Button
+                        // Join Button
                         ElevatedButton(
-                          onPressed: () => print("Joined!"),
+                          onPressed: () => print("Joined: ${widget.event.title}"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF1ED760),
                             shape: RoundedRectangleBorder(
@@ -153,7 +168,7 @@ class _LiveEventCardState extends State<LiveEventCard> {
     return Column(
       children: [
         Text(
-          value,
+          _duration.isNegative ? "00" : value,
           style: TextStyle(
             color: Colors.white,
             fontSize: 22.sp,

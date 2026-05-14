@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/styles/app_colors.dart';
-import '../../../../core/styles/text_styles.dart';
-import '../logic/academies_cubit.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
+import 'package:smart_sport_club/core/styles/text_styles.dart';
 
 class AcademiesSearchBar extends StatelessWidget {
-  const AcademiesSearchBar({super.key});
+  final ValueChanged<String>? onChanged;
+  final String hintText;
+
+  const AcademiesSearchBar({
+    super.key,
+    this.onChanged,
+    this.hintText = 'Search by academy name',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +43,9 @@ class AcademiesSearchBar extends StatelessWidget {
           ),
         ),
         child: TextField(
-          onChanged: (value) {
-            context.read<AcademiesCubit>().searchAcademies(value);
-          },
+          onChanged: onChanged,
           decoration: InputDecoration(
-            hintText: 'Search by academy name',
+            hintText: hintText,
             hintStyle: TextStyles.caption1.copyWith(
               color: const Color(0xFF6B7280),
               fontWeight: FontWeight.w400,
