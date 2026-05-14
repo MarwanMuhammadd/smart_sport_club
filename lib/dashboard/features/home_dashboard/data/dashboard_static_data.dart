@@ -31,7 +31,7 @@ class DashboardStaticData {
       'route': AppRoutes.offers,
     },
     {
-      'title': 'Requests',
+      'title': 'Activity Center',
       'icon': Icons.notifications_none_outlined,
       'route': AppRoutes.requests,
     },

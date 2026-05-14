@@ -27,7 +27,6 @@ class PaymentSuccessful extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
         centerTitle: true,
         title: Text(
           "Success",

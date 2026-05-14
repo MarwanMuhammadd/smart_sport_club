@@ -7,6 +7,7 @@ abstract class SharedPref {
   }
 
   static const String KToken = "Token";
+  static const String KUserName = "UserName";
 
   static Future<void> setToken(String? value) async {
     if (value == null) return;
@@ -15,6 +16,15 @@ abstract class SharedPref {
 
   static String getToken() {
     return getString(KToken);
+  }
+
+  static Future<void> setUserName(String? value) async {
+    if (value == null) return;
+    await setString(KUserName, value);
+  }
+
+  static String getUserName() {
+    return getString(KUserName);
   }
 
   static Future<void> setString(String key, String value) async {

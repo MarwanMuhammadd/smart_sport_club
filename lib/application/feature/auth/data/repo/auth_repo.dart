@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_sport_club/core/local/shared_pref.dart';
 
 import 'package:smart_sport_club/core/services/apis/apis.dart';
@@ -20,6 +21,11 @@ class AuthRepo {
         data: params.toJson(),
       );
       if (request.statusCode == 200) {
+        final fullName = params.fullName ?? 'Unknown User';
+        log("=== AUTH CACHE LOG (REGISTER) ===");
+        log("Saving username to cache from register: '$fullName'");
+        SharedPref.setUserName(fullName);
+
         return (
           response: AuthRegisterResponse.fromJson(request.data),
           error: null,
@@ -60,6 +66,7 @@ class AuthRepo {
       if (request.statusCode == 200) {
         var data = AuthLoginResponse.fromJson(request.data);
         SharedPref.setToken(data.token);
+        
         return (response: data, error: null);
       } else {
         return (response: null, error: "Something went wrong");

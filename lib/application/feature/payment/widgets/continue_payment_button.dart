@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
 import 'confirm_subscription_bottom_sheet.dart';
@@ -39,6 +41,20 @@ class ContinuePaymentButton extends StatelessWidget {
               }
               
               final expiryDate = DateFormat('dd MMM yyyy').format(expiryDateTime);
+              
+              final userName = SharedPref.getUserName();
+              final finalUserName = userName.trim().isNotEmpty ? userName : 'Unknown User';
+
+              debugPrint("=== ACTIVITY CACHE LOG ===");
+              debugPrint("Raw username retrieved from SharedPref: '$userName'");
+              debugPrint("Final username being saved to Firestore: '$finalUserName'");
+
+              FirebaseFirestore.instance.collection('activities').add({
+                'userName': finalUserName,
+                'activity': 'Renew membership for ${plan.toLowerCase()}',
+                'createdAt': FieldValue.serverTimestamp(),
+                'type': 'renew',
+              });
 
               Navigations.pushTo(
                 context, 
