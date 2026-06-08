@@ -53,10 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           centerTitle: true,
-          leading: IconButton(
-            onPressed: () => context.pop(),
-            icon: Icon(Icons.chevron_left, size: 32.w, color: Colors.black),
-          ),
+          
         ),
         body: SafeArea(
           child: Form(
@@ -88,16 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: AppValidators.email,
                         ),
                         16.H,
-                        TextFieldWithlabel(
-                          controller: context
-                              .read<AuthCubit>()
-                              .clubCodeController,
-                          validator: AppValidators.clubCode,
-                          path: AppImages.sequenceSvg,
-                          label: "Club Code",
-                          hint: "XXXX-XXXX-XXXX",
-                        ),
-                        16.H,
+                        
                         TextFieldWithlabel(
                           controller: context
                               .read<AuthCubit>()
@@ -136,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        20.H,
+                        120.H,
                         MainButton(
                           text: "Sign In to Club",
                           onPressed: () {

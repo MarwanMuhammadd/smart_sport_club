@@ -34,7 +34,7 @@ class ContinuePaymentButton extends StatelessWidget {
               final startDate = DateFormat('dd MMM yyyy').format(now);
               
               DateTime expiryDateTime;
-               if (plan.contains('Gold')) {
+              if (plan.toLowerCase().contains('6 month') || plan.contains('Gold')) {
                 expiryDateTime = DateTime(now.year, now.month + 6, now.day);
               } else {
                 expiryDateTime = DateTime(now.year + 1, now.month, now.day);

@@ -38,7 +38,7 @@ class RegisterScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.sidebarBorder,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

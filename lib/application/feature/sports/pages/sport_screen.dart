@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_sport_club/application/feature/home/widgets/event/widgets/events_empty_state.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/academies.dart';
@@ -28,18 +29,15 @@ class _SportsScreenState extends State<SportsScreen> {
 
       /// Top Bar
       appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.all(8.w),
-          child: Icon(Icons.sports_soccer, color: Colors.green, size: 24.w),
-        ),
+        
         centerTitle: true,
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: const Color(0xff0A1A12),
+        backgroundColor: Colors.green,
         title: Text(
           "Elite Sports",
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -88,23 +86,6 @@ class _SportsScreenState extends State<SportsScreen> {
 
               SizedBox(height: 20.h),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Row(
-                  children: [
-                    Text(
-                      "Featured Academies",
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 16.h),
-
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('academies').snapshots(),
                 builder: (context, snapshot) {
@@ -117,7 +98,12 @@ class _SportsScreenState extends State<SportsScreen> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text('No academies found.'));
+                    return const EventsEmptyState(
+                      message: 'No academies found',
+                      message1: 'Try adjusting your search',
+                      message2: 'No results available',
+                      
+                    );
                   }
 
                   final academies = snapshot.data!.docs.map((doc) {
@@ -131,7 +117,27 @@ class _SportsScreenState extends State<SportsScreen> {
                     return const Center(child: Text('No matching academies found.'));
                   }
 
-                  return academyCard(academies: academies);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Featured Academies",
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      academyCard(academies: academies),
+                    ],
+                  );
                 },
               ),
 

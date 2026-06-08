@@ -32,4 +32,5 @@ class AppImages {
   static const String coachThreeSwimming = "assets/images/coach_three_swimming.png";
   static const String coachFourSwimming = "assets/images/coach_four_swimming.png";
   static const String noEventJson = "assets/images/no_event.json";
+  static const String userAvatarPlaceholderSvg = "assets/images/user_avatar_placeholder.svg";
 }

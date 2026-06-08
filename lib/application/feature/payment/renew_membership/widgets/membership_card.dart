@@ -109,6 +109,7 @@ class MembershipCard extends StatelessWidget {
 
   Widget _buildActionRow() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
           Icons.calendar_month_outlined,
@@ -116,10 +117,13 @@ class MembershipCard extends StatelessWidget {
           size: 20.w,
         ),
         8.W,
-        Text(
-          maxLines: 2,
-          'Your membership will expire \n on 25 Dec 2024',
-          style: TextStyles.caption1.copyWith(color: const Color(0xFF3C4A3C)),
+        Expanded(
+          child: Text(
+            'Upgrade your membership to enjoy exclusive benefits and access to premium facilities.',
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyles.caption1.copyWith(color: const Color(0xFF3C4A3C)),
+          ),
         ),
       ],
     );

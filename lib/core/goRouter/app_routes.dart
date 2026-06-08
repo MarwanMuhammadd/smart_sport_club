@@ -15,6 +15,8 @@ class AppRoutes {
   static const String renewMembership = '/renewMembership';
   static const String payment = '/payment';
   static const String paymentSuccessful = '/paymentSuccessful';
+  static const String serviceNotAvailable = '/serviceNotAvailable';
+
 
   // Admin Routes
   static const String homeDashboard = '/homeDashboard';

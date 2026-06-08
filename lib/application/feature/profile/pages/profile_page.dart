@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_sport_club/core/constant/app_images.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
@@ -18,17 +20,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = "Julian Alvarez";
-  String imageUrl =
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBE1FuA12FaeNZ3Ihc4di5k9KutJQhVDYRhQhvgYTiliUovi_X6cj4rZ4K1rRLdqa_Cm97u_BEtqFPoaEFvmQvoH8RxC0GSqIkSSdAs-xFlV7Tf_3x_hza_mzrloJpqSC07VbFFASKi1vj4F2NjZZKftJp2kcnt1gfvxGEt5MaEE21YwvR9xC9M2ctVg-r4VmNs8pVkkBHcgtT5QsNdtvisvh6lJDhP6NCddsqUwOhP0Kgv-6mtgwew3qiOyOm5TFC_2x9009rYDDQE";
+  late String name;
+  late String imageUrl;
   File? imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    name = SharedPref.getUserName().trim();
+    imageUrl = AppImages.userAvatarPlaceholderSvg;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor:Colors.green,
         elevation: 0,
         centerTitle: true,
         title: Text(
@@ -107,7 +115,124 @@ class _ProfilePageState extends State<ProfilePage> {
               // Logout section
               LogoutButton(
                 onTap: () {
-                  context.go(AppRoutes.login);
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (sheetContext) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundColor,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24.w),
+                          ),
+                        ),
+                        padding: EdgeInsets.fromLTRB(24.w, 20.h, 24.w, 36.h),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Handle bar
+                            Container(
+                              width: 40.w,
+                              height: 4.h,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(2.w),
+                              ),
+                            ),
+                            24.H,
+                            // Icon
+                            Container(
+                              width: 64.w,
+                              height: 64.w,
+                              decoration: BoxDecoration(
+                                color: Colors.red.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.logout_rounded,
+                                color: Colors.red,
+                                size: 32.w,
+                              ),
+                            ),
+                            16.H,
+                            // Title
+                            Text(
+                              "Logout",
+                              style: TextStyles.headline.copyWith(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            8.H,
+                            // Subtitle
+                            Text(
+                              "Are you sure you want to logout?",
+                              textAlign: TextAlign.center,
+                              style: TextStyles.body.copyWith(
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            28.H,
+                            // Buttons
+                            Row(
+                              children: [
+                                // Cancel button
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => Navigator.pop(sheetContext),
+                                    borderRadius: BorderRadius.circular(12.w),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColors.primaryColor.withOpacity(0.2),
+                                        ),
+                                        borderRadius: BorderRadius.circular(12.w),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyles.body.copyWith(
+                                          color: AppColors.primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                12.W,
+                                // Yes, Logout button
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.pop(sheetContext);
+                                      context.go(AppRoutes.login);
+                                    },
+                                    borderRadius: BorderRadius.circular(12.w),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(12.w),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Yes, Logout",
+                                        style: TextStyles.body.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
               24.H,

@@ -10,6 +10,7 @@ import 'package:smart_sport_club/application/feature/home/widgets/event/logic/ev
 import 'package:smart_sport_club/application/feature/home/widgets/event/logic/events_state.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/event/data/events_repository.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/event/widgets/events_empty_state.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,11 +24,11 @@ class HomeScreen extends StatelessWidget {
 
         /// AppBar
         appBar: AppBar(
-          backgroundColor: const Color(0xFF0F2A22),
+          backgroundColor: Colors.green,
           elevation: 0,
           title: const Text(
             'Welcome to Smart Club',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
         ),
 
@@ -67,7 +68,11 @@ class HomeScreen extends StatelessWidget {
 
                   if (state is EventsLoaded) {
                     if (state.events.isEmpty) {
-                      return const EventsEmptyState();
+                      return const EventsEmptyState(
+                        message: 'No Upcoming Events',
+                        message1: 'New events will appear here once the admin adds them',
+                        message2: 'Check back later for updates!',
+                      );
                     }
                     
                     // Show ONLY the most recent ACTIVE one for now as requested

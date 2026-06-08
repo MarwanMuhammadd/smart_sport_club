@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
 import 'package:smart_sport_club/application/feature/booking/data/booking_model.dart';
 import 'package:smart_sport_club/application/feature/sports/logic/sports_cubit.dart';
 
@@ -27,6 +30,18 @@ class SummaryActionButtons extends StatelessWidget {
           onPressed: () {
             // Update capacity in the global SportsCubit
             context.read<SportsCubit>().confirmBooking(bookingModel);
+
+            // Log activity to Firestore
+            final userName = SharedPref.getUserName();
+            final finalUserName = userName.trim().isNotEmpty ? userName : 'Unknown User';
+            final sessionDateStr = DateFormat('EEEE h:mm a').format(bookingModel.session.startTime);
+
+            FirebaseFirestore.instance.collection('activities').add({
+              'userName': finalUserName,
+              'academyName': bookingModel.academy.name,
+              'sessionDate': sessionDateStr,
+              'createdAt': FieldValue.serverTimestamp(),
+            });
 
             // Navigate to success screen
             GoRouterHelper(

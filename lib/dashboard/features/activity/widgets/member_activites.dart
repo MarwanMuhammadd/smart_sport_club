@@ -62,7 +62,16 @@ class MemberActivites extends StatelessWidget {
                 final data = doc.data() as Map<String, dynamic>;
                 
                 final userName = data['userName'] ?? 'Unknown User';
-                final activityText = data['activity'] ?? 'Unknown Activity';
+                
+                String activityText = '';
+                if (data.containsKey('academyName')) {
+                  final academyName = data['academyName'] ?? 'Unknown Academy';
+                  final sessionDateStr = data['sessionDate'] ?? 'Unknown Date';
+                  activityText = 'Booked session with $academyName\nSession: $sessionDateStr';
+                } else {
+                  activityText = data['activity'] ?? 'Unknown Activity';
+                }
+
                 final timestamp = data['createdAt'] as Timestamp?;
 
                 return ActivityCard(

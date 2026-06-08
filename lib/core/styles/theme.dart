@@ -36,7 +36,7 @@ class AppThemes {
     dividerColor: Colors.transparent,
     dividerTheme: DividerThemeData(color: AppColors.secondaryColor),
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.accentColor,
       elevation: 0,
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
@@ -73,7 +73,7 @@ class AppThemes {
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: AppColors.primaryColor,
+      selectedItemColor: Colors.green,
       unselectedItemColor: AppColors.secondaryColor,
       backgroundColor: Colors.transparent,
       selectedLabelStyle: TextStyles.caption1.copyWith(

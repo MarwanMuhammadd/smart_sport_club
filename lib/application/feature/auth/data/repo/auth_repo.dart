@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_sport_club/core/local/shared_pref.dart';
 
 import 'package:smart_sport_club/core/services/apis/apis.dart';
@@ -66,6 +65,12 @@ class AuthRepo {
       if (request.statusCode == 200) {
         var data = AuthLoginResponse.fromJson(request.data);
         SharedPref.setToken(data.token);
+        final fullName = "${data.firstName ?? ''} ${data.lastName ?? ''}".trim();
+        if (fullName.isNotEmpty) {
+          log("=== AUTH CACHE LOG (LOGIN) ===");
+          log("Saving username to cache from login: '$fullName'");
+          SharedPref.setUserName(fullName);
+        }
         
         return (response: data, error: null);
       } else {

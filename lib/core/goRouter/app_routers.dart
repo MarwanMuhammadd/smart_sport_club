@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:smart_sport_club/core/constant/app_images.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/application/feature/auth/cubit/auth_cubit.dart';
-import 'package:smart_sport_club/dashboard/features/auth/presentation/pages/admin_screen.dart';
+import 'package:smart_sport_club/application/feature/home/pages/empty_page.dart';
 import 'package:smart_sport_club/application/feature/auth/pages/create_new_screen.dart';
 import 'package:smart_sport_club/application/feature/auth/pages/login_screen.dart';
 import 'package:smart_sport_club/application/feature/auth/pages/otp_screen.dart';
@@ -63,6 +66,10 @@ class AppRouters {
         builder: (context, state) => const OtpScreen(),
       ),
       GoRoute(
+        path: AppRoutes.serviceNotAvailable,
+        builder: (context, state) => const EmptyPage(),
+      ),
+      GoRoute(
         path: AppRoutes.createNewPassword,
         builder: (context, state) => const CreateNewPassword(),
       ),
@@ -104,10 +111,9 @@ class AppRouters {
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>? ?? {};
           final initialName =
-              args['initialName'] as String? ?? "Julian Alvarez";
+              args['initialName'] as String? ?? SharedPref.getUserName().trim();
           final initialImageUrl =
-              args['initialImageUrl'] as String? ??
-              "https://lh3.googleusercontent.com/aida-public/AB6AXuBE1FuA12FaeNZ3Ihc4di5k9KutJQhVDYRhQhvgYTiliUovi_X6cj4rZ4K1rRLdqa_Cm97u_BEtqFPoaEFvmQvoH8RxC0GSqIkSSdAs-xFlV7Tf_3x_hza_mzrloJpqSC07VbFFASKi1vj4F2NjZZKftJp2kcnt1gfvxGEt5MaEE21YwvR9xC9M2ctVg-r4VmNs8pVkkBHcgtT5QsNdtvisvh6lJDhP6NCddsqUwOhP0Kgv-6mtgwew3qiOyOm5TFC_2x9009rYDDQE";
+              args['initialImageUrl'] as String? ?? AppImages.userAvatarPlaceholderSvg;
 
           final initialImageFile = args['initialImageFile'] as File?;
 
@@ -148,6 +154,7 @@ class AppRouters {
           );
         },
       ),
+     
     ],
   );
 }

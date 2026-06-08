@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/application/feature/home/data/services_data.dart';
+import 'package:smart_sport_club/core/funcations/navigations.dart';
+import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 
 class ServiceCard extends StatelessWidget {
   final List<ServicesData> itemData;
@@ -17,10 +19,6 @@ class ServiceCard extends StatelessWidget {
             Text(
               'Our Services',
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'See All',
-              style: TextStyle(color: Colors.green, fontSize: 14.sp),
             ),
           ],
         ),
@@ -55,14 +53,17 @@ class ServiceCard extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0F2A22),
+                        backgroundColor: Colors.green,
                         minimumSize: Size(double.infinity, 36.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.w),
                         ),
                       ),
                       onPressed: () {
-                        //context.push(AppRoutes.bookingSummary);
+                        Navigations.pushTo(
+                          context,
+                          AppRoutes.serviceNotAvailable,
+                        );
                       },
                       child: Text(
                         'Explore',

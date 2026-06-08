@@ -4,15 +4,19 @@ import 'package:smart_sport_club/core/constant/app_images.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 
 class EventsEmptyState extends StatelessWidget {
-  const EventsEmptyState({super.key});
+  final String message;
+  final String message1;
+  final String message2;
+
+  const EventsEmptyState({super.key, required this.message, required this.message1, required this.message2});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(
-          'Monthly Highlight',
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          message,
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 16.h),
         Container(
@@ -32,7 +36,7 @@ class EventsEmptyState extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                'No Upcoming Events',
+                message1,
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
@@ -41,7 +45,7 @@ class EventsEmptyState extends StatelessWidget {
               ),
               SizedBox(height: 8.h),
               Text(
-                'New events will appear here once the admin adds them',
+                message2,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,

@@ -27,6 +27,7 @@ class PaymentSuccessful extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           "Success",
@@ -40,7 +41,7 @@ class PaymentSuccessful extends StatelessWidget {
           child: Column(
             children: [
               // Success Header Section
-              const SuccessHeader(
+              const SuccessHeader( 
                 title: 'Payment Successful',
                 subtitle: 'Your membership has been activated\nsuccessfully',
               ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_sport_club/core/local/shared_pref.dart';
 import 'edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
@@ -31,6 +32,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
     // Simulate API delay
     await Future.delayed(const Duration(seconds: 1, milliseconds: 500));
+
+    await SharedPref.setUserName(state.currentName);
 
     emit(state.copyWith(isLoading: false, isSuccess: true));
   }
