@@ -1,34 +1,35 @@
 import 'package:flutter/widgets.dart';
 
 class SizeConfig {
-  static late MediaQueryData _mediaQueryData;
-  static late double screenWidth;
-  static late double screenHeight;
-  static late double blockHorizontal;
-  static late double blockVertical;
+  static MediaQueryData? _mediaQueryData;
+  static double screenWidth = 375;
+  static double screenHeight = 812;
+  static double blockHorizontal = 1.0;
+  static double blockVertical = 1.0;
 
-  static late double _safeAreaHorizontal;
-  static late double _safeAreaVertical;
-  static late double safeBlockHorizontal;
-  static late double safeBlockVertical;
+  static double _safeAreaHorizontal = 0.0;
+  static double _safeAreaVertical = 0.0;
+  static double safeBlockHorizontal = 1.0;
+  static double safeBlockVertical = 1.0;
 
   // Base design dimensions (e.g. iPhone 13)
   static const double designWidth = 375;
   static const double designHeight = 812;
 
   void init(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.size.width;
-    screenHeight = _mediaQueryData.size.height;
+    final mediaQueryData = MediaQuery.of(context);
+    _mediaQueryData = mediaQueryData;
+    screenWidth = mediaQueryData.size.width;
+    screenHeight = mediaQueryData.size.height;
 
     // Scaling factors based on design
     blockHorizontal = screenWidth / designWidth;
     blockVertical = screenHeight / designHeight;
 
     _safeAreaHorizontal =
-        _mediaQueryData.padding.left + _mediaQueryData.padding.right;
+        mediaQueryData.padding.left + mediaQueryData.padding.right;
     _safeAreaVertical =
-        _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
+        mediaQueryData.padding.top + mediaQueryData.padding.bottom;
 
     safeBlockHorizontal = (screenWidth - _safeAreaHorizontal) / designWidth;
     safeBlockVertical = (screenHeight - _safeAreaVertical) / designHeight;

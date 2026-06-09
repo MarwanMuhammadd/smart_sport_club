@@ -33,6 +33,9 @@ class AuthRepo {
         return (response: null, error: "Something went wrong");
       }
     } on DioException catch (e) {
+      log("Dio Error Type: ${e.type}");
+      log("Dio Error Message: ${e.message}");
+      log("Dio Error Detail: ${e.error}");
       log("Dio Error: ${e.response?.statusCode}");
       log("Error Response Body: ${e.response?.data}");
 
@@ -40,8 +43,23 @@ class AuthRepo {
       if (e.response?.data != null && e.response?.data is Map) {
         final data = e.response?.data as Map;
         if (data.containsKey('errors')) {
-          final errors = data['errors'] as Map;
-          errorMessage = errors.values.first[0].toString();
+          final errors = data['errors'];
+          if (errors is List) {
+            if (errors.isNotEmpty) {
+              errorMessage = errors.first.toString();
+            }
+          } else if (errors is Map) {
+            if (errors.values.isNotEmpty) {
+              final firstVal = errors.values.first;
+              if (firstVal is List && firstVal.isNotEmpty) {
+                errorMessage = firstVal.first.toString();
+              } else {
+                errorMessage = firstVal.toString();
+              }
+            }
+          } else {
+            errorMessage = errors.toString();
+          }
         } else if (data.containsKey('message')) {
           errorMessage = data['message'].toString();
         }
@@ -77,6 +95,9 @@ class AuthRepo {
         return (response: null, error: "Something went wrong");
       }
     } on DioException catch (e) {
+      log("Dio Error Type: ${e.type}");
+      log("Dio Error Message: ${e.message}");
+      log("Dio Error Detail: ${e.error}");
       log("Dio Error: ${e.response?.statusCode}");
       log("Error Response Body: ${e.response?.data}");
 
@@ -84,8 +105,23 @@ class AuthRepo {
       if (e.response?.data != null && e.response?.data is Map) {
         final data = e.response?.data as Map;
         if (data.containsKey('errors')) {
-          final errors = data['errors'] as Map;
-          errorMessage = errors.values.first[0].toString();
+          final errors = data['errors'];
+          if (errors is List) {
+            if (errors.isNotEmpty) {
+              errorMessage = errors.first.toString();
+            }
+          } else if (errors is Map) {
+            if (errors.values.isNotEmpty) {
+              final firstVal = errors.values.first;
+              if (firstVal is List && firstVal.isNotEmpty) {
+                errorMessage = firstVal.first.toString();
+              } else {
+                errorMessage = firstVal.toString();
+              }
+            }
+          } else {
+            errorMessage = errors.toString();
+          }
         } else if (data.containsKey('message')) {
           errorMessage = data['message'].toString();
         }

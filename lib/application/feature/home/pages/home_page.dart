@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
-import 'package:smart_sport_club/application/feature/home/data/dummy_data_carousel.dart';
 import 'package:smart_sport_club/application/feature/home/data/services_data.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/carousel.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/event/page/event.dart';
@@ -10,10 +9,30 @@ import 'package:smart_sport_club/application/feature/home/widgets/event/logic/ev
 import 'package:smart_sport_club/application/feature/home/widgets/event/logic/events_state.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/event/data/events_repository.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/event/widgets/events_empty_state.dart';
-import 'package:smart_sport_club/core/styles/app_colors.dart';
+import 'package:smart_sport_club/application/feature/home/data/model/banner_model.dart';
+import 'package:smart_sport_club/application/feature/home/data/repo/banner_repo.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Future<({List<BannerModel>? response, String? error})> _bannersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _bannersFuture = BannerRepo.getBanners();
+  }
+
+  void _retryGetBanners() {
+    setState(() {
+      _bannersFuture = BannerRepo.getBanners();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +57,66 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 230.h,
-                child: BannerCarousel(banners: banners),
+              FutureBuilder<({List<BannerModel>? response, String? error})>(
+                future: _bannersFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      height: 255.h,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.green,
+                        ),
+                      ),
+                    );
+                  }
+
+                  if (snapshot.hasError || (snapshot.hasData && snapshot.data?.error != null)) {
+                    final errorMsg = snapshot.data?.error ?? snapshot.error?.toString() ?? 'Failed to load banners';
+                    return SizedBox(
+                      height: 255.h,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              errorMsg,
+                              style: TextStyle(color: Colors.red, fontSize: 14.sp),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 8.h),
+                            ElevatedButton(
+                              onPressed: _retryGetBanners,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
+                  final banners = snapshot.data?.response;
+                  if (banners == null || banners.isEmpty) {
+                    return SizedBox(
+                      height: 255.h,
+                      child: Center(
+                        child: Text(
+                          'No banners available',
+                          style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                        ),
+                      ),
+                    );
+                  }
+
+                  return SizedBox(
+                    height: 220.h,
+                    child: BannerCarousel(banners: banners),
+                  );
+                },
               ),
 
               SizedBox(height: 24.h),

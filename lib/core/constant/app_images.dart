@@ -25,12 +25,22 @@ class AppImages {
   static const String academyDashSvg = "assets/images/academies_dash.svg";
   static const String coachOneFootball = "assets/images/coach_one_football.png";
   static const String coachTwoFootball = "assets/images/coach_two_football.png";
-  static const String coachThreeFootball = "assets/images/coach_three_football.png";
-  static const String coachFourFootball = "assets/images/coach_four_football.png";
+  static const String coachThreeFootball =
+      "assets/images/coach_three_football.png";
+  static const String coachFourFootball =
+      "assets/images/coach_four_football.png";
   static const String coachOneSwimming = "assets/images/coach_one_swimming.png";
   static const String coachTwoSwimming = "assets/images/coach_two_swimming.png";
-  static const String coachThreeSwimming = "assets/images/coach_three_swimming.png";
-  static const String coachFourSwimming = "assets/images/coach_four_swimming.png";
+  static const String coachThreeSwimming =
+      "assets/images/coach_three_swimming.png";
+  static const String coachFourSwimming =
+      "assets/images/coach_four_swimming.png";
   static const String noEventJson = "assets/images/no_event.json";
-  static const String userAvatarPlaceholderSvg = "assets/images/user_avatar_placeholder.svg";
+  static const String userAvatarPlaceholderSvg =
+      "assets/images/user_avatar_placeholder.svg";
+  static const String trainersDashboard =
+      "assets/images/trainers_dashboard_v2.png";
+  static const String offersDashboard = "assets/images/offers_v2.png";
+  static const String membershipDashboard = "assets/images/member_v2.png";
+  //assets\images\member_v2.png
 }

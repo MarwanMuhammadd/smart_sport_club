@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:smart_sport_club/core/models/academy_model.dart';
+import 'package:smart_sport_club/application/feature/sports/data/model/academy_model.dart' as api_model;
 
 abstract class AcademiesState extends Equatable {
   const AcademiesState();
@@ -35,3 +36,22 @@ class AcademiesError extends AcademiesState {
   @override
   List<Object?> get props => [message];
 }
+
+class AddAcademyLoading extends AcademiesState {}
+
+class AddAcademySuccess extends AcademiesState {
+  final api_model.AcademyModel academy;
+  const AddAcademySuccess(this.academy);
+
+  @override
+  List<Object?> get props => [academy];
+}
+
+class AddAcademyError extends AcademiesState {
+  final String message;
+  const AddAcademyError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+

@@ -2,6 +2,7 @@ class Academy {
   final String academyId;
   final String name;
   final String category;
+  final String description;
   final bool isActive;
   final String imageUrl;
 
@@ -9,6 +10,7 @@ class Academy {
     required this.academyId,
     required this.name,
     required this.category,
+    this.description = '',
     required this.isActive,
     required this.imageUrl,
   });
@@ -18,6 +20,7 @@ class Academy {
       academyId: id,
       name: map['name'] ?? '',
       category: map['category'] ?? '',
+      description: map['description'] ?? '',
       isActive: map['isActive'] ?? true,
       imageUrl: map['imageUrl'] ?? '',
     );
@@ -28,6 +31,7 @@ class Academy {
       'academyId': academyId,
       'name': name,
       'category': category,
+      'description': description,
       'isActive': isActive,
       'imageUrl': imageUrl,
     };
@@ -37,6 +41,7 @@ class Academy {
     String? academyId,
     String? name,
     String? category,
+    String? description,
     bool? isActive,
     String? imageUrl,
   }) {
@@ -44,6 +49,7 @@ class Academy {
       academyId: academyId ?? this.academyId,
       name: name ?? this.name,
       category: category ?? this.category,
+      description: description ?? this.description,
       isActive: isActive ?? this.isActive,
       imageUrl: imageUrl ?? this.imageUrl,
     );

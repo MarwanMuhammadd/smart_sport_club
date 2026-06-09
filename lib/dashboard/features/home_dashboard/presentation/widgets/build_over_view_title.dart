@@ -39,36 +39,7 @@ class BuildOverViewTitle extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          decoration: ShapeDecoration(
-            color: const Color(0xFFF5F3F1),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.calendar_today,
-                size: 16,
-                color: AppColors.secondaryColor,
-              ),
-              SizedBox(width: 12),
-              Text(
-                'OCTOBER 24, 2023',
-                style: TextStyle(
-                  color: AppColors.secondaryColor,
-                  fontSize: 13,
-                  fontFamily: 'Plus Jakarta Sans',
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.65,
-                ),
-              ),
-            ],
-          ),
-        ),
+        
       ],
     );
   }

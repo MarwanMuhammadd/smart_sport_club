@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,15 +31,14 @@ class AuthCubit extends Cubit<AuthState> {
     );
     var result = await AuthRepo.register(params);
     if (result.response != null) {
-      try {
-        await FirebaseFirestore.instance.collection('users').add({
-          'name': params.fullName,
-          'email': params.email,
-          'createdAt': FieldValue.serverTimestamp(),
-        });
-      } catch (e) {
-        // ignore errors to not block the flow
-      }
+      // Fire-and-forget to avoid blocking the auth flow if Firestore hangs on connection/offline state
+      FirebaseFirestore.instance.collection('users').add({
+        'name': params.fullName,
+        'email': params.email,
+        'createdAt': FieldValue.serverTimestamp(),
+      }).catchError((e) {
+        log("Firestore write skipped/failed: $e");
+      });
       emit(AuthLoadedState());
     } else {
       emit(AuthErrorState(massage: result.error ?? "something wrong"));

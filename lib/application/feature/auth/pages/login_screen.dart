@@ -9,6 +9,7 @@ import 'package:smart_sport_club/core/funcations/validators.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
+import 'package:smart_sport_club/core/widgets/dialog.dart';
 import 'package:smart_sport_club/core/widgets/main_button.dart';
 import 'package:smart_sport_club/core/widgets/text_with_different_color.dart';
 import 'package:smart_sport_club/application/feature/auth/cubit/auth_cubit.dart';
@@ -32,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is AuthLoadingState) {
           log("loading");
+                    showLoadingDialog(context);
+
         } else if (state is AuthLoadedState) {
           log("done");
           context.go(AppRoutes.mainApp);

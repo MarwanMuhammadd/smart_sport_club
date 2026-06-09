@@ -50,7 +50,7 @@ class _RenewMembershipPageState extends State<RenewMembershipPage> {
             ),
             32.H,
             RenewalPlansSelector(key: _planSelectorKey),
-            32.H,
+            100.H,
             MainButton(
               text: "Continue to payment",
               onPressed: () {

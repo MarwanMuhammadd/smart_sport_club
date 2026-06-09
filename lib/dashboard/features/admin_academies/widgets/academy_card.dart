@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/styles/app_colors.dart';
 import '../../../../core/styles/text_styles.dart';
@@ -7,6 +6,7 @@ class AcademyCard extends StatelessWidget {
   final String academyId;
   final String name;
   final String category;
+  final String description;
   final bool isActive;
   final String imageUrl;
   final VoidCallback? onDelete;
@@ -16,6 +16,7 @@ class AcademyCard extends StatelessWidget {
     required this.academyId,
     required this.name,
     required this.category,
+    this.description = '',
     required this.isActive,
     required this.imageUrl,
     this.onDelete,
@@ -91,6 +92,7 @@ class AcademyCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Academy Name
                 Text(
                   name,
                   style: TextStyles.headline.copyWith(
@@ -101,43 +103,55 @@ class AcademyCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+
+                // Description below name
+                if (description.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    description,
+                    style: TextStyles.caption1.copyWith(
+                      color: AppColors.secondaryColor,
+                      fontWeight: FontWeight.w400,
+                      height: 1.4,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+
                 const SizedBox(height: 12),
-                
-                // Realtime Trainers Count
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('trainers')
-                      .where('academyId', isEqualTo: academyId)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    final count = snapshot.hasData ? snapshot.data!.docs.length : 0;
-                    
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: AppColors.dashboardBackground,
-                        borderRadius: BorderRadius.circular(10),
+
+                // Active Status Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isActive
+                        ? AppColors.primaryGreen.withValues(alpha: 0.12)
+                        : Colors.grey.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        isActive
+                            ? Icons.check_circle_outline_rounded
+                            : Icons.cancel_outlined,
+                        size: 16,
+                        color: isActive ? AppColors.primaryGreen : Colors.grey,
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.people_alt_rounded,
-                            size: 16,
-                            color: AppColors.primaryGreen,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            '$count Trainers',
-                            style: TextStyles.caption1.copyWith(
-                              color: AppColors.secondaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                      const SizedBox(width: 8),
+                      Text(
+                        isActive ? 'Active Academy' : 'Inactive',
+                        style: TextStyles.caption1.copyWith(
+                          color: isActive
+                              ? AppColors.primaryGreen
+                              : Colors.grey,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    );
-                  }
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -148,29 +162,32 @@ class AcademyCard extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    bool isNetwork = imageUrl.startsWith('http');
+    final bool isNetwork = imageUrl.startsWith('http');
     if (isNetwork) {
       return Image.network(
         imageUrl,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
       );
-    } else {
+    } else if (imageUrl.isNotEmpty) {
       return Image.asset(
         imageUrl,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
       );
     }
+    return _buildPlaceholder();
   }
 
   Widget _buildPlaceholder() {
     return Container(
       color: AppColors.dashboardBackground,
-      child: const Icon(
-        Icons.image_not_supported_rounded,
-        color: AppColors.cardBorder,
-        size: 32,
+      child: const Center(
+        child: Icon(
+          Icons.image_not_supported_rounded,
+          color: AppColors.cardBorder,
+          size: 32,
+        ),
       ),
     );
   }
@@ -200,4 +217,3 @@ class AcademyCard extends StatelessWidget {
     );
   }
 }
-

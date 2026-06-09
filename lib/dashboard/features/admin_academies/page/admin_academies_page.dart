@@ -11,7 +11,7 @@ import '../../home_dashboard/presentation/widgets/dashboard_layout.dart';
 import '../../../../core/funcations/size_config.dart';
 import '../logic/academies_cubit.dart';
 import '../logic/academies_state.dart';
-import 'package:smart_sport_club/core/models/academy_model.dart';
+import 'package:smart_sport_club/application/feature/sports/data/model/academy_model.dart' as api_model;
 import '../widgets/add_academy_bottom_sheet.dart';
 
 class AdminAcademiesPage extends StatelessWidget {
@@ -54,15 +54,18 @@ class AdminAcademiesPage extends StatelessWidget {
                 // Header
                 AcademiesHeader(
                   onButtonPressed: () async {
-                    final result = await showModalBottomSheet<Academy>(
+                    final academiesCubit = context.read<AcademiesCubit>();
+                    final result = await showModalBottomSheet<api_model.AcademyModel>(
                       context: context,
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => const AddAcademyBottomSheet(),
+                      builder: (bottomSheetContext) => BlocProvider.value(
+                        value: academiesCubit,
+                        child: const AddAcademyBottomSheet(),
+                      ),
                     );
 
                     if (result != null && context.mounted) {
-                      context.read<AcademiesCubit>().addAcademy(result);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('${result.name} added successfully!'),
@@ -85,6 +88,10 @@ class AdminAcademiesPage extends StatelessWidget {
                 
                 // Academies Grid
                 BlocBuilder<AcademiesCubit, AcademiesState>(
+                  buildWhen: (previous, current) =>
+                      current is AcademiesLoading ||
+                      current is AcademiesLoaded ||
+                      current is AcademiesError,
                   builder: (context, state) {
                     if (state is AcademiesLoading) {
                       return const Center(
@@ -134,6 +141,7 @@ class AdminAcademiesPage extends StatelessWidget {
                             academyId: academy.academyId,
                             name: academy.name,
                             category: academy.category,
+                            description: academy.description,
                             isActive: academy.isActive,
                             imageUrl: academy.imageUrl,
                             onDelete: () async {

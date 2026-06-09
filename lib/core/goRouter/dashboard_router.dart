@@ -1,9 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_sport_club/application/feature/auth/cubit/auth_cubit.dart';
+import 'package:smart_sport_club/application/feature/auth/pages/register_screen.dart';
 import 'package:smart_sport_club/dashboard/features/admin_academies/logic/academies_cubit.dart';
 import 'package:smart_sport_club/dashboard/features/admin_academies/page/admin_academies_page.dart';
 import 'package:smart_sport_club/dashboard/features/admin_offers/presentation/pages/admin_offers_page.dart';
-import 'package:smart_sport_club/dashboard/features/auth/presentation/pages/admin_screen.dart';
+import 'package:smart_sport_club/dashboard/features/auth/presentation/pages/login_admin.dart';
+import 'package:smart_sport_club/dashboard/features/auth/presentation/pages/register_admin.dart';
 import 'package:smart_sport_club/dashboard/features/home_dashboard/presentation/pages/home_dashboard_page.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/dashboard/features/members/logic/members_cubit.dart';
@@ -14,8 +17,16 @@ import 'package:smart_sport_club/dashboard/features/trainers/presentation/pages/
 import 'package:smart_sport_club/dashboard/features/activity/pages/activity_page.dart';
 import 'package:smart_sport_club/dashboard/features/admin_offers/logic/offers_cubit.dart';
 import 'package:smart_sport_club/dashboard/features/admin_offers/data/repos/offers_repository_impl.dart';
+import 'package:smart_sport_club/dashboard/features/home_dashboard/logic/dashboard_stats_cubit.dart';
 
 class DashboardRouter {
+  // GoRoute(
+  //       path: AppRoutes.register,
+  //       builder: (context, state) => BlocProvider(
+  //         create: (context) => AuthCubit(),
+  //         child: const RegisterScreen(),
+  //       ),
+
   static final router = GoRouter(
     initialLocation: AppRoutes.dashboradSpash,
     routes: [
@@ -24,12 +35,25 @@ class DashboardRouter {
         builder: (context, state) => const DashboradSpash(),
       ),
       GoRoute(
-        path: AppRoutes.adminLogin,
-        builder: (context, state) => const AdminLoginScreen(),
+        path: AppRoutes.adminRegisterScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthCubit(),
+          child: const AdminRegisterScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.adminLoginScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthCubit(),
+          child: const AdminLoginScreen(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.homeDashboard,
-        builder: (context, state) => const HomeDashboardPage(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => DashboardStatsCubit()..loadStats(),
+          child: const HomeDashboardPage(),
+        ),
       ),
       GoRoute(
         path: AppRoutes.trainers,
@@ -62,7 +86,8 @@ class DashboardRouter {
       GoRoute(
         path: AppRoutes.offers,
         builder: (context, state) => BlocProvider(
-          create: (context) => OffersCubit(OffersRepositoryImpl())..loadOffers(),
+          create: (context) =>
+              OffersCubit(OffersRepositoryImpl())..loadOffers(),
           child: const AdminOffersPage(),
         ),
       ),

@@ -20,7 +20,8 @@ class AppRoutes {
 
   // Admin Routes
   static const String homeDashboard = '/homeDashboard';
-  static const String adminLogin = '/adminLogin';
+  static const String adminRegisterScreen = '/adminRegister';
+  static const String adminLoginScreen = '/adminLogin';
   static const String dashboradSpash = '/dashboradSpash';
   static const String trainers = '/trainers';
   static const String academies = '/academies';

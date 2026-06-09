@@ -34,7 +34,7 @@ class ManagementHubCard extends StatelessWidget {
         children: [
           // Image Section
           Container(
-            height: 128,
+            height: 300,
             width: double.infinity,
             decoration: const BoxDecoration(color: AppColors.headerBorder),
             child: imageUrl.toLowerCase().endsWith('.svg')

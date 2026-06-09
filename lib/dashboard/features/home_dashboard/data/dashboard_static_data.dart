@@ -43,7 +43,7 @@ class DashboardStaticData {
       'title': 'Trainers',
       'description':
           'Manage certifications, schedules, and performance ratings of 800+ trainers.',
-      'imageUrl': AppImages.coachOneTennis,
+      'imageUrl': AppImages.trainersDashboard,
       'icon': Icons.fitness_center,
     },
     {
@@ -57,14 +57,14 @@ class DashboardStaticData {
       'title': 'Members',
       'description':
           'Handle subscriptions, user engagement data, and membership support tickets.',
-      'imageUrl': AppImages.membership,
+      'imageUrl': AppImages.membershipDashboard,
       'icon': Icons.people,
     },
     {
       'title': 'Offers',
       'description':
           'Create and monitor promotional campaigns, early bird discounts and seasonal deals.',
-      'imageUrl': AppImages.carouselTwo,
+      'imageUrl': AppImages.offersDashboard,
       'icon': Icons.local_offer,
     },
   ];

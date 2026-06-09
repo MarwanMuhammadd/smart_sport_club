@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 
 class BuildFieldLabel extends StatelessWidget {
@@ -11,7 +10,7 @@ class BuildFieldLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h, left: 4.w),
+      padding: const EdgeInsets.only(bottom: 8, left: 4),
       child: Text(
         label,
         style: TextStyles.caption1.copyWith(

@@ -5,11 +5,16 @@ import 'package:smart_sport_club/core/styles/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_sport_club/firebase_options.dart';
 
+import 'package:smart_sport_club/core/local/shared_pref.dart';
+import 'package:smart_sport_club/core/services/apis/dio_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await SharedPref.init();
+  DioProvider.init();
   runApp(const SmartSportDashboard());
 }
 

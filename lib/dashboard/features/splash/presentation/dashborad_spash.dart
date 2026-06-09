@@ -37,7 +37,7 @@ class _DashboradSpashState extends State<DashboradSpash>
 
     _controller.forward().then((value) {
       if (mounted) {
-        context.go(AppRoutes.adminLogin);
+        context.go(AppRoutes.adminRegisterScreen);
       }
     });
   }
