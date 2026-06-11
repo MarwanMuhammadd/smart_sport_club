@@ -14,6 +14,13 @@ class AppColors {
   static const Color darkBlue = Color(0xff1E293B);
   static const Color lightBlue = Color(0xff3B82F6);
   static const Color errorColor = Color(0xffEF4444);
+
+  static const Color darkBackground = Color(0xff0B1220);
+  static const Color darkSurface = Color(0xff111A2E);
+  static const Color darkCard = Color(0xff162033);
+  static const Color darkBorder = Color(0xff26324A);
+  static const Color darkTextPrimary = Color(0xffE6EAF2);
+  static const Color darkTextSecondary = Color(0xffA6ADAA);
   
   // Dashboard Specific
   static const Color dashboardBackground = Color(0xFFFBF9F7);

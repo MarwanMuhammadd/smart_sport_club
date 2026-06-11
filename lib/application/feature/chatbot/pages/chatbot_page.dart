@@ -39,8 +39,9 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.backgroundColor,
       appBar: const ChatHeader(),
       body: BlocListener<ChatbotCubit, ChatbotState>(
         listener: (context, state) {

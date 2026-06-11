@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/application/feature/sports/data/model/academy_model.dart';
+import 'package:smart_sport_club/application/feature/sports/data/model/coach_model.dart';
 import 'package:smart_sport_club/application/feature/sports/data/repo/academy_repo.dart';
+import 'package:smart_sport_club/application/feature/sports/data/repo/coach_repo.dart';
 import 'dashboard_stats_state.dart';
 
 class DashboardStatsCubit extends Cubit<DashboardStatsState> {
@@ -15,7 +17,6 @@ class DashboardStatsCubit extends Cubit<DashboardStatsState> {
     try {
       final firestoreCalls = Future.wait([
         _firestore.collection('users').count().get(),
-        _firestore.collection('trainers').count().get(),
         _firestore
             .collection('offers')
             .where('isActive', isEqualTo: true)
@@ -23,21 +24,24 @@ class DashboardStatsCubit extends Cubit<DashboardStatsState> {
             .get(),
       ]);
 
-      final apiCalls = AcademyRepo.getAcademies();
+      final apiAcademiesCall = AcademyRepo.getAcademies();
+      final apiCoachesCall = CoachRepo.getCoaches();
 
       final results = await Future.wait([
         firestoreCalls,
-        apiCalls,
+        apiAcademiesCall,
+        apiCoachesCall,
       ]);
 
       final firestoreResults = results[0] as List<AggregateQuerySnapshot>;
       final academiesResult = results[1] as ({List<AcademyModel>? response, String? error});
+      final coachesResult = results[2] as List<CoachResponse>;
 
       emit(DashboardStatsLoaded(
         totalMembers: firestoreResults[0].count ?? 0,
-        totalTrainers: firestoreResults[1].count ?? 0,
+        totalTrainers: coachesResult.length,
         totalAcademies: academiesResult.response?.length ?? 0,
-        activeOffers: firestoreResults[2].count ?? 0,
+        activeOffers: firestoreResults[1].count ?? 0,
       ));
     } catch (e) {
       emit(DashboardStatsError(e.toString()));

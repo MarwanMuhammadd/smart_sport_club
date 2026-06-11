@@ -21,21 +21,31 @@ class ProfileMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 16.h),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? AppColors.darkCard : Colors.white;
+    final titleColor = isDark ? AppColors.darkTextPrimary : AppColors.blackColor;
+    final borderColor = isDark ? AppColors.darkBorder : Colors.transparent;
+    final shadowColor = isDark
+        ? Colors.black.withOpacity(0.16)
+        : AppColors.blueColor.withOpacity(0.04);
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16.w),
       child: Container(
+        margin: EdgeInsets.only(bottom: 16.h),
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardColor,
           borderRadius: BorderRadius.circular(16.w),
           boxShadow: [
             BoxShadow(
-              color: AppColors.blueColor.withOpacity(0.04), // soft shadow
+              color: shadowColor,
               blurRadius: 32,
               offset: const Offset(0, 12),
             ),
           ],
-          border: Border.all(color: Colors.transparent),
+          border: Border.all(color: borderColor),
         ),
         child: Row(
           children: [
@@ -54,17 +64,16 @@ class ProfileMenuItem extends StatelessWidget {
                 title,
                 style: TextStyles.body.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: AppColors.blackColor,
+                  color: titleColor,
                 ),
               ),
             ),
-            InkWell(
-              onTap: onTap,
-              child: Icon(
-                Icons.chevron_right,
-                color: AppColors.secondaryText,
-                size: 24.w,
-              ),
+            Icon(
+              Icons.chevron_right,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.secondaryText,
+              size: 24.w,
             ),
           ],
         ),

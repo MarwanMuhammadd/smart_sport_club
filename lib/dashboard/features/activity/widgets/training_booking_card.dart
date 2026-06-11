@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 
 class TrainingBookingCard extends StatelessWidget {
-  final String count;
-  final String trend;
-
-  const TrainingBookingCard({
-    super.key,
-    this.count = '856',
-    this.trend = '+5% vs yesterday',
-  });
+  const TrainingBookingCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,36 +46,28 @@ class TrainingBookingCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                count,
-                style: const TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  height: 1,
-                ),
+              // Live count from Firestore 'activities' collection
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('activities')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  final count = snapshot.hasData
+                      ? snapshot.data!.docs.length.toString()
+                      : '0';
+
+                  return Text(
+                    count,
+                    style: const TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      height: 1,
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 8),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.trending_up,
-                    color: AppColors.primaryGreen,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    trend,
-                    style: const TextStyle(
-                      color: AppColors.primaryGreen,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      height: 1.50,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
           Container(

@@ -57,7 +57,7 @@ class ActivityPage extends StatelessWidget {
                 if (isMobile)
                   Column(
                     children: [
-                      const TrainingBookingCard(),
+                      TrainingBookingCard(),
                       const SizedBox(height: 16),
                       AcademiesSearchBar(
                         hintText: 'Search activities...',
@@ -69,7 +69,7 @@ class ActivityPage extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Expanded(
+                      Expanded(
                         flex: 1,
                         child: TrainingBookingCard(),
                       ),

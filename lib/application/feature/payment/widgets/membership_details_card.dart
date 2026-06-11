@@ -26,13 +26,15 @@ class MembershipDetailsCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: ShapeDecoration(
-          color: AppColors.backgroundColor,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.darkSurface
+              : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           shadows: [
             BoxShadow(
-              color: AppColors.accentGrey,
+              color: AppColors.accentGrey.withOpacity(0.4),
               blurRadius: 20,
               offset: const Offset(0, 4),
               spreadRadius: 0,

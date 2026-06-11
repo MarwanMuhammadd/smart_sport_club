@@ -1,3 +1,5 @@
+import 'package:smart_sport_club/application/feature/chatbot/data/models/chatbot_response.dart';
+
 enum MessageSender { user, bot }
 
 class MessageModel {
@@ -5,12 +7,14 @@ class MessageModel {
   final MessageSender sender;
   final DateTime time;
   final RecommendationModel? recommendation;
+  final ChatbotResponse? chatbotResponse;
 
   MessageModel({
     required this.text,
     required this.sender,
     required this.time,
     this.recommendation,
+    this.chatbotResponse,
   });
 }
 

@@ -15,10 +15,12 @@ class BookingSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : AppColors.primaryColor;
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: bgColor,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),

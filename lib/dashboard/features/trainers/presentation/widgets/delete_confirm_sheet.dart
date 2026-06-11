@@ -1,14 +1,14 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/models/trainer_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_sport_club/application/feature/sports/data/model/coach_model.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
+import 'package:smart_sport_club/dashboard/features/trainers/logic/trainers_cubit.dart';
 
-/// Confirmation bottom sheet shown before deleting a trainer.
+/// Confirmation bottom sheet shown before deleting a coach.
 class DeleteConfirmSheet extends StatefulWidget {
-  final TrainerModel trainer;
+  final CoachResponse trainer;
 
   const DeleteConfirmSheet({super.key, required this.trainer});
 
@@ -22,16 +22,13 @@ class _DeleteConfirmSheetState extends State<DeleteConfirmSheet> {
   Future<void> _delete() async {
     setState(() => _isDeleting = true);
     try {
-      await FirebaseFirestore.instance
-          .collection('trainers')
-          .doc(widget.trainer.id)
-          .delete();
+      await context.read<TrainersCubit>().deleteCoach(widget.trainer.id);
 
       if (mounted) {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${widget.trainer.name} has been removed.'),
+            content: Text('${widget.trainer.fullName} has been removed.'),
             backgroundColor: AppColors.primaryGreen,
             behavior: SnackBarBehavior.floating,
           ),
@@ -102,7 +99,7 @@ class _DeleteConfirmSheetState extends State<DeleteConfirmSheet> {
 
           // Message
           Text(
-            'Are you sure you want to delete "${widget.trainer.name}"?\nThis action cannot be undone.',
+            'Are you sure you want to delete "${widget.trainer.fullName}"?\nThis action cannot be undone.',
             textAlign: TextAlign.center,
             style: TextStyles.body.copyWith(color: Colors.grey[600]),
           ),

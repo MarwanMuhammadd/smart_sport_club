@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/models/trainer_model.dart';
+import 'package:smart_sport_club/application/feature/sports/data/model/coach_model.dart';
 import 'package:smart_sport_club/dashboard/features/trainers/presentation/widgets/trainer_card.dart';
 
 /// Responsive grid that displays a list of trainer cards.
 class TrainersGrid extends StatelessWidget {
-  final List<TrainerModel> trainers;
-  final void Function(TrainerModel) onDelete;
+  final List<CoachResponse> trainers;
+  final void Function(CoachResponse) onDelete;
 
   const TrainersGrid({
     super.key,
@@ -39,10 +39,7 @@ class TrainersGrid extends StatelessWidget {
           itemBuilder: (context, index) {
             final trainer = trainers[index];
             return TrainerCard(
-              trainerId: trainer.id,
-              name: trainer.name,
-              academy: trainer.academyName,
-              imageUrl: trainer.imageUrl,
+              coach: trainer,
               onDelete: () => onDelete(trainer),
             );
           },

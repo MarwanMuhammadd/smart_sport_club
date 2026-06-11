@@ -3,6 +3,7 @@ import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/application/feature/home/data/services_data.dart';
 import 'package:smart_sport_club/core/funcations/navigations.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
 
 class ServiceCard extends StatelessWidget {
   final List<ServicesData> itemData;
@@ -36,7 +37,9 @@ class ServiceCard extends StatelessWidget {
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.w),
-                  color: Colors.grey.shade100,
+                  color:Theme.of(context).brightness == Brightness.dark
+            ? AppColors.darkSurface
+            : AppColors.darkTextPrimary,
                 ),
                 child: Column(
                   children: [

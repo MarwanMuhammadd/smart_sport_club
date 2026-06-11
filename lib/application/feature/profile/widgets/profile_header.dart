@@ -35,7 +35,9 @@ class ProfileHeader extends StatelessWidget {
         Text(
           name,
           style: TextStyles.headline.copyWith(
-            color: AppColors.primaryColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : AppColors.primaryColor,
             fontWeight: FontWeight.w800,
           ),
         ),

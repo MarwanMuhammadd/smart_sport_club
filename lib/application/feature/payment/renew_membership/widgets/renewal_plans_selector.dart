@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/application/feature/payment/data/renewal_plan_model.dart';
 import 'package:smart_sport_club/application/feature/payment/renew_membership/widgets/renewal_plan_card.dart';
@@ -43,14 +44,23 @@ class _RenewalPlansSelectorState extends State<RenewalPlansSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Select your renewal plan', style: TextStyles.title),
+        Text(
+          'Select your renewal plan',
+          style: TextStyles.title.copyWith(
+            color: isDark ? AppColors.darkTextPrimary : AppColors.primaryColor,
+          ),
+        ),
         4.H,
         Text(
           'Choose the duration that fits your training \nschedule.',
-          style: TextStyles.caption1.copyWith(color: const Color(0xFF7C8C7C)),
+          style: TextStyles.caption1.copyWith(
+            color: isDark ? AppColors.darkTextSecondary : const Color(0xFF7C8C7C),
+          ),
         ),
         24.H,
         ListView.separated(

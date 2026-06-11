@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_sport_club/core/goRouter/dashboard_router.dart';
 import 'package:smart_sport_club/core/styles/theme.dart';
+import 'package:smart_sport_club/core/theme/theme_cubit.dart';
+import 'package:smart_sport_club/core/theme/theme_repo.dart';
+import 'package:smart_sport_club/core/theme/theme_state.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_sport_club/firebase_options.dart';
@@ -23,11 +27,20 @@ class SmartSportDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Smart Sport Club Admin',
-      debugShowCheckedModeBanner: false,
-      theme: AppThemes.light,
-      routerConfig: DashboardRouter.router,
+    return BlocProvider(
+      create: (context) => ThemeCubit(ThemeRepo())..loadSavedTheme(),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            title: 'Smart Sport Club Admin',
+            debugShowCheckedModeBanner: false,
+            theme: AppThemes.light,
+            darkTheme: AppThemes.dark,
+            themeMode: state.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            routerConfig: DashboardRouter.router,
+          );
+        },
+      ),
     );
   }
 }

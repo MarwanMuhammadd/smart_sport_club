@@ -23,6 +23,10 @@ class RegisterScreen extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : AppColors.sidebarBorder;
+    final textColor = isDark ? AppColors.darkTextPrimary : Colors.white;
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState) {
@@ -38,17 +42,17 @@ class RegisterScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.sidebarBorder,
+        backgroundColor: bgColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.chevron_left, color: Colors.white, size: 32.w),
+            icon: Icon(Icons.chevron_left, color: textColor, size: 32.w),
             onPressed: () => context.pop(),
           ),
           title: Text(
             "Member Registration",
-            style: TextStyles.title.copyWith(color: Colors.white),
+            style: TextStyles.title.copyWith(color: textColor),
           ),
           centerTitle: true,
         ),

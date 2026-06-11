@@ -4,7 +4,7 @@ import 'package:smart_sport_club/dashboard/features/trainers/presentation/widget
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/core/widgets/responsive.dart';
-import 'package:smart_sport_club/dashboard/features/admin_academies/logic/academies_cubit.dart';
+import 'package:smart_sport_club/dashboard/features/trainers/logic/trainers_cubit.dart';
 
 class TrainersHeader extends StatelessWidget {
   final Function(String) onSearchChanged;
@@ -56,20 +56,19 @@ class TrainersHeader extends StatelessWidget {
   }
 
   Widget _buildAddButton(BuildContext context) {
+    final trainersCubit = context.read<TrainersCubit>();
     return InkWell(
       onTap: () {
-        final academiesCubit = context.read<AcademiesCubit>();
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (context) => BlocProvider.value(
-            value: academiesCubit,
+          builder: (_) => BlocProvider.value(
+            value: trainersCubit,
             child: const AddTrainerSheet(),
           ),
         );
       },
-
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -105,7 +104,6 @@ class TrainersHeader extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
-
       child: Row(
         children: [
           const Icon(Icons.search, color: Color(0xFF6B7280), size: 20),

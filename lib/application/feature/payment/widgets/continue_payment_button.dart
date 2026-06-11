@@ -21,11 +21,12 @@ class ContinuePaymentButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
+      padding: const EdgeInsets.only(top: 100),
       child: MainButton(
         text: 'Continue to Payment',
         onPressed: () {
           showConfirmSubscriptionBottomSheet(
+            
             context: context,
             plan: plan,
             paymentMethod: paymentMethod,

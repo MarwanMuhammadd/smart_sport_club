@@ -27,35 +27,31 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : AppColors.backgroundColor;
+    final titleColor = isDark ? AppColors.darkTextPrimary : AppColors.primaryColor;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor:  isDark ? AppColors.darkSurface : Colors.green,
+        
+
         elevation: 0,
         titleSpacing: 24.w,
-        title: Row(
-          children: [
-            Icon(
-              Icons.notifications,
-              color: AppColors.primaryGreen,
-              size: 28.w,
-            ),
-            12.W,
-            Text(
+        title: Text(
               "Notifications",
               style: TextStyles.title.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
+                color: titleColor,
                 fontSize: 22.sp,
               ),
             ),
-          ],
-        ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 8.w),
             child: PopupMenuButton<String>(
-              color: AppColors.backgroundColor,
+              color: bgColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.w),
               ),

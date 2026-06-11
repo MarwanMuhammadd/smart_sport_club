@@ -32,8 +32,7 @@ class BookingPolicy extends StatelessWidget {
             borderRadius: BorderRadius.circular(14.w),
           ),
           child: Text(
-            '• Please arrive 10 minutes before your session.\n'
-            '• Free cancellation up to 3 hours before start.',
+            '• Please arrive 10 minutes before your session.',
             style: TextStyle(color: AppColors.secondaryText, fontSize: 13.sp),
           ),
         ),

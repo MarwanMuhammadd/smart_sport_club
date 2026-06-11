@@ -30,7 +30,9 @@ class _PaymentMethodsSectionState extends State<PaymentMethodsSection> {
       children: [
         Text(
           'Select Payment Method',
-          style: TextStyles.headline.copyWith(color: AppColors.primaryColor),
+          style: TextStyles.headline.copyWith(color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.backgroundColor
+            : AppColors.darkSurface),
         ),
         PaymentMethodCard(
           title: 'Credit / Debit Card',

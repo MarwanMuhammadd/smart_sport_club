@@ -23,22 +23,22 @@ class SuccessActionButtons extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            context.push(AppRoutes.myBookings);
+            context.go(AppRoutes.booking, extra: bookingModel.academy);
           },
           child: Text(
-            'Go to My Bookings',
+            'Back to Academy',
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(height: 12.h),
-        TextButton.icon(
-          onPressed: () {
-            context.go(AppRoutes.booking, extra: bookingModel.academy);
-          },
-          icon: Icon(Icons.arrow_back, size: 18.w),
-          label: Text('Back to Academy', style: TextStyle(fontSize: 14.sp)),
-          style: TextButton.styleFrom(foregroundColor: AppColors.secondaryText),
-        ),
+        // TextButton.icon(
+        //   onPressed: () {
+        //     context.go(AppRoutes.booking, extra: bookingModel.academy);
+        //   },
+        //   icon: Icon(Icons.arrow_back, size: 18.w),
+        //   label: Text('Back to Academy', style: TextStyle(fontSize: 14.sp)),
+        //   style: TextButton.styleFrom(foregroundColor: AppColors.secondaryText),
+        // ),
       ],
     );
   }

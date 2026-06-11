@@ -10,6 +10,41 @@ import 'package:smart_sport_club/application/feature/auth/data/model/object_resp
 import 'package:smart_sport_club/application/feature/auth/data/model/params/auth_register_params.dart';
 
 class AuthRepo {
+  static Future<void> _saveAuthSession({
+    required String source,
+    String? userId,
+    String? firstName,
+    String? lastName,
+    String? token,
+    String? refreshToken,
+    String? membershipId,
+    String? fallbackFullName,
+  }) async {
+    final fullName = "${firstName ?? ''} ${lastName ?? ''}".trim();
+    final userName = fullName.isNotEmpty ? fullName : fallbackFullName?.trim();
+
+    log("=== AUTH CACHE LOG ($source) ===");
+    log("User ID: ${userId ?? ''}");
+    log("Membership ID: ${membershipId ?? ''}");
+
+    await SharedPref.setToken(token);
+    if (token != null && token.isNotEmpty) {
+      log("Token Saved");
+    }
+
+    await SharedPref.setRefreshToken(refreshToken);
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      log("Refresh Token Saved");
+    }
+
+    await SharedPref.setMembershipId(membershipId);
+
+    if (userName != null && userName.isNotEmpty) {
+      log("Saving username to cache from ${source.toLowerCase()}: '$userName'");
+      await SharedPref.setUserName(userName);
+    }
+  }
+
   static Future<({AuthRegisterResponse? response, String? error})> register(
     AuthRegisterParams params,
   ) async {
@@ -19,16 +54,22 @@ class AuthRepo {
         path: Apis.register,
         data: params.toJson(),
       );
-      if (request.statusCode == 200) {
-        final fullName = params.fullName ?? 'Unknown User';
-        log("=== AUTH CACHE LOG (REGISTER) ===");
-        log("Saving username to cache from register: '$fullName'");
-        SharedPref.setUserName(fullName);
-
-        return (
-          response: AuthRegisterResponse.fromJson(request.data),
-          error: null,
+      if (request.statusCode != null &&
+          request.statusCode! >= 200 &&
+          request.statusCode! < 300) {
+        final data = AuthRegisterResponse.fromJson(request.data);
+        await _saveAuthSession(
+          source: "REGISTER",
+          userId: data.id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          token: data.token,
+          refreshToken: data.refreshToken,
+          membershipId: data.membershipId,
+          fallbackFullName: params.fullName,
         );
+
+        return (response: data, error: null);
       } else {
         return (response: null, error: "Something went wrong");
       }
@@ -80,16 +121,20 @@ class AuthRepo {
         path: Apis.login,
         data: params.toJson(),
       );
-      if (request.statusCode == 200) {
-        var data = AuthLoginResponse.fromJson(request.data);
-        SharedPref.setToken(data.token);
-        final fullName = "${data.firstName ?? ''} ${data.lastName ?? ''}".trim();
-        if (fullName.isNotEmpty) {
-          log("=== AUTH CACHE LOG (LOGIN) ===");
-          log("Saving username to cache from login: '$fullName'");
-          SharedPref.setUserName(fullName);
-        }
-        
+      if (request.statusCode != null &&
+          request.statusCode! >= 200 &&
+          request.statusCode! < 300) {
+        final data = AuthLoginResponse.fromJson(request.data);
+        await _saveAuthSession(
+          source: "LOGIN",
+          userId: data.id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          token: data.token,
+          refreshToken: data.refreshToken,
+          membershipId: data.membershipId,
+        );
+
         return (response: data, error: null);
       } else {
         return (response: null, error: "Something went wrong");

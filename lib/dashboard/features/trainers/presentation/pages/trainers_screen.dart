@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_sport_club/core/models/trainer_model.dart';
+import 'package:smart_sport_club/application/feature/sports/data/model/coach_model.dart';
 import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/widgets/responsive.dart';
 import 'package:smart_sport_club/dashboard/features/home_dashboard/presentation/widgets/dashboard_layout.dart';
@@ -15,11 +15,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TrainersScreen extends StatelessWidget {
   const TrainersScreen({super.key});
 
-  Future<void> _confirmDelete(BuildContext context, TrainerModel trainer) async {
+  Future<void> _confirmDelete(BuildContext context, CoachResponse trainer) async {
+    final trainersCubit = context.read<TrainersCubit>();
     await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => DeleteConfirmSheet(trainer: trainer),
+      builder: (_) => BlocProvider.value(
+        value: trainersCubit,
+        child: DeleteConfirmSheet(trainer: trainer),
+      ),
     );
   }
 
@@ -41,9 +45,13 @@ class TrainersScreen extends StatelessWidget {
         title: const Text("Trainers"),
       ),
       body: BlocBuilder<TrainersCubit, TrainersState>(
+        buildWhen: (previous, current) =>
+            current is TrainersLoading ||
+            current is TrainersLoaded ||
+            current is TrainersError,
         builder: (context, state) {
-          List<TrainerModel> allTrainers = [];
-          List<TrainerModel> filteredTrainers = [];
+          List<CoachResponse> allTrainers = [];
+          List<CoachResponse> filteredTrainers = [];
           String searchQuery = '';
           bool isLoading = state is TrainersLoading;
     

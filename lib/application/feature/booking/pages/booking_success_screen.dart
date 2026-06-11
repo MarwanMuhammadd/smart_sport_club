@@ -12,8 +12,9 @@ class BookingSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.primaryColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
@@ -43,15 +44,15 @@ class BookingSuccessScreen extends StatelessWidget {
               SizedBox(height: 40.h),
               BookingDetailsCard(bookingModel: bookingModel),
               SizedBox(height: 30.h),
-              Text(
-                'You can manage or cancel your booking from My Bookings',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.secondaryText,
-                  fontStyle: FontStyle.italic,
-                  fontSize: 13.sp,
-                ),
-              ),
+              // Text(
+              //   'You can manage or cancel your booking from My Bookings',
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     color: AppColors.secondaryText,
+              //     fontStyle: FontStyle.italic,
+              //     fontSize: 13.sp,
+              //   ),
+              // ),
               SizedBox(height: 40.h),
               SuccessActionButtons(bookingModel: bookingModel),
             ],

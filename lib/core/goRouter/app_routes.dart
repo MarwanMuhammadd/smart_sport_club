@@ -12,6 +12,7 @@ class AppRoutes {
   static const String myBookings = '/myBookings';
   static const String booking = '/booking';
   static const String editProfile = '/editProfile';
+  static const String themeSettings = '/themeSettings';
   static const String renewMembership = '/renewMembership';
   static const String payment = '/payment';
   static const String paymentSuccessful = '/paymentSuccessful';

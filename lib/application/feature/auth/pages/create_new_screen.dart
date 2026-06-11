@@ -54,8 +54,13 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : AppColors.backgroundColor;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.blackColor;
+
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.backgroundColor),
+      backgroundColor: bgColor,
+      appBar: AppBar(backgroundColor: isDark ? AppColors.darkSurface : AppColors.backgroundColor),
       body: Padding(
         padding: EdgeInsets.all(20.w),
         child: SingleChildScrollView(
@@ -91,7 +96,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                     "Secure Your \n Account",
                     style: TextStyles.title.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: AppColors.blackColor,
+                      color: textColor,
                     ),
                   ),
                 ),

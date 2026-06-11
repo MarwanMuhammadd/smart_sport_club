@@ -25,6 +25,8 @@ class RenewalPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Stack(
@@ -36,7 +38,7 @@ class RenewalPlanCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: isSelected
                   ? AppColors.primaryGreen.withOpacity(0.05)
-                  : AppColors.accentColor,
+                  : (isDark ? AppColors.darkSurface : AppColors.accentColor),
               borderRadius: BorderRadius.circular(12.w),
               border: Border.all(
                 color: isSelected ? AppColors.primaryGreen : Colors.transparent,
@@ -54,7 +56,7 @@ class RenewalPlanCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? AppColors.primaryGreen
-                            : const Color(0xFFD4E4FA),
+                            : (isDark ? AppColors.darkCard : const Color(0xFFD4E4FA)),
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -62,7 +64,7 @@ class RenewalPlanCard extends StatelessWidget {
                           Icons.workspace_premium_outlined,
                           color: isSelected
                               ? Colors.white
-                              : AppColors.primaryColor,
+                              : (isDark ? AppColors.darkTextPrimary : AppColors.primaryColor),
                           size: 24.w,
                         ),
                       ),
@@ -71,12 +73,12 @@ class RenewalPlanCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title, style: TextStyles.title),
+                        Text(title, style: TextStyles.title.copyWith(color: isDark ? AppColors.darkTextPrimary : AppColors.primaryColor)),
                         4.H,
                         Text(
                           subtitle,
                           style: TextStyles.caption1.copyWith(
-                            color: const Color(0xFF3C4A3C),
+                            color: isDark ? AppColors.darkTextSecondary : const Color(0xFF3C4A3C),
                             fontSize: 12.sp,
                           ),
                         ),
@@ -90,7 +92,10 @@ class RenewalPlanCard extends StatelessWidget {
                     Text(
                       price,
                       textAlign: TextAlign.right,
-                      style: TextStyles.title.copyWith(fontSize: 20.sp),
+                      style: TextStyles.title.copyWith(
+                        fontSize: 20.sp,
+                        color: isDark ? AppColors.darkTextPrimary : AppColors.primaryColor,
+                      ),
                     ),
                     if (discountText != null) ...[
                       4.H,

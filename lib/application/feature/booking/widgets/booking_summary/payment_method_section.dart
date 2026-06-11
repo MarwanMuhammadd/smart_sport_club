@@ -23,13 +23,11 @@ class PaymentMethodSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: const [
-              PaymentMethodChip(text: 'Cash'),
               PaymentMethodChip(
                 text: 'Wallet',
                 isSelected: true,
                 icon: Icons.account_balance_wallet,
               ),
-              PaymentMethodChip(text: 'Credit Card'),
             ],
           ),
         ),

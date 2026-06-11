@@ -39,27 +39,45 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark =
+        Theme.of(context).brightness == Brightness.dark;
+
     return TextFormField(
-      textAlign: TextAlign.start, // يبدأ النص المكتوب من الشمال
+      textAlign: TextAlign.start,
       maxLines: maxLines,
       minLines: minLines,
       controller: controller,
       enabled: enabled,
       keyboardType: keyboardType,
       obscureText: obscureText,
+
+      // لون النص المكتوب
+      style: TextStyles.body.copyWith(
+        color: isDark ? Colors.white : Colors.black,
+      ),
+
       decoration: InputDecoration(
         filled: true,
-        fillColor:
-            fillColor ?? const Color(0xffF8FAFC), // اللون الفاتح من التصميم
+
+        // لون الخلفية
+        fillColor: fillColor ??
+            (isDark
+                ? AppColors.darkSurface
+                : const Color(0xffF8FAFC)),
+
         label: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ?prefixIcon,
+            if (prefixIcon != null) prefixIcon!,
             if (prefixIcon != null) SizedBox(width: 10.w),
+
             Text(
               hintText ?? "",
-              style: TextStyles.caption1.copyWith(color: AppColors.blackColor),
+              style: TextStyles.caption1.copyWith(
+                color: isDark
+                    ? Colors.white70
+                    : AppColors.blackColor,
+              ),
             ),
           ],
         ),
@@ -67,13 +85,38 @@ class CustomTextFormField extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.never,
 
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius?.w ?? 15.w),
+          borderRadius: BorderRadius.circular(
+            borderRadius?.w ?? 15.w,
+          ),
           borderSide: BorderSide.none,
         ),
 
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            borderRadius?.w ?? 15.w,
+          ),
+          borderSide: BorderSide.none,
+        ),
+
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            borderRadius?.w ?? 15.w,
+          ),
+          borderSide: BorderSide(
+            color: isDark
+                ? AppColors.primaryGreen
+                : AppColors.primaryColor,
+          ),
+        ),
+
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 18.h,
+        ),
+
         suffixIcon: suffixIcon,
       ),
+
       validator: validator,
       onTap: onTap,
       onChanged: onChanged,

@@ -1,13 +1,14 @@
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:smart_sport_club/application/feature/home/widgets/event/widgets/events_empty_state.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/sports/widgets/academies.dart';
-import 'package:smart_sport_club/application/feature/sports/data/model/academy_model.dart' as new_api_model;
+import 'package:smart_sport_club/application/feature/sports/data/model/academy_model.dart'
+    as new_api_model;
 import 'package:smart_sport_club/application/feature/sports/data/repo/academy_repo.dart';
 import 'package:smart_sport_club/core/services/apis/apis.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
 
 class SportsScreen extends StatefulWidget {
   const SportsScreen({super.key});
@@ -30,7 +31,10 @@ class _SportsScreenState extends State<SportsScreen> {
     super.initState();
     _loadData();
     // Poll the API every 4 seconds to sync data automatically
-    _syncTimer = Timer.periodic(const Duration(seconds: 4), (_) => _loadData(isSilent: true));
+    _syncTimer = Timer.periodic(
+      const Duration(seconds: 4),
+      (_) => _loadData(isSilent: true),
+    );
   }
 
   @override
@@ -42,7 +46,7 @@ class _SportsScreenState extends State<SportsScreen> {
 
   Future<void> _loadData({bool isSilent = false}) async {
     if (isSilent && !mounted) return;
-    
+
     if (!isSilent) {
       setState(() {
         _isFirstLoad = true;
@@ -79,9 +83,11 @@ class _SportsScreenState extends State<SportsScreen> {
 
   Widget _buildAcademiesContent() {
     if (_isFirstLoad && _academies == null) {
-      return const Center(child: CircularProgressIndicator(color: Colors.green));
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.green),
+      );
     }
-    
+
     if (_errorMessage != null && _academies == null) {
       return Center(
         child: Column(
@@ -111,27 +117,30 @@ class _SportsScreenState extends State<SportsScreen> {
       );
     }
 
-    final academies = apiAcademies.map((apiModel) {
-      String imgUrl = apiModel.imageUrl ?? '';
-      if (imgUrl.isNotEmpty && !imgUrl.startsWith('http')) {
-        if (imgUrl.startsWith('/')) {
-          imgUrl = '${Apis.baseUrl}$imgUrl';
-        } else {
-          imgUrl = '${Apis.baseUrl}/$imgUrl';
-        }
-      }
+    final academies = apiAcademies
+        .map((apiModel) {
+          String imgUrl = apiModel.imageUrl ?? '';
+          if (imgUrl.isNotEmpty && !imgUrl.startsWith('http')) {
+            if (imgUrl.startsWith('/')) {
+              imgUrl = '${Apis.baseUrl}$imgUrl';
+            } else {
+              imgUrl = '${Apis.baseUrl}/$imgUrl';
+            }
+          }
 
-      return Academy(
-        academyId: apiModel.id?.toString() ?? '',
-        name: apiModel.name ?? '',
-        category: apiModel.description ?? '',
-        isActive: apiModel.isActive ?? true,
-        imageUrl: imgUrl,
-      );
-    }).where((academy) {
-      return academy.name.toLowerCase().contains(_searchQuery) ||
-             academy.category.toLowerCase().contains(_searchQuery);
-    }).toList();
+          return Academy(
+            academyId: apiModel.id?.toString() ?? '',
+            name: apiModel.name ?? '',
+            category: apiModel.type ?? '',
+            isActive: apiModel.isActive ?? true,
+            imageUrl: imgUrl,
+          );
+        })
+        .where((academy) {
+          return academy.name.toLowerCase().contains(_searchQuery) ||
+              academy.category.toLowerCase().contains(_searchQuery);
+        })
+        .toList();
 
     if (academies.isEmpty && _searchQuery.isNotEmpty) {
       return const Center(child: Text('No matching academies found.'));
@@ -146,10 +155,7 @@ class _SportsScreenState extends State<SportsScreen> {
             children: [
               Text(
                 "Featured Academies",
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -162,20 +168,20 @@ class _SportsScreenState extends State<SportsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: isDark ? AppColors.darkBackground : Colors.grey[100],
 
       /// Top Bar
       appBar: AppBar(
-        
         centerTitle: true,
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: isDark ? AppColors.darkSurface : Colors.green,
         title: Text(
           "Academies",
           style: TextStyle(
-            color: Colors.black,
+            color: isDark ? AppColors.darkTextPrimary : Colors.black,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -199,6 +205,7 @@ class _SportsScreenState extends State<SportsScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: TextFormField(
                     controller: _searchController,
+                    style: TextStyle(color: isDark ? AppColors.darkTextPrimary : Colors.black),
                     onChanged: (value) {
                       setState(() {
                         _searchQuery = value.toLowerCase();
@@ -213,7 +220,7 @@ class _SportsScreenState extends State<SportsScreen> {
                         size: 20.w,
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: isDark ? AppColors.darkSurface : Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14.w),
                         borderSide: BorderSide.none,

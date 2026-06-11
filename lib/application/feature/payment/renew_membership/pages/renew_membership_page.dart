@@ -21,17 +21,27 @@ class _RenewMembershipPageState extends State<RenewMembershipPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? AppColors.darkBackground
+        : AppColors.backgroundColor;
+    final titleColor = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.primaryColor;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: Icon(Icons.chevron_left_rounded, size: 30.w),
+          color: isDark ? AppColors.darkTextPrimary : Colors.white,
         ),
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: isDark ? AppColors.darkSurface : Colors.green,
         elevation: 0,
         title: Text(
           "Renew Membership",
-          style: TextStyles.title.copyWith(color: AppColors.primaryGreen),
+          style: TextStyles.title.copyWith(color: titleColor),
         ),
       ),
       body: SingleChildScrollView(

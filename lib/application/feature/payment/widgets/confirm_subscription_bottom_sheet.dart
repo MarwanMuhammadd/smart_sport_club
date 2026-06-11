@@ -16,7 +16,9 @@ void showConfirmSubscriptionBottomSheet({
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: Theme.of(context).brightness == Brightness.dark
+        ? AppColors.darkSurface
+        : Colors.white,
     builder: (context) => BlocProvider(
       create: (context) => PaymentCubit(),
       child: ConfirmSubscriptionBottomSheet(
@@ -52,7 +54,9 @@ class ConfirmSubscriptionBottomSheet extends StatelessWidget {
       builder: (context, state) {
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.backgroundColor,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkSurface
+                : Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(24.w),
               topRight: Radius.circular(24.w),

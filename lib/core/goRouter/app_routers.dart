@@ -23,6 +23,7 @@ import 'package:smart_sport_club/application/feature/payment/page/payment_succes
 import 'package:smart_sport_club/application/feature/payment/renew_membership/pages/renew_membership_page.dart';
 import 'package:smart_sport_club/application/feature/profile/edit_profile/logic/edit_profile_cubit.dart';
 import 'package:smart_sport_club/application/feature/profile/edit_profile/pages/edit_profile.dart';
+import 'package:smart_sport_club/application/feature/profile/theme_settings/pages/theme_settings_screen.dart';
 import 'package:smart_sport_club/application/feature/splash/pages/splash_screen.dart';
 import 'package:smart_sport_club/core/models/academy_model.dart';
 import 'package:smart_sport_club/application/feature/sports/pages/booking_page.dart';
@@ -134,6 +135,10 @@ class AppRouters {
       GoRoute(
         path: AppRoutes.renewMembership,
         builder: (context, state) => const RenewMembershipPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.themeSettings,
+        builder: (context, state) => const ThemeSettingsScreen(),
       ),
       GoRoute(
         path: AppRoutes.payment,

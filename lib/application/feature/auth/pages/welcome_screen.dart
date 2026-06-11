@@ -13,13 +13,16 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : AppColors.primaryColor;
+    final textColor = isDark ? AppColors.darkTextPrimary : AppColors.accentColor;
 
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: bgColor,
       appBar: AppBar(
         title: Text(
           "Smart Club",
-          style: TextStyles.title.copyWith(color: AppColors.accentColor),
+          style: TextStyles.title.copyWith(color: textColor),
         ),
         centerTitle: true,
       ),
@@ -48,14 +51,14 @@ class WelcomeScreen extends StatelessWidget {
                         Text(
                           "Elevate Your Game",
                           style: TextStyles.hugeHeadLine.copyWith(
-                            color: AppColors.accentColor,
+                            color: textColor,
                           ),
                         ),
                         8.H,
                         Text(
                           "The premier destination for football enthusiasts and professional bookings.",
                           style: TextStyles.caption1.copyWith(
-                            color: AppColors.accentColor,
+                            color: textColor,
                           ),
                         ),
                       ],

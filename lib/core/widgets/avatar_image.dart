@@ -66,11 +66,13 @@ class AvatarImage extends StatelessWidget {
 
   Widget _buildImageWidget() {
     if (imageFile != null) {
-      return Image.file(
-        imageFile!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
+      return ClipOval(
+        child: Image.file(
+          imageFile!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
       );
     }
     if (imageUrl.endsWith('.svg')) {

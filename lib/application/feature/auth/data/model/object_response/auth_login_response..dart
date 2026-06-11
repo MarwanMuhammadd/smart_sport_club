@@ -7,7 +7,7 @@ class AuthLoginResponse {
   int? expiresIn;
   String? refreshToken;
   DateTime? refreshTokenExpiration;
-  dynamic membershipId;
+  String? membershipId;
   dynamic digitalAccessKey;
 
   AuthLoginResponse({
@@ -24,18 +24,25 @@ class AuthLoginResponse {
   });
 
   factory AuthLoginResponse.fromJson(Map<String, dynamic> json) {
+    final fallbackName = (json['fullName'] ?? json['name'])?.toString().trim();
+    final nameParts = fallbackName?.split(RegExp(r'\s+')) ?? const <String>[];
+
     return AuthLoginResponse(
-      id: json['id'] as String?,
-      firstName: json['firstName'] as String?,
-      lastName: json['lastName'] as String?,
-      email: json['email'] as String?,
-      token: json['token'] as String?,
-      expiresIn: json['expiresIn'] as int?,
-      refreshToken: json['refreshToken'] as String?,
+      id: json['id']?.toString(),
+      firstName:
+          json['firstName']?.toString() ??
+          (nameParts.isNotEmpty ? nameParts.first : null),
+      lastName:
+          json['lastName']?.toString() ??
+          (nameParts.length > 1 ? nameParts.skip(1).join(' ') : null),
+      email: json['email']?.toString(),
+      token: json['token']?.toString(),
+      expiresIn: int.tryParse(json['expiresIn']?.toString() ?? ''),
+      refreshToken: json['refreshToken']?.toString(),
       refreshTokenExpiration: json['refreshTokenExpiration'] == null
           ? null
-          : DateTime.parse(json['refreshTokenExpiration'] as String),
-      membershipId: json['membershipId'] as dynamic,
+          : DateTime.tryParse(json['refreshTokenExpiration'].toString()),
+      membershipId: json['membershipId']?.toString(),
       digitalAccessKey: json['digitalAccessKey'] as dynamic,
     );
   }

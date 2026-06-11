@@ -21,12 +21,15 @@ class _PaymentState extends State<Payment> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : const Color(0xFFF8F9FF);
+    final appBarBg = isDark ? AppColors.darkSurface : const Color(0xFFF8FAFC);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF8FAFC),
+        backgroundColor: appBarBg,
         leading: InkWell(
           onTap: () => Navigator.pop(context),
-          child: const Icon(Icons.chevron_left_rounded),
+          child: Icon(Icons.chevron_left_rounded, color: isDark ? AppColors.darkTextPrimary : null),
         ),
         centerTitle: true,
         title: Text(
@@ -34,7 +37,7 @@ class _PaymentState extends State<Payment> {
           style: TextStyles.headline.copyWith(color: AppColors.primaryGreen),
         ),
       ),
-      backgroundColor: const Color(0xFFF8F9FF),
+      backgroundColor: bgColor,
       body: ListView(
         children: [
           Padding(

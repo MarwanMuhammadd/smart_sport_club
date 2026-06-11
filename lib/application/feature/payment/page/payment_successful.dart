@@ -25,6 +25,7 @@ class PaymentSuccessful extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -33,8 +34,9 @@ class PaymentSuccessful extends StatelessWidget {
           "Success",
           style: TextStyles.headline.copyWith(color: AppColors.primaryGreen),
         ),
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: isDark ? AppColors.darkSurface : AppColors.backgroundColor,
       ),
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8),

@@ -60,8 +60,12 @@ class _EditProfileState extends State<EditProfile> {
         }
       },
       builder: (context, state) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        final bgColor = isDark ? AppColors.darkBackground : AppColors.backgroundColor;
+        final titleColor = isDark ? AppColors.darkTextPrimary : AppColors.primaryColor;
+
         return Scaffold(
-          backgroundColor: AppColors.backgroundColor,
+          backgroundColor: bgColor,
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
@@ -69,7 +73,7 @@ class _EditProfileState extends State<EditProfile> {
               },
               icon: Icon(
                 Icons.chevron_left_rounded,
-                color: AppColors.primaryColor,
+                color: titleColor,
                 size: 30.w,
               ),
             ),
@@ -80,7 +84,7 @@ class _EditProfileState extends State<EditProfile> {
               "Edit Profile",
               style: TextStyles.title.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
+                color: titleColor,
               ),
             ),
           ),
@@ -109,13 +113,19 @@ class _EditProfileState extends State<EditProfile> {
                     style: TextStyles.caption1.copyWith(
                       color: state.currentImageFile != null
                           ? AppColors.primaryGreen
-                          : AppColors.primaryColor,
+                          : titleColor,
                     ),
                   ),
                   40.H,
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Full Name"),
+                    child: Text(
+                      "Full Name",
+                      style: TextStyles.body.copyWith(
+                        color: isDark ? AppColors.darkTextSecondary : AppColors.secondaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                   10.H,
                   CustomTextFormField(
@@ -124,7 +134,7 @@ class _EditProfileState extends State<EditProfile> {
                       context.read<EditProfileCubit>().updateName(val);
                     },
                   ),
-                  60.H,
+                  340.H,
 
                   MainButton(
                     text: "Save",

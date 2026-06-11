@@ -16,12 +16,11 @@ class PriceSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const PriceBreakdownRow(title: 'Session Fee', value: '\$45.00'),
-          const PriceBreakdownRow(title: 'Service Fee', value: '\$5.00'),
+          const PriceBreakdownRow(title: 'Session Fee', value: '120.00'),
           Divider(color: Colors.white24, height: 20.h),
           const PriceBreakdownRow(
             title: 'Total Amount',
-            value: '\$50.00',
+            value: '\$120.00',
             isTotal: true,
           ),
         ],

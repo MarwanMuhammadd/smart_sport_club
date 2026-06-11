@@ -19,7 +19,7 @@ class MembershipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // margin: EdgeInsets.only(bottom: 12.h),
-      decoration: _buildCardDecoration(),
+      decoration: _buildCardDecoration(context),
       child: Stack(
         children: [
           _buildLeftBorderLine(),
@@ -33,7 +33,7 @@ class MembershipCard extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [_buildHeaderRow(), 16.H, _buildActionRow()],
+                    children: [_buildHeaderRow(context), 16.H, _buildActionRow(context)],
                   ),
                 ),
               ],
@@ -44,17 +44,19 @@ class MembershipCard extends StatelessWidget {
     );
   }
 
-  BoxDecoration _buildCardDecoration() {
+  BoxDecoration _buildCardDecoration(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BoxDecoration(
-      color: Colors.white,
+      color: isDark ? AppColors.darkCard : Colors.white,
       borderRadius: BorderRadius.circular(16.w),
       boxShadow: [
         BoxShadow(
-          color: AppColors.blueColor.withOpacity(0.06),
+          color: AppColors.blueColor.withOpacity(isDark ? 0.02 : 0.06),
           blurRadius: 32,
           offset: const Offset(0, 12),
         ),
       ],
+      border: isDark ? Border.all(color: AppColors.darkBorder) : null,
     );
   }
 
@@ -88,7 +90,8 @@ class MembershipCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderRow() {
+  Widget _buildHeaderRow(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +100,7 @@ class MembershipCard extends StatelessWidget {
           child: Text(
             title,
             style: TextStyles.title.copyWith(
-              color: AppColors.primaryColor,
+              color: isDark ? AppColors.darkTextPrimary : AppColors.primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 18.sp,
             ),
@@ -107,13 +110,14 @@ class MembershipCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionRow() {
+  Widget _buildActionRow(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
           Icons.calendar_month_outlined,
-          color: AppColors.primaryColor,
+          color: isDark ? AppColors.darkTextPrimary : AppColors.primaryColor,
           size: 20.w,
         ),
         8.W,
@@ -122,7 +126,9 @@ class MembershipCard extends StatelessWidget {
             'Upgrade your membership to enjoy exclusive benefits and access to premium facilities.',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextStyles.caption1.copyWith(color: const Color(0xFF3C4A3C)),
+            style: TextStyles.caption1.copyWith(
+              color: isDark ? AppColors.darkTextSecondary : const Color(0xFF3C4A3C),
+            ),
           ),
         ),
       ],

@@ -1,50 +1,14 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:smart_sport_club/application/feature/chatbot/data/models/chatbot_request_params.dart';
+import 'package:smart_sport_club/application/feature/chatbot/data/repo/chatbot_repo.dart';
 
 class ChatbotApiService {
-  static const String baseUrl = 'https://omarhamdon-chatbot.hf.space';
-  static const String endpoint = '/chat';
+  final ChatbotRepo _repo = ChatbotRepo();
 
   Future<String?> sendMessage(String question) async {
-    try {
-      final url = Uri.parse('$baseUrl$endpoint');
-      final requestBody = jsonEncode({"question": question});
+    final result = await _repo.sendMessage(
+      ChatbotRequestParams(question: question),
+    );
 
-      print('===== NEW API REQUEST =====');
-      print('URL: $url');
-      print('BODY: $requestBody');
-      print('===========================');
-
-      final response = await http
-          .post(
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: requestBody,
-          )
-          .timeout(const Duration(seconds: 15));
-
-      print('===== NEW API RESPONSE =====');
-      print('STATUS: ${response.statusCode}');
-      print('BODY: ${response.body}');
-      print('============================');
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return data['answer'] as String?;
-      } else {
-        print('New API Error ${response.statusCode}');
-        return "Sorry, I couldn't respond right now. (${response.statusCode})";
-      }
-    } on TimeoutException {
-      print('===== TIMEOUT =====');
-      return "Request timed out. Please check your connection.";
-    } catch (e) {
-      print('===== EXCEPTION: $e =====');
-      return "Connection error. Please check your internet.";
-    }
+    return result.response?.answer ?? result.error;
   }
 }

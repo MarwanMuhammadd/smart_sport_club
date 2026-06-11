@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_sport_club/core/funcations/extensions.dart';
 import 'package:smart_sport_club/core/goRouter/app_routes.dart';
 import 'package:smart_sport_club/core/models/academy_model.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
 import 'package:smart_sport_club/core/styles/text_styles.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_cubit.dart';
 import 'package:smart_sport_club/application/feature/booking/logic/booking_state.dart';
@@ -18,6 +19,7 @@ class BookingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BlocProvider(
       create: (context) {
         final now = DateTime.now();
@@ -40,11 +42,12 @@ class BookingScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
+          backgroundColor: isDark ? AppColors.darkBackground : null,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.w),
+              icon: Icon(Icons.arrow_back, color: isDark ? AppColors.darkTextPrimary : Colors.black, size: 24.w),
               onPressed: () {
                 context.go('${AppRoutes.mainApp}?tab=2');
               },
@@ -54,6 +57,7 @@ class BookingScreen extends StatelessWidget {
               style: TextStyles.title.copyWith(
                 fontWeight: FontWeight.w800,
                 fontSize: 20.sp,
+                color: isDark ? AppColors.darkTextPrimary : AppColors.primaryColor,
               ),
             ),
           ),
@@ -69,6 +73,7 @@ class BookingScreen extends StatelessWidget {
                       children: [
                         CoachSelectionSection(
                           academyId: academy.academyId,
+                          category: academy.category,
                         ),
                         20.H,
                         const DateSelectionSection(),

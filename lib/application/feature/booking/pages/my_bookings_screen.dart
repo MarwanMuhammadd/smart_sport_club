@@ -10,10 +10,13 @@ class MyBookingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : AppColors.primaryColor;
+    final appBarBg = isDark ? AppColors.darkSurface : AppColors.primaryColor.withOpacity(0.9);
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: bgColor,
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColor.withOpacity(0.9),
+        backgroundColor: appBarBg,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, size: 24.w),
@@ -36,7 +39,7 @@ class MyBookingsScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(16.w),
             child: TextField(
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: isDark ? AppColors.darkTextPrimary : Colors.white),
               decoration: InputDecoration(
                 hintText: 'Search your bookings',
                 hintStyle: const TextStyle(color: AppColors.secondaryText),
@@ -46,7 +49,7 @@ class MyBookingsScreen extends StatelessWidget {
                   size: 20.w,
                 ),
                 filled: true,
-                fillColor: AppColors.blackColor,
+                fillColor: isDark ? AppColors.darkCard : AppColors.blackColor,
                 contentPadding: EdgeInsets.symmetric(vertical: 12.h),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15.w),

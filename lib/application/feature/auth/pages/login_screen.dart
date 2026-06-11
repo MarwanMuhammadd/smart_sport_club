@@ -29,6 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppColors.darkBackground : Colors.white;
+    final surfaceColor = isDark ? AppColors.darkSurface : Colors.white;
+    final textColor = isDark ? AppColors.darkTextPrimary : Colors.black;
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoadingState) {
@@ -43,14 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: bgColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: bgColor,
           elevation: 0,
           title: Text(
             "Club Access",
             style: TextStyle(
-              color: Colors.black,
+              color: textColor,
               fontWeight: FontWeight.bold,
               fontSize: 18.sp,
             ),

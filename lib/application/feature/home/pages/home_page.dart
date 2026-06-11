@@ -11,6 +11,7 @@ import 'package:smart_sport_club/application/feature/home/widgets/event/data/eve
 import 'package:smart_sport_club/application/feature/home/widgets/event/widgets/events_empty_state.dart';
 import 'package:smart_sport_club/application/feature/home/data/model/banner_model.dart';
 import 'package:smart_sport_club/application/feature/home/data/repo/banner_repo.dart';
+import 'package:smart_sport_club/core/styles/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,18 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BlocProvider(
       create: (context) => EventsCubit(EventsRepositoryImpl())..subscribeToEvents(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: isDark ? AppColors.darkBackground : Colors.white,
 
         /// AppBar
         appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: isDark ? AppColors.darkSurface : Colors.green,
           elevation: 0,
-          title: const Text(
+          title: Text(
             'Welcome to Smart Club',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: isDark ? AppColors.darkTextPrimary : Colors.black),
           ),
         ),
 
