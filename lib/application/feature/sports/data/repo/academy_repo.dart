@@ -251,7 +251,7 @@ class AcademyRepo {
     try {
       log("Deleting academy from API... id: $id");
       var request = await DioProvider.delete(path: "${Apis.academies}/$id");
-      if (request.statusCode == 200 || request.statusCode == 204) {
+      if (request.statusCode != null && request.statusCode! >= 200 && request.statusCode! < 300) {
         return (success: true, error: null);
       } else {
         return (success: false, error: "Something went wrong");

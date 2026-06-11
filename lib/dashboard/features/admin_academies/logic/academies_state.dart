@@ -55,3 +55,51 @@ class AddAcademyError extends AcademiesState {
   List<Object?> get props => [message];
 }
 
+class DeleteAcademyLoading extends AcademiesState {
+  final List<Academy> allAcademies;
+  final List<Academy> filteredAcademies;
+  final String searchQuery;
+
+  const DeleteAcademyLoading({
+    required this.allAcademies,
+    required this.filteredAcademies,
+    this.searchQuery = '',
+  });
+
+  @override
+  List<Object?> get props => [allAcademies, filteredAcademies, searchQuery];
+}
+
+class DeleteAcademySuccess extends AcademiesState {
+  final List<Academy> allAcademies;
+  final List<Academy> filteredAcademies;
+  final String searchQuery;
+
+  const DeleteAcademySuccess({
+    required this.allAcademies,
+    required this.filteredAcademies,
+    this.searchQuery = '',
+  });
+
+  @override
+  List<Object?> get props => [allAcademies, filteredAcademies, searchQuery];
+}
+
+class DeleteAcademyError extends AcademiesState {
+  final String message;
+  final List<Academy> allAcademies;
+  final List<Academy> filteredAcademies;
+  final String searchQuery;
+
+  const DeleteAcademyError({
+    required this.message,
+    required this.allAcademies,
+    required this.filteredAcademies,
+    this.searchQuery = '',
+  });
+
+  @override
+  List<Object?> get props => [message, allAcademies, filteredAcademies, searchQuery];
+}
+
+

@@ -44,14 +44,22 @@ class AcademiesCubit extends Cubit<AcademiesState> {
       return (success: true, error: null);
     } else {
       final error = result.error ?? "Failed to load academies";
-      emit(AcademiesError(error));
+      if (showLoading) {
+        emit(AcademiesError(error));
+      }
       return (success: false, error: error);
     }
   }
 
   void searchAcademies(String query) {
-    if (state is AcademiesLoaded) {
-      final currentState = state as AcademiesLoaded;
+    final currentState = state;
+    if (currentState is AcademiesLoaded) {
+      _emitLoadedState(currentState.allAcademies, query);
+    } else if (currentState is DeleteAcademyLoading) {
+      _emitLoadedState(currentState.allAcademies, query);
+    } else if (currentState is DeleteAcademySuccess) {
+      _emitLoadedState(currentState.allAcademies, query);
+    } else if (currentState is DeleteAcademyError) {
       _emitLoadedState(currentState.allAcademies, query);
     }
   }
@@ -76,6 +84,12 @@ class AcademiesCubit extends Cubit<AcademiesState> {
   String get _currentSearchQuery {
     final currentState = state;
     if (currentState is AcademiesLoaded) {
+      return currentState.searchQuery;
+    } else if (currentState is DeleteAcademyLoading) {
+      return currentState.searchQuery;
+    } else if (currentState is DeleteAcademySuccess) {
+      return currentState.searchQuery;
+    } else if (currentState is DeleteAcademyError) {
       return currentState.searchQuery;
     }
     return '';
@@ -113,21 +127,93 @@ class AcademiesCubit extends Cubit<AcademiesState> {
   }
 
   Future<void> deleteAcademy(String academyId) async {
-    try {
-      final id = int.tryParse(academyId);
-      if (id == null) {
-        emit(AcademiesError("Invalid academy ID format"));
-        return;
-      }
+    final currentState = state;
+    
+    List<Academy> allAcademies = [];
+    List<Academy> filteredAcademies = [];
+    String searchQuery = '';
 
+    if (currentState is AcademiesLoaded) {
+      allAcademies = currentState.allAcademies;
+      filteredAcademies = currentState.filteredAcademies;
+      searchQuery = currentState.searchQuery;
+    } else if (currentState is DeleteAcademyLoading) {
+      allAcademies = currentState.allAcademies;
+      filteredAcademies = currentState.filteredAcademies;
+      searchQuery = currentState.searchQuery;
+    } else if (currentState is DeleteAcademySuccess) {
+      allAcademies = currentState.allAcademies;
+      filteredAcademies = currentState.filteredAcademies;
+      searchQuery = currentState.searchQuery;
+    } else if (currentState is DeleteAcademyError) {
+      allAcademies = currentState.allAcademies;
+      filteredAcademies = currentState.filteredAcademies;
+      searchQuery = currentState.searchQuery;
+    }
+
+    final id = int.tryParse(academyId);
+    if (id == null) {
+      emit(DeleteAcademyError(
+        message: "Invalid academy ID format",
+        allAcademies: allAcademies,
+        filteredAcademies: filteredAcademies,
+        searchQuery: searchQuery,
+      ));
+      return;
+    }
+
+    final originalAll = List<Academy>.from(allAcademies);
+    final originalFiltered = List<Academy>.from(filteredAcademies);
+
+    final updatedAll = allAcademies.where((a) => a.academyId != academyId).toList();
+    final updatedFiltered = filteredAcademies.where((a) => a.academyId != academyId).toList();
+
+    emit(AcademiesLoaded(
+      allAcademies: updatedAll,
+      filteredAcademies: updatedFiltered,
+      searchQuery: searchQuery,
+    ));
+
+    emit(DeleteAcademyLoading(
+      allAcademies: updatedAll,
+      filteredAcademies: updatedFiltered,
+      searchQuery: searchQuery,
+    ));
+
+    try {
       final result = await AcademyRepo.deleteAcademy(id);
       if (result.success) {
-        await loadAcademies();
+        emit(DeleteAcademySuccess(
+          allAcademies: updatedAll,
+          filteredAcademies: updatedFiltered,
+          searchQuery: searchQuery,
+        ));
+        await loadAcademies(showLoading: false, searchQuery: searchQuery);
       } else {
-        emit(AcademiesError(result.error ?? "Failed to delete academy"));
+        emit(AcademiesLoaded(
+          allAcademies: originalAll,
+          filteredAcademies: originalFiltered,
+          searchQuery: searchQuery,
+        ));
+        emit(DeleteAcademyError(
+          message: result.error ?? "Failed to delete academy",
+          allAcademies: originalAll,
+          filteredAcademies: originalFiltered,
+          searchQuery: searchQuery,
+        ));
       }
     } catch (e) {
-      emit(AcademiesError(e.toString()));
+      emit(AcademiesLoaded(
+        allAcademies: originalAll,
+        filteredAcademies: originalFiltered,
+        searchQuery: searchQuery,
+      ));
+      emit(DeleteAcademyError(
+        message: e.toString(),
+        allAcademies: originalAll,
+        filteredAcademies: originalFiltered,
+        searchQuery: searchQuery,
+      ));
     }
   }
 }
